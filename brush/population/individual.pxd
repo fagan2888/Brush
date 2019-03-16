@@ -25,14 +25,6 @@ cdef extern from "individual.h" namespace "FT::Pop":
                            const Parameters &,
                            vector[Trace] &)
 
-        #TODO CLabels of shogun used here in this class func defs
-        shared_ptr[CLabels] fit(const Data &,
-                                const Parameters &,
-                                bool &)
-
-        shared_ptr[CLabels] predict(const Data &,
-                                    const Parameters &)
-
         VectorXf predict_vector(const Data &,
                                 const Parameters &)
 
