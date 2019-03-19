@@ -7,7 +7,7 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = evaluation.cc
 
-from Population cimport Evaluation
+from Evaluation cimport Evaluation
 
 cdef class PyEvalutation:
     cdef Evaluation evalobj
