@@ -4,7 +4,7 @@ Copyright 2019 William La Cava
 license: GNU/GPLv3
 """
 
-# distutils: sources = Variation.cpp
+# distutils: sources = variation.cc
 
 from Variation cimport Variation
 

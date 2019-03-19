@@ -5,7 +5,7 @@ license: GNU/GPLv3
 """
 
 # distutils: language=c++
-# distutils: sources = Rnd.cpp
+# distutils: sources = rnd.cc
 
 from Rnd cimport Rnd
 

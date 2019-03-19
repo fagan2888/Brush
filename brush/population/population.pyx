@@ -5,7 +5,7 @@ license: GNU/GPLv3
 """
 
 # distutils: language=c++
-# distutils: sources = Population.cpp
+# distutils: sources = population.cc
 
 from Population cimport Population
 

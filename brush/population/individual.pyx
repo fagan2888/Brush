@@ -5,7 +5,7 @@ license: GNU/GPLv3
 """
 
 # distutils: language=c++
-# distutils: sources = Individual.cpp
+# distutils: sources = individual.cc
 
 from Individual cimport Individual
 

@@ -5,7 +5,7 @@ license: GNU/GPLv3
 """
 
 # distutils: language=c++
-# distutils: sources = Selection.cpp
+# distutils: sources = selection.cc
 
 from Selection cimport Selection
 
