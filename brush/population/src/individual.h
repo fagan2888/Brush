@@ -60,14 +60,6 @@ namespace FT{
             MatrixXf out_trace(const Data& d,
                          const Parameters& params, vector<Trace>& stack_trace);
 
-            /// fits an ML model to the data after transformation
-            shared_ptr<CLabels> fit(const Data& d, const Parameters& params, bool& pass);
-            
-            /*! generates prediction on data using transformation and ML predict. 
-             *  @param drop_idx if specified, the phi output at drop_idx is set to zero, effectively
-             *  removing its output from the transformation. used in semantic crossover.
-             */
-            shared_ptr<CLabels> predict(const Data& d, const Parameters& params);
             VectorXf predict_vector(const Data& d, const Parameters& params);
             VectorXf predict_drop(const Data& d, const Parameters& params, int drop_idx);
             /// return symbolic representation of program

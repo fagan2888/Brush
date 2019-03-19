@@ -143,51 +143,6 @@ namespace FT{
             for (const auto& el : locs) ps.push_back(get_p(el,normalize));
             return ps;
         }
-        
-        shared_ptr<CLabels> Individual::fit(const Data& d, const Parameters& params, bool& pass)
-        {
-            // calculate program output matrix Phi
-            logger.log("Generating output for " + get_eqn(), 3);
-            Phi = out(d, params);       
-            // calculate ML model from Phi
-            logger.log("ML training on " + get_eqn(), 3);
-            ml = std::make_shared<ML>(params);
-            
-            shared_ptr<CLabels> yh = ml->fit(Phi,d.y,params,pass,dtypes);
-
-            if (pass)
-                set_p(ml->get_weights(),params.feedback,params.softmax_norm);
-            else
-            {   // set weights to zero
-                vector<float> w(Phi.rows(), 0);                     
-                set_p(w,params.feedback,params.softmax_norm);
-            }
-            
-            this->yhat = ml->labels_to_vector(yh);
-            
-            return yh;
-        }
-
-        shared_ptr<CLabels> Individual::predict(const Data& d, const Parameters& params)
-        {
-            // calculate program output matrix Phi
-            logger.log("Generating output for " + get_eqn(), 3);
-            // toggle validation
-            MatrixXf Phi_pred = out(d, params, true);           // TODO: guarantee this is not changing nodes
-
-            if (Phi_pred.size()==0)
-                HANDLE_ERROR_THROW("Phi_pred must be generated before predict() is called\n");
-            /* if (drop_idx >= 0)  // if drop_idx specified, mask that phi output */
-            /* { */
-            /*     cout << "dropping row " + std::to_string(drop_idx) + "\n"; */
-            /*     Phi.row(drop_idx) = VectorXf::Zero(Phi.cols()); */
-            /* } */
-            // calculate ML model from Phi
-            logger.log("ML predicting on " + get_eqn(), 3);
-            // assumes ML is already trained
-            shared_ptr<CLabels> yhat = ml->predict(Phi_pred);
-            return yhat;
-        }
 
         VectorXf Individual::predict_drop(const Data& d, const Parameters& params, int drop_idx)
         {
