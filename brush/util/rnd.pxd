@@ -21,23 +21,3 @@ cdef extern from "rnd.h" namespace "FT::Util":
         void destroy()
 
         void set_seed(int)
-        
-        int rnd_int( int, int)
-
-        float rnd_flt(float min, float max)
-
-        float rnd_dbl(float min, float max)
-        
-        float operator()(unsigned)
-        
-        float operator()()
-        
-	    void shuffle[RandomAccessIterator] (RandomAccessIterator, RandomAccessIterator)    
-        
-        T select_randomly[T](T, T)
-               
-        T random_choice[T](const vector[T] &)
-       
-        T random_choice[T][D](const vector[T] &, const vector[D] &)
-        
-        float gasdev()
