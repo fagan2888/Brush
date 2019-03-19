@@ -31,15 +31,6 @@ cdef class PyIndividual:
                  const Parameters &params):
         return self.out(d, params, True)
 
-    cdef predict_vector(self, const Data &d,
-                        const Parameters &params):
-        self.ind.predict_vector(d, params)
-
-    cdef predict_drop(self, const Data &d,
-                          const Parameters &params,
-                          int drop_idx):
-        return self.ind.predict_drop(d, params, drop_idx)
-
     def get_eqn(self):
         return self.ind.get_eqn()
 
@@ -52,29 +43,17 @@ cdef class PyIndividual:
     def set_rank(self, unsigned r):
         self.ind.set_rank(r)
 
-    def size(self) const:
-        return self.ind.size()
-
     def get_n_params(self):
         return self.ind.get_n_params()
 
     def get_dim(self):
         return self.ind.get_dim()
 
-    cdef check_dominance(const Individual &ind) const:
-        return self.ind.check_dominance(ind)
-
-    cdef set_obj(self, const vector[string] &objectives):
-        self.ind.set_obj(objectives)
-
     def complexity(self):
         return self.ind.complexity()
 
     def get_complexity(self) const:
         return self.ind.get_complexity()
-
-    cdef clone(self, Individual &ind, bool sameid):
-        self.ind.clone(ind, sameid)
 
     def set_id(self, unsigned i):
         self.ind.set_id(i)
@@ -98,5 +77,3 @@ cdef class PyIndividual:
                const bool softmax_norm):
         self.ind.set_p(weights, fb, softmax_norm)
 
-    std::map[char,size_t] get_max_state_size(self):
-        self.ind.get_max_state_size()

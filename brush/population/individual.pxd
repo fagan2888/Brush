@@ -20,17 +20,9 @@ cdef extern from "individual.h" namespace "FT::Pop":
 
         MatrixXf out(const Data &, const Parameters &, bool)
 
-        # TODO confirm if trace struct needs to be wrapped
         MatrixXf out_trace(const Data &,
                            const Parameters &,
                            vector[Trace] &)
-
-        VectorXf predict_vector(const Data &,
-                                const Parameters &)
-
-        VectorXf predict_drop(const Data &,
-                              const Parameters &,
-                              int)
 
         string get_eqn()
 
@@ -40,21 +32,11 @@ cdef extern from "individual.h" namespace "FT::Pop":
 
         void set_rank(unsigned)
 
-        int size() const
-
         int get_n_params()
 
         unsigned int get_dim()
 
-        int check_dominance(const Individual &) const
-
-        void set_obj(const vector[string] &)
-
         unsigned int complexity()
-
-        unsigned int get_complexity() const
-
-        void clone(Individual &, bool)
 
         void set_id(unsigned i);
 
@@ -71,4 +53,3 @@ cdef extern from "individual.h" namespace "FT::Pop":
         void set_p(const vector[float] &, const float &,
                    const bool)
 
-        std::map[char,size_t] get_max_state_size()
