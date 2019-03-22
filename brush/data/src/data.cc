@@ -4,8 +4,8 @@ license: GNU/GPL v3
 */
 
 #include "data.h"
-#include "../util/rnd.h"
-#include "../util/logger.h"
+#include "../../util/src/rnd.h"
+#include "../../util/src/logger.h"
 
 //#include "node/node.h"
 //external includes

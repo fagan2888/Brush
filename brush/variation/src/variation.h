@@ -8,9 +8,9 @@ license: GNU/GPL v3
 #include <iostream>
 using namespace std;
 
-#include "../pop/nodevector.h"
-#include "../pop/population.h"
-#include "../params.h"
+#include "../../program/src/nodevector.h"
+#include "../../population/src/population.h"
+#include "../../params/src/params.h"
 
 namespace FT{
 

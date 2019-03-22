@@ -25,11 +25,11 @@ cdef class PyIndividual:
 
     cdef fit(self, const Data &d,
              const Parameters &params):
-        return self.out(d, params, False)
+        return self.ind.out(d, params, False)
 
     cdef predict(self, const Data &d,
                  const Parameters &params):
-        return self.out(d, params, True)
+        return self.ind.out(d, params, True)
 
     def get_eqn(self):
         return self.ind.get_eqn()

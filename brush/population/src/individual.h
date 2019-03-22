@@ -5,18 +5,15 @@ license: GNU/GPL v3
 #ifndef INDIVIDUAL_H
 #define INDIVIDUAL_H
 
-#include "../dat/state.h"
+#include "../../data/src/state.h"
 #ifdef USE_CUDA
     #include "cuda-op/cuda_utils.h"
 #endif
-#include "../dat/data.h"
-#include "../params.h"
-#include "../model/ml.h"
-#include "../util/utils.h"
+#include "../../data//src/data.h"
+#include "../../params/src/params.h"
+#include "../../util/src/utils.h"
 
 namespace FT{
-
-    using namespace Model;
     
     namespace Pop{
         
@@ -31,7 +28,6 @@ namespace FT{
             NodeVector program;                         ///< executable data structure
             MatrixXf Phi;                               ///< transformation output of program 
             VectorXf yhat;                              ///< current output
-            shared_ptr<ML> ml;                          ///< ML model, trained on Phi
             float fitness;             				///< aggregate fitness score
             float fitness_v;             				///< aggregate validation fitness score
             float CN;
@@ -59,9 +55,9 @@ namespace FT{
             /// calculate program output while maintaining stack trace
             MatrixXf out_trace(const Data& d,
                          const Parameters& params, vector<Trace>& stack_trace);
-
-            VectorXf predict_vector(const Data& d, const Parameters& params);
-            VectorXf predict_drop(const Data& d, const Parameters& params, int drop_idx);
+            //TODO discuss implementation and uncomment later
+//            VectorXf predict_vector(const Data& d, const Parameters& params);
+//            VectorXf predict_drop(const Data& d, const Parameters& params, int drop_idx);
             /// return symbolic representation of program
             string get_eqn();
 

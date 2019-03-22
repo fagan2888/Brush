@@ -6,7 +6,7 @@ license: GNU/GPL v3
 #ifndef SELECTION_OPERATOR_H
 #define SELECTION_OPERATOR_H
 
-#include "../pop/population.h"
+#include "../../population/src/population.h"
 
 namespace FT{
 

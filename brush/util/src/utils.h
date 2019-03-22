@@ -12,7 +12,7 @@ license: GNU/GPL v3
 #include <chrono>
 #include <ostream>
 #include <map>
-#include "../init.h"
+#include "../../init.h"
 #include "error.h"
 //#include "data.h"
 

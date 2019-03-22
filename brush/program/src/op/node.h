@@ -10,11 +10,11 @@ license: GNU/GPL v3
 #include <vector>
 #include <iostream>
 #include <Eigen/Dense>
-#include "../../init.h"
-#include "../../dat/state.h"
-#include "../../dat/data.h"
-#include "../../util/rnd.h"
-#include "../../util/error.h"
+#include "../../../init.h"
+#include "../../../data/src/state.h"
+#include "../../../data/src/data.h"
+#include "../../../util/src/rnd.h"
+#include "../../../util/src/error.h"
 using std::vector;
 using std::string;
 using std::map;
