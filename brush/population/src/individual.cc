@@ -144,6 +144,22 @@ namespace FT{
             return ps;
         }
         
+        MatrixXf Individual::fit(const Data& d, const Parameters& params, bool& pass)
+        {
+            // calculate program output matrix Phi
+            logger.log("Generating output for " + get_eqn(), 3);
+            return out(d, params);      
+        }
+
+        MatrixXf Individual::predict(const Data& d, const Parameters& params)
+        {
+            // calculate program output matrix Phi
+            logger.log("Generating output for " + get_eqn(), 3);
+            // toggle validation
+            return out(d, params, true);
+        }
+
+        
         // TODO discuss these function implementations
 
 //        VectorXf Individual::predict_drop(const Data& d, const Parameters& params, int drop_idx)

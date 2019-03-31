@@ -86,8 +86,8 @@ file(GLOB_RECURSE sources "*.cc")
 # executable
 
 if (CORE_USE_CUDA)
-    cuda_add_library(brush_lib SHARED ${sources} ${cuda_files})
+    cuda_add_library(brush SHARED ${sources} ${cuda_files})
 else()
-    add_library(brush_lib SHARED ${sources})
+    add_library(brush SHARED ${sources})
 endif()
 

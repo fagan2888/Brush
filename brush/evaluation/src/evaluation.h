@@ -6,9 +6,10 @@ license: GNU/GPL v3
 #define EVALUATION_H
 // internal includes
 #include "metrics.h"
-#include "../opt/auto_backprop.h"
-#include "../opt/hillclimb.h"
-using namespace shogun;
+//#include "../opt/auto_backprop.h"
+//#include "../opt/hillclimb.h"
+//using namespace shogun;
+#include "../../population/src/individual.h"
 using Eigen::Map;
 
 // code to evaluate GP programs.
@@ -25,14 +26,14 @@ namespace FT{
          * @class Evaluation
          * @brief evaluation mixin class for Feat
          */
-        typedef float (*funcPointer)(const VectorXf&, const shared_ptr<CLabels>&, VectorXf&,
+        typedef float (*funcPointer)(const VectorXf&, const VectorXf&, VectorXf&,
                                       const vector<float>&);
         
         class Evaluation 
         {
             public:
             
-                float (* score)(const VectorXf&, const shared_ptr<CLabels>&, VectorXf&, 
+                float (* score)(const VectorXf&, const VectorXf&, VectorXf&, 
                                  const vector<float>&);    // pointer to scoring function
                                  
                 std::map<string, funcPointer> score_hash;
@@ -52,7 +53,7 @@ namespace FT{
                              bool validation = false);
               
                 /// assign fitness to an individual and to F.  
-                void assign_fit(Individual& ind, MatrixXf& F, const shared_ptr<CLabels>& yhat, 
+                void assign_fit(Individual& ind, MatrixXf& F, const VectorXf& yhat, 
                                 const VectorXf& y, const Parameters& params,bool val=false);       
         };
     }

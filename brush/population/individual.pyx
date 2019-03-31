@@ -24,12 +24,12 @@ cdef class PyIndividual:
         self.ind.out_trace(d, params, stack_trace)
 
     cdef fit(self, const Data &d,
-             const Parameters &params):
-        return self.ind.out(d, params, False)
+             const Parameters &params, bool &pass_val):
+        return self.ind.fit(d, params, pass_val)
 
     cdef predict(self, const Data &d,
                  const Parameters &params):
-        return self.ind.out(d, params, True)
+        return self.ind.predict(d, params)
 
     def get_eqn(self):
         return self.ind.get_eqn()

@@ -8,17 +8,19 @@ license: GNU/GPL v3
 // code to evaluate GP programs.
 namespace FT{
 
-    using namespace Opt;
+    //using namespace Opt;
     
     namespace Eval{
     
         Evaluation::Evaluation(string scorer)
         {
-            score_hash["mse"] = &mse_label;
-            score_hash["zero_one"] = &zero_one_loss_label;
-            score_hash["bal_zero_one"] = &bal_zero_one_loss_label;
-            score_hash["log"] =  &log_loss_label; 
-            score_hash["multi_log"] =  &multi_log_loss_label; 
+            score_hash["mse"] = &mse;
+            score_hash["zero_one"] = &zero_one_loss;
+            score_hash["bal_zero_one"] = &bal_zero_one_loss;
+            score_hash["log"] =  &mean_log_loss; 
+            
+            //TODO check how to change this 
+            //score_hash["multi_log"] =  &multi_log_loss; 
         
             score = score_hash[scorer];
         }
@@ -56,16 +58,16 @@ namespace FT{
             {
                 Individual& ind = individuals.at(i);
 
-                if (params.backprop)
-                {
-                    AutoBackProp backprop(params.scorer, params.bp.iters, params.bp.learning_rate);
-                    logger.log("Running backprop on " + ind.get_eqn(), 3);
-                    backprop.run(ind, d, params);
-                }         
+//                if (params.backprop)
+//                {
+//                    AutoBackProp backprop(params.scorer, params.bp.iters, params.bp.learning_rate);
+//                    logger.log("Running backprop on " + ind.get_eqn(), 3);
+//                    backprop.run(ind, d, params);
+//                }         
 
                 bool pass = true;
 
-                shared_ptr<CLabels> yhat = validation? ind.predict(d,params) : ind.fit(d,params,pass); 
+                VectorXf yhat = validation? ind.predict(d,params).row(0) : ind.fit(d,params,pass).row(0); 
                 // assign F and aggregate fitness
                 logger.log("Assigning fitness to " + ind.get_eqn(), 3);
 
@@ -88,24 +90,24 @@ namespace FT{
                     /* ind.set_p(ind.ml->get_weights(),params.feedback); */
                     assign_fit(ind,F,yhat,d.y,params,validation);
 
-                    if (params.hillclimb && !validation)
-                    {
-                        HillClimb hc(params.scorer, params.hc.iters, params.hc.step);
-                        bool updated = false;
-                        shared_ptr<CLabels> yhat2 = hc.run(ind, d, params,
-                                              updated);
-                        if (updated)    // update the fitness of this individual
-                        {
-                            assign_fit(ind, F, yhat2, d.y, params);
-                        }
+//                    if (params.hillclimb && !validation)
+//                    {
+//                        HillClimb hc(params.scorer, params.hc.iters, params.hc.step);
+//                        bool updated = false;
+//                        shared_ptr<CLabels> yhat2 = hc.run(ind, d, params,
+//                                              updated);
+//                        if (updated)    // update the fitness of this individual
+//                        {
+//                            assign_fit(ind, F, yhat2, d.y, params);
+//                        }
 
-                    }
+//                    }
                 }
             }
         }
         
         // assign fitness to program
-        void Evaluation::assign_fit(Individual& ind, MatrixXf& F, const shared_ptr<CLabels>& yhat, 
+        void Evaluation::assign_fit(Individual& ind, MatrixXf& F, const VectorXf& yhat, 
                                     const VectorXf& y, const Parameters& params, bool val)
         {
             /*!

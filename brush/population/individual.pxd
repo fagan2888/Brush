@@ -23,6 +23,10 @@ cdef extern from "individual.h" namespace "FT::Pop":
         MatrixXf out_trace(const Data &,
                            const Parameters &,
                            vector[Trace] &)
+                           
+        MatrixXf fit(const Data &, const Parameters &, bool &)
+        
+        MatrixXf predict(const Data &, const Parameters &)
 
         string get_eqn()
 
