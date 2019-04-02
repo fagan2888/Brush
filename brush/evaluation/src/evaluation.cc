@@ -12,7 +12,7 @@ namespace FT{
     
     namespace Eval{
     
-        Evaluation::Evaluation(string scorer)
+        CEvaluation::CEvaluation(string scorer)
         {
             score_hash["mse"] = &mse;
             score_hash["zero_one"] = &zero_one_loss;
@@ -25,10 +25,10 @@ namespace FT{
             score = score_hash[scorer];
         }
 
-        Evaluation::~Evaluation(){}
+        CEvaluation::~CEvaluation(){}
                             
         // fitness of population
-        void Evaluation::fitness(vector<Individual>& individuals,
+        void CEvaluation::fitness(vector<Individual>& individuals,
                                  const Data& d, 
                                  MatrixXf& F, 
                                  const Parameters& params, 
@@ -107,7 +107,7 @@ namespace FT{
         }
         
         // assign fitness to program
-        void Evaluation::assign_fit(Individual& ind, MatrixXf& F, const VectorXf& yhat, 
+        void CEvaluation::assign_fit(Individual& ind, MatrixXf& F, const VectorXf& yhat, 
                                     const VectorXf& y, const Parameters& params, bool val)
         {
             /*!

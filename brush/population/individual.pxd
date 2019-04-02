@@ -15,8 +15,8 @@ from libcpp cimport bool
 from eigency.core cimport *
 
 cdef extern from "individual.h" namespace "FT::Pop":
-    cdef cppclass Individual:
-        Individual() except +
+    cdef cppclass CIndividual:
+        CIndividual() except +
 
         MatrixXf out(const Data &, const Parameters &, bool)
 
@@ -44,7 +44,7 @@ cdef extern from "individual.h" namespace "FT::Pop":
 
         void set_id(unsigned i);
 
-        void set_parents(const vector[Individual] &)
+        void set_parents(const vector[CIndividual] &)
 
         void set_parents(const vector[int] &)
 

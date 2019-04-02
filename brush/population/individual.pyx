@@ -7,13 +7,13 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = individual.cc
 
-from Individual cimport Individual
+from .pop cimport CIndividual
 
-cdef class PyIndividual:
-    cdef Individual ind
+cdef class Individual:
+    cdef CIndividual ind
 
     def __cinit__(self):
-        self.ind = Individual()
+        self.ind = CIndividual()
 
     cdef out(self, const Data &d, const Parameters &params, bool predict):
         return self.ind.out(d, params, predict)

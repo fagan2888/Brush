@@ -20,10 +20,10 @@ namespace FT{
         ////////////////////////////////////////////////////////////////////////////////// Declarations
 
         /*!
-         * @class Individual
+         * @class CIndividual
          * @brief individual programs in the population
          */
-        class Individual{
+        class CIndividual{
         public:        
             NodeVector program;                         ///< executable data structure
             MatrixXf Phi;                               ///< transformation output of program 
@@ -47,7 +47,7 @@ namespace FT{
             unsigned id;                                ///< tracking id
             vector<int> parent_id;                      ///< ids of parents
            
-            Individual();
+            CIndividual();
 
             /// calculate program output matrix Phi
             MatrixXf out(const Data& d, const Parameters& params, bool predict=false);
@@ -100,7 +100,7 @@ namespace FT{
             unsigned int get_dim();
             
             /// check whether this dominates b. 
-            int check_dominance(const Individual& b) const;
+            int check_dominance(const CIndividual& b) const;
             
             /// set obj vector given a string of objective names
             void set_obj(const vector<string>&); 
@@ -111,12 +111,12 @@ namespace FT{
             unsigned int get_complexity() const;
           
             /// clone this individual 
-            void clone(Individual& cpy, bool sameid=true);
+            void clone(CIndividual& cpy, bool sameid=true);
             
             void set_id(unsigned i);
 
             /// set parent ids using parents  
-            void set_parents(const vector<Individual>& parents);
+            void set_parents(const vector<CIndividual>& parents);
             
             /// set parent ids using id values 
             void set_parents(const vector<int>& parents){ parent_id = parents; }

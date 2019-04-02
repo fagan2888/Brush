@@ -1,16 +1,18 @@
+# distutils: language = c++
+# distutils: sources = evaluation.cc
 # -*- coding: utf-8 -*-
 """
 Copyright 2019 William La Cava
 license: GNU/GPLv3
 """
 
-# distutils: language=c++
-# distutils: sources = evaluation.cc
 
-from Evaluation cimport Evaluation
+from brush.evaluation.evaluation cimport CEvaluation
+from ..pop import Individual
+from ..data import Data
 
-cdef class PyEvalutation:
-    cdef Evaluation evalobj
+cdef class Evaluation:
+    cdef CEvaluation evalobj
 
     def __cinit__(self, string scorer):
         self.evalobj = Evaluation(scorer)

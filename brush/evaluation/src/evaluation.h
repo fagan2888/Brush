@@ -17,19 +17,19 @@ namespace FT{
 
     /**
      * @namespace FT::Eval
-     * @brief namespace containing various Evaluation classes used in Feat
+     * @brief namespace containing various CEvaluation classes used in Feat
      */
     namespace Eval{
     
         ////////////////////////////////////////////////////////////////////////////////// Declarations
         /*!
-         * @class Evaluation
+         * @class CEvaluation
          * @brief evaluation mixin class for Feat
          */
         typedef float (*funcPointer)(const VectorXf&, const VectorXf&, VectorXf&,
                                       const vector<float>&);
         
-        class Evaluation 
+        class CEvaluation 
         {
             public:
             
@@ -38,9 +38,9 @@ namespace FT{
                                  
                 std::map<string, funcPointer> score_hash;
 
-                Evaluation(string scorer);
+                CEvaluation(string scorer);
 
-                ~Evaluation();
+                ~CEvaluation();
                     
                 void set_score(string scorer);
 

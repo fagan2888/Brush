@@ -27,8 +27,28 @@ env_params = os.environ.keys()
 
 # get path to Brush shared library for linking
 cwd = '/'.join(os.getcwd().split('/')[:-1])
-Brush_lib = cwd + '/build/'
-
+brush_lib = cwd + '/build/'
+exts = []
+# for n in ['data','evaluation','params','population','program','selection','util',
+#         'variation']:
+for n in ['evaluation']:
+    nfold = 'brush/'+n+'/'
+    if n=='util':
+        n = 'rnd'
+    exts.append(
+        Extension(name=n,
+                  sources =  [nfold + n +'.pyx'],    # our cython source
+                  include_dirs = ['build/',nfold,nfold+'src/']
+                                  +eigency.get_includes(include_eigen=True),
+                  extra_compile_args = ['-std=c++1y','-fopenmp','-Wno-sign-compare',
+                                         '-Wno-reorder'],
+                  library_dirs = [brush_lib], 
+                  runtime_library_dirs = [brush_lib], 
+                  extra_link_args = [''],      
+                  language='c++'
+                  ),
+            )
+print('exts:',exts)
 setup(
     name="_Brush",
     author='William La Cava',
@@ -40,19 +60,5 @@ setup(
     zip_safe=True,
     install_requires=['Numpy>=1.8.2','SciPy>=0.13.3','scikit-learn','Cython','pandas'],
     py_modules=['',''],
-    ext_modules = cythonize([
-        # TODO: add extra extensions for each submodule
-        Extension(name='',
-                  sources =  ["selection/selection.pyx"],    # our cython source
-                  include_dirs = ['../build/','../src/']
-                                  +eigency.get_includes(include_eigen=True),
-                  extra_compile_args = ['-std=c++1y','-fopenmp','-Wno-sign-compare',
-                                         '-Wno-reorder'],
-                  library_dirs = [brush_lib], # should be able to remove this
-                  runtime_library_dirs = [brush_lib], #  probably removable
-                  extra_link_args = [''],      # probably removable
-                  language='c++'
-                  ),
-        ],
-       language="c++")
+    ext_modules = cythonize(exts, language="c++")
     )

@@ -10,11 +10,12 @@ from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 from libcpp cimport bool
 from eigency.core cimport *
+from ..pop import Individual
 
 cdef extern from "evaluation.h" namespace "FT::Eval":
-    cdef cppclass Evaluation:
+    cdef cppclass CEvaluation:
 
-        Evaluation(string) except +
+        CEvaluation(string) except +
                     
         void set_score(string)
 

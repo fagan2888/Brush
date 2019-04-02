@@ -9,16 +9,16 @@ namespace FT{
 
     namespace Pop{ 
            
-        Individual::Individual(){c = 0; dim = 0; eqn=""; parent_id.clear(); parent_id.push_back(-1);}
+        CIndividual::CIndividual(){c = 0; dim = 0; eqn=""; parent_id.clear(); parent_id.push_back(-1);}
 
         /// set rank
-        void Individual::set_rank(unsigned r){rank=r;}
+        void CIndividual::set_rank(unsigned r){rank=r;}
         /// return size of program
         
-        int Individual::size() const { return program.size(); }
+        int CIndividual::size() const { return program.size(); }
         
         /// get number of params in program
-        int Individual::get_n_params()
+        int CIndividual::get_n_params()
         {
             int n_params =0;
             for (unsigned int i =0; i< program.size(); ++i)
@@ -31,10 +31,10 @@ namespace FT{
             return n_params;
         }
         
-        unsigned int Individual::get_complexity() const {return c;};
+        unsigned int CIndividual::get_complexity() const {return c;};
       
         /// clone this individual 
-        void Individual::clone(Individual& cpy, bool sameid)
+        void CIndividual::clone(CIndividual& cpy, bool sameid)
         {
             cpy.program = program;
             cpy.p = p;
@@ -42,9 +42,9 @@ namespace FT{
                 cpy.id = id;
         }
         
-        void Individual::set_id(unsigned i) { id = i; }
+        void CIndividual::set_id(unsigned i) { id = i; }
         
-        void Individual::set_parents(const vector<Individual>& parents)
+        void CIndividual::set_parents(const vector<CIndividual>& parents)
         {
             parent_id.clear();
             for (const auto& p : parents)
@@ -53,9 +53,9 @@ namespace FT{
          
            
         /// get probabilities of variation
-        vector<float> Individual::get_p() const { return p; }     
+        vector<float> CIndividual::get_p() const { return p; }     
         
-        void Individual::set_p(const vector<float>& weights, const float& fb, 
+        void CIndividual::set_p(const vector<float>& weights, const float& fb, 
                                bool softmax_norm)
         {   
             //cout<<"Weights size = "<<weights.size()<<"\n";
@@ -103,7 +103,7 @@ namespace FT{
             this->w = weights;
         }
         
-        float Individual::get_p(const size_t i, bool normalize) const
+        float CIndividual::get_p(const size_t i, bool normalize) const
         {
             /*! @param i index in program 
              *  @param normalize (true): normalizes the probability by the size of the subprogram. 
@@ -133,7 +133,7 @@ namespace FT{
             return normalize ? p.at(j)/size : p.at(j) ;    
         }
         
-        vector<float> Individual::get_p(const vector<size_t>& locs, bool normalize) const
+        vector<float> CIndividual::get_p(const vector<size_t>& locs, bool normalize) const
         {
             /*! @param locs: program indices to return probabilities for. 
              *  @param normalize (false): normalize probabilities by size of subprogram
@@ -144,14 +144,14 @@ namespace FT{
             return ps;
         }
         
-        MatrixXf Individual::fit(const Data& d, const Parameters& params, bool& pass)
+        MatrixXf CIndividual::fit(const Data& d, const Parameters& params, bool& pass)
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
             return out(d, params);      
         }
 
-        MatrixXf Individual::predict(const Data& d, const Parameters& params)
+        MatrixXf CIndividual::predict(const Data& d, const Parameters& params)
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
@@ -162,7 +162,7 @@ namespace FT{
         
         // TODO discuss these function implementations
 
-//        VectorXf Individual::predict_drop(const Data& d, const Parameters& params, int drop_idx)
+//        VectorXf CIndividual::predict_drop(const Data& d, const Parameters& params, int drop_idx)
 //        {
 //            // calculate program output matrix Phi
 //            logger.log("Generating output for " + get_eqn(), 3);
@@ -187,14 +187,14 @@ namespace FT{
 //            return yh;
 //        }
 
-//        VectorXf Individual::predict_vector(const Data& d, const Parameters& params)
+//        VectorXf CIndividual::predict_vector(const Data& d, const Parameters& params)
 //        {
 //            return ml->labels_to_vector(this->predict(d,params));
 //        }
         
         #ifndef USE_CUDA
         // calculate program output matrix
-        MatrixXf Individual::out(const Data& d, const Parameters& params, bool predict)
+        MatrixXf CIndividual::out(const Data& d, const Parameters& params, bool predict)
         {
             /*!
              * @param d: Data structure
@@ -276,7 +276,7 @@ namespace FT{
             return Phi;
         }
         #else
-        MatrixXf Individual::out(const Data& d, const Parameters& params, bool predict)
+        MatrixXf CIndividual::out(const Data& d, const Parameters& params, bool predict)
         {
         
             /*!
@@ -397,7 +397,7 @@ namespace FT{
 
         #ifndef USE_CUDA
         // calculate program output matrix
-        MatrixXf Individual::out_trace(const Data& d, const Parameters& params, 
+        MatrixXf CIndividual::out_trace(const Data& d, const Parameters& params, 
                                        vector<Trace>& state_trace)
         {
             /*!
@@ -514,7 +514,7 @@ namespace FT{
         }
         #else
         // calculate program output matrix
-        MatrixXf Individual::out_trace(const Data& d,
+        MatrixXf CIndividual::out_trace(const Data& d,
                          const Parameters& params, vector<Trace>& state_trace)
         {
             /*!
@@ -641,7 +641,7 @@ namespace FT{
         #endif
         
         // return symbolic representation of program 
-        string Individual::get_eqn()
+        string CIndividual::get_eqn()
         {
             if (eqn.empty())               // calculate eqn if it doesn't exist yet 
             {
@@ -669,7 +669,7 @@ namespace FT{
         }
         
         // return vectorized symbolic representation of program 
-        vector<string> Individual::get_features()
+        vector<string> CIndividual::get_features()
         {
             vector<string> features;
             State state;
@@ -693,7 +693,7 @@ namespace FT{
         }
        
         // get program dimensionality
-        unsigned int Individual::get_dim()
+        unsigned int CIndividual::get_dim()
         {    
             /*!
              * Output:
@@ -716,7 +716,7 @@ namespace FT{
             return dim;   
         }
 
-        int Individual::check_dominance(const Individual& b) const
+        int CIndividual::check_dominance(const CIndividual& b) const
         {
             /* Check whether this individual dominates b. 
              *
@@ -751,7 +751,7 @@ namespace FT{
 
         }
 
-        void Individual::set_obj(const vector<string>& objectives)
+        void CIndividual::set_obj(const vector<string>& objectives)
         {
             /*! Input:
              *      objectives: vector of strings naming objectives.
@@ -778,7 +778,7 @@ namespace FT{
         
         }
 
-        unsigned int Individual::complexity()
+        unsigned int CIndividual::complexity()
         {
             if (c==0)
             {
@@ -805,7 +805,7 @@ namespace FT{
             return c;
         }
 
-        string Individual::program_str() const
+        string CIndividual::program_str() const
         {
             /* @return a string of node names. */
             string s = "";
@@ -817,7 +817,7 @@ namespace FT{
             return s;
         }
         
-        std::map<char, size_t> Individual::get_max_state_size()
+        std::map<char, size_t> CIndividual::get_max_state_size()
         {
             // max stack size is calculated using node arities
             std::map<char, size_t> stack_size;
