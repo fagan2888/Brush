@@ -8,7 +8,7 @@ license: GNU/GPLv3
 
 
 from brush.evaluation.evaluation cimport CEvaluation
-from ..pop import Individual
+from brush.population import Individual
 from ..data import Data
 
 cdef class Evaluation:
@@ -20,14 +20,17 @@ cdef class Evaluation:
     def set_score(self, string scorer):
         self.evalobj.set_score(scorer)
 
-    cdef fitness(self, vector[Individual] &ind,
+    def fitness(self, vector[Individual] &ind,
                  const Data &d, 
                  MatrixXf &F, 
                  const Parameters &params, 
                  bool offspring,
-                 bool validation)
-          
+                 bool validation):
+        self.evalobj.fitness(ind.ind,d,F,params,offspring,validation)  
+
     #TODO CLabels being used here need to remove
-    cdef assign_fit(self, Individual &ind,
+    def assign_fit(self, Individual &ind,
                     MatrixXf &F, const shared_ptr[CLabels] &yhat, 
-                    const VectorXf &y, const Parameters &params, bool val)      
+                    const VectorXf &y, const Parameters &params, bool val):
+        self.evalobj.assign_fit(ind.ind,F,yhat,y,params,val)
+        return 0

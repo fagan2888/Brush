@@ -7,7 +7,7 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = individual.cc
 
-from .pop cimport CIndividual
+from .population cimport CIndividual
 
 cdef class Individual:
     cdef CIndividual ind

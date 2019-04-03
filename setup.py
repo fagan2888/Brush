@@ -35,6 +35,8 @@ for n in ['evaluation']:
     nfold = 'brush/'+n+'/'
     if n=='util':
         n = 'rnd'
+    elif n =='individual':
+        nfold='brush/population/'
     exts.append(
         Extension(name=n,
                   sources =  [nfold + n +'.pyx'],    # our cython source

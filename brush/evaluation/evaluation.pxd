@@ -10,7 +10,8 @@ from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 from libcpp cimport bool
 from eigency.core cimport *
-from ..pop import Individual
+from ..population import Individual
+from brush.population cimport CIndividual
 
 cdef extern from "evaluation.h" namespace "FT::Eval":
     cdef cppclass CEvaluation:
@@ -19,7 +20,7 @@ cdef extern from "evaluation.h" namespace "FT::Eval":
                     
         void set_score(string)
 
-        void fitness(vector[Individual] &,
+        void fitness(vector[CIndividual] &,
                      const Data &, 
                      MatrixXf &, 
                      const Parameters &, 
@@ -27,5 +28,5 @@ cdef extern from "evaluation.h" namespace "FT::Eval":
                      bool)
           
         #TODO CLabels being used here need to remove
-        void assign_fit(Individual &, MatrixXf &, const shared_ptr[CLabels] &, 
+        void assign_fit(CIndividual &, MatrixXf &, const shared_ptr[CLabels] &, 
                         const VectorXf &, const Parameters &, bool)      
