@@ -20,15 +20,15 @@ namespace FT{
      */
     namespace Vary{
 
-        //struct Individual;  // forward declarations
-        //struct Parameters;
+        //struct CIndividual;  // forward declarations
+        //struct CParameters;
         //struct Population;
         //Rnd r;
         ////////////////////////////////////////////////////////////////////////////////// Declarations
         /*!
-         * @class Variation
+         * @class CVariation
          */ 
-        class Variation 
+        class CVariation 
         {
             /*!
              * methods for crossover and mutation of programs.
@@ -37,7 +37,7 @@ namespace FT{
             public:
             
                 /// constructor
-                Variation(float cr);
+                CVariation(float cr);
                            
                 /// update cross rate
                 void set_cross_rate(float cr);
@@ -46,30 +46,30 @@ namespace FT{
                 float get_cross_rate();
                 
                  /// destructor
-                ~Variation();
+                ~CVariation();
 
                 /// method to handle variation of population
-                void vary(Population& pop, const vector<size_t>& parents, const Parameters& params,
-                          const Data& d);
+                void vary(Population& pop, const vector<size_t>& parents, const CParameters& params,
+                          const CData& d);
                 
             private:
             
                 /// crossover
-                bool cross(Individual& mom, Individual& dad, Individual& child,
-                           const Parameters& params, const Data& d);
+                bool cross(CIndividual& mom, CIndividual& dad, CIndividual& child,
+                           const CParameters& params, const CData& d);
                 
                 /// mutation
-                bool mutate(Individual& mom, Individual& child, const Parameters& params);
-                void point_mutate(Individual& child, const Parameters& params);
-                void insert_mutate(Individual& child, const Parameters& params);
-                void delete_mutate(Individual& child, const Parameters& params);
+                bool mutate(CIndividual& mom, CIndividual& child, const CParameters& params);
+                void point_mutate(CIndividual& child, const CParameters& params);
+                void insert_mutate(CIndividual& child, const CParameters& params);
+                void delete_mutate(CIndividual& child, const CParameters& params);
      
                 /// splice two programs together
                 void splice_programs(NodeVector& vnew, 
                                      const NodeVector& v1, size_t i1, size_t j1, 
                                      const NodeVector& v2, size_t i2, size_t j2);
                 /// debugging printout of crossover operation.
-                void print_cross(Individual&,size_t,size_t,Individual&, size_t, size_t, Individual&,
+                void print_cross(CIndividual&,size_t,size_t,CIndividual&, size_t, size_t, CIndividual&,
                                  bool after=true);       
                 
                 float cross_rate;     ///< fraction of crossover in total variation

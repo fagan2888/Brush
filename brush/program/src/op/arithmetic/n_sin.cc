@@ -28,13 +28,13 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeSin::evaluate(const Data& data, State& state)
+            void NodeSin::evaluate(const CData& data, State& state)
             {
 
                 state.push<float>(limited(sin(W[0]*state.pop<float>())));
             }
             #else
-            void NodeSin::evaluate(const Data& data, State& state)
+            void NodeSin::evaluate(const CData& data, State& state)
             {
                 GPU_Sin(state.dev_f, state.idx[otype], state.N, W[0]);
             }

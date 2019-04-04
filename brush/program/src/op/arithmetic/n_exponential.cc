@@ -29,12 +29,12 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeExponential::evaluate(const Data& data, State& state)
+            void NodeExponential::evaluate(const CData& data, State& state)
             {
                 state.push<float>(limited(exp(this->W[0] * state.pop<float>())));
             }
             #else
-            void NodeExponential::evaluate(const Data& data, State& state)
+            void NodeExponential::evaluate(const CData& data, State& state)
             {
                 GPU_Exp(state.dev_f, state.idx[otype], state.N, W[0]);
             }

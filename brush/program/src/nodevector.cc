@@ -193,7 +193,7 @@ namespace FT{
                 Z[key].second.push_back(ArrayXf::Zero(2));
              }
              
-            Data data(X, y, Z, false);
+            CData data(X, y, Z, false);
             
             unsigned i = 0; 
             for (const auto& n : *this){

@@ -28,12 +28,12 @@ namespace FT{
             
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeSquare::evaluate(const Data& data, State& state)
+            void NodeSquare::evaluate(const CData& data, State& state)
             {
                 state.push<float>(limited(pow(W[0]*state.pop<float>(),2)));
             }
             #else
-            void NodeSquare::evaluate(const Data& data, State& state)
+            void NodeSquare::evaluate(const CData& data, State& state)
             {
                 GPU_Square(state.dev_f, state.idx[otype], state.N, W[0]);
             }

@@ -13,7 +13,7 @@ namespace FT{
         
         SimAnneal::~SimAnneal(){}
            
-        vector<size_t> SimAnneal::select(Population& pop, const MatrixXf& F, const Parameters& params)
+        vector<size_t> SimAnneal::select(Population& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selects parents for making offspring.  
              *
@@ -32,7 +32,7 @@ namespace FT{
             return all_idx;
         }
 
-        vector<size_t> SimAnneal::survive(Population& pop, const MatrixXf& F, const Parameters& params)
+        vector<size_t> SimAnneal::survive(Population& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selects the offspring for survival using simulated annealing.
              *
@@ -61,7 +61,7 @@ namespace FT{
             #pragma omp parallel for        
             for (unsigned i = P; i < F.cols(); ++i)
             {
-                Individual& offspring = pop.individuals.at(i);
+                CIndividual& offspring = pop.individuals.at(i);
                 /* cout << "offspring: " << offspring.get_eqn() << "\n"; */
                 int pid = offspring.parent_id.at(0);
                 bool found = false;
@@ -73,7 +73,7 @@ namespace FT{
                     else
                         ++j;
                 }
-                Individual& parent = pop.individuals.at(j);
+                CIndividual& parent = pop.individuals.at(j);
                 /* cout << "parent: " << parent.get_eqn() << "\n"; */
                 /* cout << "offspring fitness: " << offspring.fitness << "\n"; */
                 /* cout << "parent fitness: " << parent.fitness << "\n"; */           

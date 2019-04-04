@@ -42,12 +42,12 @@ namespace FT{
         /// returns population size
         int Population::size(){ return individuals.size(); }
 
-        const Individual Population::operator [](size_t i) const {return individuals.at(i);}
+        const CIndividual Population::operator [](size_t i) const {return individuals.at(i);}
         
-        const Individual & Population::operator [](size_t i) {return individuals.at(i);}
+        const CIndividual & Population::operator [](size_t i) {return individuals.at(i);}
 
 
-        void Population::init(const Individual& starting_model, const Parameters& params,
+        void Population::init(const CIndividual& starting_model, const CParameters& params,
                               bool random)
         {
             /*!
@@ -98,7 +98,7 @@ namespace FT{
                    individuals.erase(individuals.begin()+i);                         
               
            //individuals.erase(std::remove_if(individuals.begin(), individuals.end(), 
-           //                  [&survivors](const Individual& ind){ return !in(survivors,ind.loc);}),
+           //                  [&survivors](const CIndividual& ind){ return !in(survivors,ind.loc);}),
            //                  individuals.end());
 
            // reset the open locations in F matrix 
@@ -134,7 +134,7 @@ namespace FT{
             //for (auto o: open_loc) std::cout << o << " "; std::cout << "\n";
        }
 
-       void Population::add(Individual& ind)
+       void Population::add(CIndividual& ind)
        {
            /*!
             * adds ind to individuals, giving it an open location and bookeeping.

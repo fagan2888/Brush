@@ -144,14 +144,14 @@ namespace FT{
             return ps;
         }
         
-        MatrixXf CIndividual::fit(const Data& d, const Parameters& params, bool& pass)
+        MatrixXf CIndividual::fit(const CData& d, const CParameters& params, bool& pass)
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
             return out(d, params);      
         }
 
-        MatrixXf CIndividual::predict(const Data& d, const Parameters& params)
+        MatrixXf CIndividual::predict(const CData& d, const CParameters& params)
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
@@ -162,7 +162,7 @@ namespace FT{
         
         // TODO discuss these function implementations
 
-//        VectorXf CIndividual::predict_drop(const Data& d, const Parameters& params, int drop_idx)
+//        VectorXf CIndividual::predict_drop(const CData& d, const CParameters& params, int drop_idx)
 //        {
 //            // calculate program output matrix Phi
 //            logger.log("Generating output for " + get_eqn(), 3);
@@ -187,17 +187,17 @@ namespace FT{
 //            return yh;
 //        }
 
-//        VectorXf CIndividual::predict_vector(const Data& d, const Parameters& params)
+//        VectorXf CIndividual::predict_vector(const CData& d, const CParameters& params)
 //        {
 //            return ml->labels_to_vector(this->predict(d,params));
 //        }
         
         #ifndef USE_CUDA
         // calculate program output matrix
-        MatrixXf CIndividual::out(const Data& d, const Parameters& params, bool predict)
+        MatrixXf CIndividual::out(const CData& d, const CParameters& params, bool predict)
         {
             /*!
-             * @param d: Data structure
+             * @param d: CData structure
              * @param params: Feat parameters
              * @param predict: if true, this guarantees nodes like split do not get trained
              * @return Phi: n_features x n_samples transformation
@@ -276,7 +276,7 @@ namespace FT{
             return Phi;
         }
         #else
-        MatrixXf CIndividual::out(const Data& d, const Parameters& params, bool predict)
+        MatrixXf CIndividual::out(const CData& d, const CParameters& params, bool predict)
         {
         
             /*!
@@ -397,7 +397,7 @@ namespace FT{
 
         #ifndef USE_CUDA
         // calculate program output matrix
-        MatrixXf CIndividual::out_trace(const Data& d, const Parameters& params, 
+        MatrixXf CIndividual::out_trace(const CData& d, const CParameters& params, 
                                        vector<Trace>& state_trace)
         {
             /*!
@@ -514,8 +514,8 @@ namespace FT{
         }
         #else
         // calculate program output matrix
-        MatrixXf CIndividual::out_trace(const Data& d,
-                         const Parameters& params, vector<Trace>& state_trace)
+        MatrixXf CIndividual::out_trace(const CData& d,
+                         const CParameters& params, vector<Trace>& state_trace)
         {
             /*!
              * @params X: n_features x n_samples data

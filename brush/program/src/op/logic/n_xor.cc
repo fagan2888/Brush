@@ -20,7 +20,7 @@ namespace FT
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeXor::evaluate(const Data& data, State& state)
+            void NodeXor::evaluate(const CData& data, State& state)
             {
 	            ArrayXb x1 = state.pop<bool>();
                 ArrayXb x2 = state.pop<bool>();
@@ -31,7 +31,7 @@ namespace FT
                 
             }
             #else
-            void NodeXor::evaluate(const Data& data, State& state)
+            void NodeXor::evaluate(const CData& data, State& state)
             {
                 GPU_Xor(state.dev_b, state.idx[otype], state.N);
             }

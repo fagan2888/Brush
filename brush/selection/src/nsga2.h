@@ -23,14 +23,14 @@ namespace FT{
             ~NSGA2();
 
             /// selection according to the survival scheme of NSGA-II
-            vector<size_t> select(Population& pop, const MatrixXf& F, const Parameters& p);
+            vector<size_t> select(Population& pop, const MatrixXf& F, const CParameters& p);
             
             /// survival according to the survival scheme of NSGA-II
-            vector<size_t> survive(Population& pop, const MatrixXf& F, const Parameters& p);
+            vector<size_t> survive(Population& pop, const MatrixXf& F, const CParameters& p);
 
             vector<vector<int>> front;                //< the Pareto fronts
             
-            void fast_nds(vector<Individual>&);               //< Fast non-dominated sorting 
+            void fast_nds(vector<CIndividual>&);               //< Fast non-dominated sorting 
             
             void crowding_distance(Population&, int); //< crowding distance of a front i
                 
@@ -42,8 +42,8 @@ namespace FT{
                     const Population& pop;          ///< population address
                     sort_n(const Population& population) : pop(population) {};
                     bool operator() (int i, int j) {
-                        const Individual& ind1 = pop.individuals[i];
-                        const Individual& ind2 = pop.individuals[j];
+                        const CIndividual& ind1 = pop.individuals[i];
+                        const CIndividual& ind2 = pop.individuals[j];
                         if (ind1.rank < ind2.rank)
                             return true;
                         else if (ind1.rank == ind2.rank &&
@@ -63,7 +63,7 @@ namespace FT{
                     bool operator() (int i, int j) { return pop[i].obj[m] < pop[j].obj[m]; };
                 };
             
-                size_t tournament(vector<Individual>& pop, size_t i, size_t j) const;
+                size_t tournament(vector<CIndividual>& pop, size_t i, size_t j) const;
         };
         
     }

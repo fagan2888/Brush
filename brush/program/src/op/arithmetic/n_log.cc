@@ -28,13 +28,13 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Safe log: pushes log(abs(x)) or MIN_FLT if x is near zero. 
-            void NodeLog::evaluate(const Data& data, State& state)
+            void NodeLog::evaluate(const CData& data, State& state)
             {
 	            ArrayXf x = state.pop<float>();
                 state.push<float>( (abs(x) > NEAR_ZERO).select(log(abs(W[0] * x)),MIN_FLT));
             }
             #else
-            void NodeLog::evaluate(const Data& data, State& state)
+            void NodeLog::evaluate(const CData& data, State& state)
             {
                 GPU_Log(state.dev_f, state.idx[otype], state.N, W[0]);
             }

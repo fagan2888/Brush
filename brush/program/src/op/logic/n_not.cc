@@ -19,12 +19,12 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeNot::evaluate(const Data& data, State& state)
+            void NodeNot::evaluate(const CData& data, State& state)
             {
                 state.push<bool>(!state.pop<bool>());
             }
             #else
-            void NodeNot::evaluate(const Data& data, State& state)
+            void NodeNot::evaluate(const CData& data, State& state)
             {
                 GPU_Not(state.dev_b, state.idx[otype], state.N);
             }

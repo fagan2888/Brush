@@ -34,7 +34,7 @@ namespace FT{
 
             #ifndef USE_CUDA    
             /// Evaluates the node and updates the state states. 
-            void NodeConstant::evaluate(const Data& data, State& state)
+            void NodeConstant::evaluate(const CData& data, State& state)
             {
 	            if (otype == 'b')
                     state.push<bool>(ArrayXb::Constant(data.X.cols(),int(b_value)));
@@ -42,7 +42,7 @@ namespace FT{
                     state.push<float>(limited(ArrayXf::Constant(data.X.cols(),d_value)));
             }
             #else
-            void NodeConstant::evaluate(const Data& data, State& state)
+            void NodeConstant::evaluate(const CData& data, State& state)
             {
                 if (otype == 'b')
                 {

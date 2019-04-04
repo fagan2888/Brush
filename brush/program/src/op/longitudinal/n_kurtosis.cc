@@ -20,7 +20,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeKurtosis::evaluate(const Data& data, State& state)
+            void NodeKurtosis::evaluate(const CData& data, State& state)
             {
                 ArrayXf tmp(state.z.top().first.size());
                 
@@ -34,7 +34,7 @@ namespace FT{
                 
             }
             #else
-            void NodeKurtosis::evaluate(const Data& data, State& state)
+            void NodeKurtosis::evaluate(const CData& data, State& state)
             {
                 
                 ArrayXf tmp(state.z.top().first.size());

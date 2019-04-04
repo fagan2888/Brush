@@ -18,7 +18,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeMax::evaluate(const Data& data, State& state)
+            void NodeMax::evaluate(const CData& data, State& state)
             {
                 ArrayXf tmp(state.z.top().first.size());
                 int x;
@@ -32,7 +32,7 @@ namespace FT{
                 
             }
             #else
-            void NodeMax::evaluate(const Data& data, State& state)
+            void NodeMax::evaluate(const CData& data, State& state)
             {
                 
                 ArrayXf tmp(state.z.top().first.size());

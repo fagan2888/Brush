@@ -18,13 +18,13 @@ namespace FT{
 
             #ifndef USE_CUDA	
             /// Evaluates the node and updates the state states. 
-            void NodeAnd::evaluate(const Data& data, State& state)
+            void NodeAnd::evaluate(const CData& data, State& state)
             {
                 state.push<bool>(state.pop<bool>() && state.pop<bool>());
 
             }
             #else
-            void NodeAnd::evaluate(const Data& data, State& state)
+            void NodeAnd::evaluate(const CData& data, State& state)
             {
                GPU_And(state.dev_b, state.idx[otype], state.N);
             }

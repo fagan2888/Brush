@@ -45,16 +45,16 @@ namespace FT{
                 void set_score(string scorer);
 
                 /// fitness of population.
-                void fitness(vector<Individual>& individuals,
-                             const Data& d, 
+                void fitness(vector<CIndividual>& individuals,
+                             const CData& d, 
                              MatrixXf& F, 
-                             const Parameters& params, 
+                             const CParameters& params, 
                              bool offspring = false,
                              bool validation = false);
               
                 /// assign fitness to an individual and to F.  
-                void assign_fit(Individual& ind, MatrixXf& F, const VectorXf& yhat, 
-                                const VectorXf& y, const Parameters& params,bool val=false);       
+                void assign_fit(CIndividual& ind, MatrixXf& F, const VectorXf& yhat, 
+                                const VectorXf& y, const CParameters& params,bool val=false);       
         };
     }
 }

@@ -25,20 +25,20 @@ namespace FT{
     
         struct Archive  
         {
-            vector<Individual> archive;         ///< individual programs in the archive
+            vector<CIndividual> archive;         ///< individual programs in the archive
 
             NSGA2 selector;                     ///< nsga2 selection operator used for getting the front
 
             Archive();
 
             /// Sort population in increasing complexity.
-            static bool sortComplexity(const Individual& lhs, const Individual& rhs);
+            static bool sortComplexity(const CIndividual& lhs, const CIndividual& rhs);
 
-            static bool sameFitComplexity(const Individual& lhs, const Individual& rhs);
+            static bool sameFitComplexity(const CIndividual& lhs, const CIndividual& rhs);
 
             void init(Population& pop);
 
-            void update(const Population& pop, const Parameters& params);
+            void update(const Population& pop, const CParameters& params);
            
         };
     }

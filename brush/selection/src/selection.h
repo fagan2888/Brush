@@ -16,7 +16,7 @@ license: GNU/GPL v3
 namespace FT{
 
     
-    struct Parameters; // forward declaration of Parameters      
+    struct CParameters; // forward declaration of CParameters      
     
     /**
      * @namespace FT::Sel
@@ -42,10 +42,10 @@ namespace FT{
             string get_type();
             
             /// perform selection 
-            vector<size_t> select(Population& pop, const MatrixXf& F, const Parameters& params);
+            vector<size_t> select(Population& pop, const MatrixXf& F, const CParameters& params);
             
             /// perform survival
-            vector<size_t> survive(Population& pop, const MatrixXf& F,  const Parameters& params);
+            vector<size_t> survive(Population& pop, const MatrixXf& F,  const CParameters& params);
         };
         
     }

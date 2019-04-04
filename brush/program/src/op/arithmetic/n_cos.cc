@@ -28,12 +28,12 @@ namespace FT{
 
             #ifndef USE_CUDA    
             /// Evaluates the node and updates the state states. 
-            void NodeCos::evaluate(const Data& data, State& state)
+            void NodeCos::evaluate(const CData& data, State& state)
             {
                 state.push<float>(limited(cos(W[0] * state.pop<float>())));
             }
             #else
-            void NodeCos::evaluate(const Data& data, State& state)
+            void NodeCos::evaluate(const CData& data, State& state)
             {
                 GPU_Cos(state.dev_f, state.idx[otype], state.N, W[0]);
             }

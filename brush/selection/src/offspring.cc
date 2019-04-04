@@ -15,7 +15,7 @@ namespace FT{
            
         vector<size_t> Offspring::survive(Population& pop,
                                           const MatrixXf& F, 
-                                          const Parameters& params)
+                                          const CParameters& params)
         {
             /* Selects the offspring for survival. 
              *

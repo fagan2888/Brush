@@ -7,24 +7,36 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = params.cc
 
-from brush.params cimport Parameters
+from brush.params.params cimport CParameters
+from libcpp.string cimport string
+from libcpp cimport bool
+from libcpp.vector cimport vector
+from libcpp.map cimport map
+from libcpp.utility cimport pair
+from eigency.core cimport *
 
-cdef class PyParams:
-    cdef Parameters params
+cdef class Parameters:
+    cdef CParameters params
     
-    def _cinit_(self, int pop_size, int gens, string ml, bool classification, int max_stall, 
-                char ot, int verbosity, string fs, float cr, float root_xor, 
-                unsigned int max_depth, unsigned int max_dim, bool constant, string obj, 
-                bool sh, float sp, float fb, string sc, string fn, bool bckprp, 
-                int iters, float lr, int bs, bool hclimb, int maxt, bool useb, bool res_xo, 
-                bool stg_xo, bool sftmx):
+    def __cinit__(self, int pop_size, int gens, string ml, bool classification, 
+                    int max_stall, char ot, int verbosity, string fs, float cr,
+                    float root_xor, unsigned int max_depth, unsigned int max_dim,
+                    bool constant, string obj, bool sh, float sp, float fb, string sc,
+                    string fn, bool bckprp, int iters, float lr, int bs, bool hclimb,
+                    int maxt, bool useb, bool res_xo, bool stg_xo, 
+                    bool sftmx):
                 
-        self.params = new Params(pop_size, gens, ml, classification, max_stall, 
-                ot, verbosity, fs, cr, root_xor, 
-                max_depth, max_dim, constant, obj, 
-                sh, sp, fb, sc, fn, bckprp, 
-                iters, lr, bs, hclimb, maxt, useb, res_xo, 
-                stg_xo, sftmx)
+        # cdef char ot_char
+        # if ( len(ot) == 0):
+        #     ot_char = 'a' #Defaut Value
+        # else:
+        #     ot_char = ord(ot)
+        self.params = CParameters(pop_size, gens, ml, classification, max_stall, 
+                                  ot, verbosity, fs, cr, root_xor, 
+                                  max_depth, max_dim, constant, obj, 
+                                  sh, sp, fb, sc, fn, bckprp, 
+                                  iters, lr, bs, hclimb, maxt, useb, res_xo, 
+                                  stg_xo, sftmx)
         
     def init(self):
         self.params.init()
@@ -38,9 +50,9 @@ cdef class PyParams:
     def set_term_weights(self, const vector[float]& w):
         self.params.set_term_weights(w)
         
-    def createNode(self, string name, float d_val, bool b_val, 
-                                     size_t loc, string name):
-        return self.params.createNode(name, d_val, b_val, loc, name)
+    # def createNode(self, string name, float d_val, bool b_val, 
+    #                                  size_t loc, string name):
+    #     return self.params.createNode(name, d_val, b_val, loc, name)
     
     def set_functions(self, string fs):
         self.params.set_functions(fs)

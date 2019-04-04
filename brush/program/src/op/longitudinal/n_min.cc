@@ -19,7 +19,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeMin::evaluate(const Data& data, State& state)
+            void NodeMin::evaluate(const CData& data, State& state)
             {
                 ArrayXf tmp(state.z.top().first.size());
                 
@@ -34,7 +34,7 @@ namespace FT{
                 
             }
             #else
-            void NodeMin::evaluate(const Data& data, State& state)
+            void NodeMin::evaluate(const CData& data, State& state)
             {
                 
                 ArrayXf tmp(state.z.top().first.size());

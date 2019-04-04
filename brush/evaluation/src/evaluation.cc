@@ -28,16 +28,16 @@ namespace FT{
         CEvaluation::~CEvaluation(){}
                             
         // fitness of population
-        void CEvaluation::fitness(vector<Individual>& individuals,
-                                 const Data& d, 
+        void CEvaluation::fitness(vector<CIndividual>& individuals,
+                                 const CData& d, 
                                  MatrixXf& F, 
-                                 const Parameters& params, 
+                                 const CParameters& params, 
                                  bool offspring,
                                  bool validation)
         {
         	/*!
              *      @param individuals: population
-             *      @param d: Data structure
+             *      @param d: CData structure
              *      @param F: matrix of raw fitness values
              *      @param params: algorithm parameters
              *      @param offspring: if true, only evaluate last half of population
@@ -56,7 +56,7 @@ namespace FT{
             #pragma omp parallel for
             for (unsigned i = start; i<individuals.size(); ++i)
             {
-                Individual& ind = individuals.at(i);
+                CIndividual& ind = individuals.at(i);
 
 //                if (params.backprop)
 //                {
@@ -107,8 +107,8 @@ namespace FT{
         }
         
         // assign fitness to program
-        void CEvaluation::assign_fit(Individual& ind, MatrixXf& F, const VectorXf& yhat, 
-                                    const VectorXf& y, const Parameters& params, bool val)
+        void CEvaluation::assign_fit(CIndividual& ind, MatrixXf& F, const VectorXf& yhat, 
+                                    const VectorXf& y, const CParameters& params, bool val)
         {
             /*!
              * assign raw errors to F, and aggregate fitnesses to individuals. 

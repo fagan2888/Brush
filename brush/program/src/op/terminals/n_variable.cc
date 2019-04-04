@@ -25,14 +25,14 @@ namespace FT{
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
             template <class T>		
-            void NodeVariable<T>::evaluate(const Data& data, State& state)
+            void NodeVariable<T>::evaluate(const CData& data, State& state)
             {
                 state.push<T>(data.X.row(loc).template cast<T>());
             }
             
             #else
             template <class T>
-            void NodeVariable<T>::evaluate(const Data& data, State& state)
+            void NodeVariable<T>::evaluate(const CData& data, State& state)
             {
                 if(otype == 'b')
                 {

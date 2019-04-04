@@ -19,8 +19,8 @@ cdef extern from "selection.h" namespace "FT::Sel":
 
         vector[size_t] select(Population &,
                               const MatrixXf &,
-                              const Parameters &)
+                              const CParameters &)
 
         vector[size_t] survive(Population &,
                                const MatrixXf &,
-                               const Parameters &)
+                               const CParameters &)

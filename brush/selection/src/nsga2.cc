@@ -17,10 +17,10 @@ namespace FT{
         
         NSGA2::~NSGA2(){}
         
-        size_t NSGA2::tournament(vector<Individual>& pop, size_t i, size_t j) const 
+        size_t NSGA2::tournament(vector<CIndividual>& pop, size_t i, size_t j) const 
         {
-            Individual& ind1 = pop.at(i);
-            Individual& ind2 = pop.at(j);
+            CIndividual& ind1 = pop.at(i);
+            CIndividual& ind2 = pop.at(j);
 
             int flag = ind1.check_dominance(ind2);
             
@@ -36,7 +36,7 @@ namespace FT{
                 return i; 
         }
         
-        vector<size_t> NSGA2::select(Population& pop, const MatrixXf& F, const Parameters& params)
+        vector<size_t> NSGA2::select(Population& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selection using Pareto tournaments. 
              *
@@ -68,7 +68,7 @@ namespace FT{
             return selected;
         }
 
-        vector<size_t> NSGA2::survive(Population& pop, const MatrixXf& F, const Parameters& params)
+        vector<size_t> NSGA2::survive(Population& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selection using the survival scheme of NSGA-II. 
              *
@@ -116,7 +116,7 @@ namespace FT{
             return selected;
         }
 
-        void NSGA2::fast_nds(vector<Individual>& individuals) 
+        void NSGA2::fast_nds(vector<CIndividual>& individuals) 
         {
             front.resize(1);
             front[0].clear();
@@ -127,13 +127,13 @@ namespace FT{
                 std::vector<unsigned int> dom;
                 int dcount = 0;
             
-                Individual& p = individuals[i];
+                CIndividual& p = individuals[i];
                 // p.dcounter  = 0;
                 // p.dominated.clear();
             
                 for (int j = 0; j < individuals.size(); ++j) {
                 
-                    Individual& q = individuals[j];
+                    CIndividual& q = individuals[j];
                 
                     int compare = p.check_dominance(q);
                     if (compare == 1) { // p dominates q
@@ -172,11 +172,11 @@ namespace FT{
                 std::vector<int> Q;
                 for (int i = 0; i < fronti.size(); ++i) {
 
-                    Individual& p = individuals[fronti[i]];
+                    CIndividual& p = individuals[fronti[i]];
 
                     for (int j = 0; j < p.dominated.size() ; ++j) {
 
-                        Individual& q = individuals[p.dominated[j]];
+                        CIndividual& q = individuals[p.dominated[j]];
                         q.dcounter -= 1;
 
                         if (q.dcounter == 0) {

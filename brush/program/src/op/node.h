@@ -63,7 +63,7 @@ namespace FT{
                     virtual ~Node(){}
                    
                     /// Evaluates the node and updates the state states. 
-                    virtual void evaluate(const Data& data, State& state) = 0; 
+                    virtual void evaluate(const CData& data, State& state) = 0; 
 
                     /// evaluates the node symbolically
                     virtual void eval_eqn(State& state) = 0;

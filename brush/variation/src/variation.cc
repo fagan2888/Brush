@@ -10,22 +10,22 @@ namespace FT{
     namespace Vary{
 
         /// constructor
-        Variation::Variation(float cr): cross_rate(cr) {}
+        CVariation::CVariation(float cr): cross_rate(cr) {}
                    
         /// update cross rate
-        void Variation::set_cross_rate(float cr)
+        void CVariation::set_cross_rate(float cr)
         {
         	cross_rate = cr;
         }
         
         /// return current cross rate
-        float Variation::get_cross_rate()
+        float CVariation::get_cross_rate()
         {
         	return cross_rate;
         }
         
          /// destructor
-        Variation::~Variation(){}
+        CVariation::~CVariation(){}
 
         std::unique_ptr<Node> random_node(const NodeVector & v)
         {
@@ -39,8 +39,8 @@ namespace FT{
             return v.at(idx)->clone();
         }
      
-        void Variation::vary(Population& pop, const vector<size_t>& parents, 
-                             const Parameters& params, const Data& d)
+        void CVariation::vary(Population& pop, const vector<size_t>& parents, 
+                             const CParameters& params, const CData& d)
         {
             /*!
              * performs variation on the current population. 
@@ -60,14 +60,14 @@ namespace FT{
        
                 while (!pass)
                 {
-                    Individual child; // new individual
+                    CIndividual child; // new individual
                     child.set_id(params.current_gen*params.pop_size+i-start);           
 
                     if ( r() < cross_rate)      // crossover
                     {
                         // get random mom and dad 
-                        Individual& mom = pop.individuals.at(r.random_choice(parents));
-                        Individual& dad = pop.individuals.at(r.random_choice(parents));
+                        CIndividual& mom = pop.individuals.at(r.random_choice(parents));
+                        CIndividual& dad = pop.individuals.at(r.random_choice(parents));
                         /* int dad = r.random_choice(parents); */
                         // create child
                         logger.log("\n===\ncrossing " + mom.get_eqn() + "\nwith\n " + 
@@ -85,7 +85,7 @@ namespace FT{
                     else                        // mutation
                     {
                         // get random mom
-                        Individual& mom = pop.individuals.at(r.random_choice(parents));
+                        CIndividual& mom = pop.individuals.at(r.random_choice(parents));
                         /* int mom = r.random_choice(parents); */                
                         logger.log("mutating " + mom.get_eqn() + "(" + 
                                 mom.program_str() + ")", 3);
@@ -113,7 +113,7 @@ namespace FT{
            pop.update_open_loc();
         }
 
-        bool Variation::mutate(Individual& mom, Individual& child, const Parameters& params)
+        bool CVariation::mutate(CIndividual& mom, CIndividual& child, const CParameters& params)
         {
             /*!
              * chooses uniformly between point mutation, insert mutation and delete mutation 
@@ -149,7 +149,7 @@ namespace FT{
                     && child.get_dim() <= params.max_dim;
         }
 
-        void Variation::point_mutate(Individual& child, const Parameters& params)
+        void CVariation::point_mutate(CIndividual& child, const CParameters& params)
         {
             /*! 1/n point mutation. 
              * @param child: individual to be mutated
@@ -199,7 +199,7 @@ namespace FT{
 
         }
 
-        void Variation::insert_mutate(Individual& child, const Parameters& params)
+        void CVariation::insert_mutate(CIndividual& child, const CParameters& params)
         {        
             /*! insertion mutation. 
              * @param child: indiviudal to be mutated
@@ -306,7 +306,7 @@ namespace FT{
             }
         }
 
-        void Variation::delete_mutate(Individual& child, const Parameters& params)
+        void CVariation::delete_mutate(CIndividual& child, const CParameters& params)
         {
 
             /*! deletion mutation. works by pruning a dimension. 
@@ -338,8 +338,8 @@ namespace FT{
         
         
 
-        bool Variation::cross(Individual& mom, Individual& dad, Individual& child, 
-                              const Parameters& params, const Data& d)
+        bool CVariation::cross(CIndividual& mom, CIndividual& dad, CIndividual& child, 
+                              const CParameters& params, const CData& d)
         {
             /*!
              * crossover by either subtree crossover or swapping of dimensions. 
@@ -414,7 +414,7 @@ namespace FT{
         }
         
         // swap vector subsets with different sizes. 
-        void Variation::splice_programs( NodeVector& vnew,
+        void CVariation::splice_programs( NodeVector& vnew,
                                          const NodeVector& v1, size_t i1, size_t j1, 
                                          const NodeVector& v2, size_t i2, size_t j2)
         {
@@ -447,8 +447,8 @@ namespace FT{
             /* vnew.insert(vnew.end(),v1.begin()+j1+1,v1.end()); */       
         }
         
-        void Variation::print_cross(Individual& mom, size_t i1, size_t j1, Individual& dad, size_t i2, 
-                                    size_t j2, Individual& child, bool after)
+        void CVariation::print_cross(CIndividual& mom, size_t i1, size_t j1, CIndividual& dad, size_t i2, 
+                                    size_t j2, CIndividual& child, bool after)
         {
             std::cout << "\t\tattempting the following crossover:\n\t\t";
             for (int i =0; i<mom.program.size(); ++i){

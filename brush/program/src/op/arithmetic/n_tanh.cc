@@ -28,12 +28,12 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeTanh::evaluate(const Data& data, State& state)
+            void NodeTanh::evaluate(const CData& data, State& state)
             {
                 state.push<float>(limited(tanh(W[0]*state.pop<float>())));
             }
             #else
-            void NodeTanh::evaluate(const Data& data, State& state)
+            void NodeTanh::evaluate(const CData& data, State& state)
             {
                 GPU_Tanh(state.dev_f, state.idx[otype], state.N, W[0]);
             }

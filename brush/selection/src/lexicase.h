@@ -24,10 +24,10 @@ namespace FT{
             ~Lexicase();
 
             /// function returns a set of selected indices from F. 
-            vector<size_t> select(Population& pop, const MatrixXf& F, const Parameters& params); 
+            vector<size_t> select(Population& pop, const MatrixXf& F, const CParameters& params); 
             
             /// lexicase survival
-            vector<size_t> survive(Population& pop, const MatrixXf& F, const Parameters& params); 
+            vector<size_t> survive(Population& pop, const MatrixXf& F, const CParameters& params); 
 
         };
     }

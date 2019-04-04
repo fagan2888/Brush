@@ -27,12 +27,12 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeLogit::evaluate(const Data& data, State& state)
+            void NodeLogit::evaluate(const CData& data, State& state)
             {
                 state.push<float>(1/(1+(limited(exp(-W[0]*state.pop<float>())))));
             }
             #else
-            void NodeLogit::evaluate(const Data& data, State& state)
+            void NodeLogit::evaluate(const CData& data, State& state)
             {
                 GPU_Logit(state.dev_f, state.idx[otype], state.N, W[0]);
             }

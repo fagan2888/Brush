@@ -27,7 +27,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeMultiply::evaluate(const Data& data, State& state)
+            void NodeMultiply::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
@@ -35,7 +35,7 @@ namespace FT{
                 state.push<float>(limited(W[0]*x1 * W[1]*x2));
             }
             #else
-            void NodeMultiply::evaluate(const Data& data, State& state)
+            void NodeMultiply::evaluate(const CData& data, State& state)
             {
                 GPU_Multiply(state.dev_f, state.idx[otype], state.N, W[0], W[1]);
             }

@@ -20,13 +20,13 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeOr::evaluate(const Data& data, State& state)
+            void NodeOr::evaluate(const CData& data, State& state)
             {
                 state.push<bool>(state.pop<bool>() || state.pop<bool>());
 
             }
             #else
-            void NodeOr::evaluate(const Data& data, State& state)
+            void NodeOr::evaluate(const CData& data, State& state)
             {
                 GPU_Or(state.dev_b, state.idx[otype], state.N);
             }

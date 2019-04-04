@@ -20,7 +20,7 @@ namespace FT{
             }
 
             /// Evaluates the node and updates the state states. 		
-            void NodeLongitudinal::evaluate(const Data& data, State& state)
+            void NodeLongitudinal::evaluate(const CData& data, State& state)
             {
                 try
                 {

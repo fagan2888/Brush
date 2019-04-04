@@ -19,5 +19,5 @@ cdef extern from "variation.h" namespace "FT::Vary":
 
         void vary(Population &,
                   const vector[size_t] &,
-                  const Parameters &,
+                  const CParameters &,
                   const Data &)

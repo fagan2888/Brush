@@ -30,16 +30,16 @@ namespace FT
 {
     /**
     * @namespace FT::Dat
-    * @brief namespace containing Data structures used in Feat
+    * @brief namespace containing CData structures used in Feat
     */
     namespace Dat{
         /*!
-         * @class Data
+         * @class CData
          * @brief data holding X, y, and Z data
          */
-        class Data
+        class CData
         {
-            //Data(MatrixXf& X, VectorXf& y, std::map<string, 
+            //CData(MatrixXf& X, VectorXf& y, std::map<string, 
             //std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z): X(X), y(y), Z(Z){}
             public:
      
@@ -49,20 +49,20 @@ namespace FT
                 bool classification;
                 bool validation; 
 
-                Data(MatrixXf& X, VectorXf& y, std::map<string, std::pair<vector<ArrayXf>, 
+                CData(MatrixXf& X, VectorXf& y, std::map<string, std::pair<vector<ArrayXf>, 
                         vector<ArrayXf>>>& Z, bool c = false);
 
                 void set_validation(bool v=true);
                 
                 /// select random subset of data for training weights.
-                void get_batch(Data &db, int batch_size) const;
+                void get_batch(CData &db, int batch_size) const;
         };
         
         /* !
-         * @class DataRef
+         * @class CDataRef
          * @brief Holds training and validation splits of data, with pointers to each.
          * */
-        class DataRef
+        class CDataRef
         {
             private:
                 bool oCreated;
@@ -79,35 +79,35 @@ namespace FT
                 bool classification;
 
             public:
-                Data *o = NULL;     //< pointer to original data
-                Data *v = NULL;     //< pointer to validation data
-                Data *t = NULL;     //< pointer to training data
+                CData *o = NULL;     //< pointer to original data
+                CData *v = NULL;     //< pointer to validation data
+                CData *t = NULL;     //< pointer to training data
                 
-                DataRef();
+                CDataRef();
                 
-                ~DataRef();
+                ~CDataRef();
                 
         
-                DataRef(MatrixXf& X, VectorXf& y, 
+                CDataRef(MatrixXf& X, VectorXf& y, 
                                  std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > >& Z, 
                                  bool c=false);
                         
-                void setOriginalData(MatrixXf& X, VectorXf& y, 
+                void setOriginalCData(MatrixXf& X, VectorXf& y, 
                         std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z, bool c=false);
                 
-                void setOriginalData(Data *d);
+                void setOriginalCData(CData *d);
                 
-                void setTrainingData(MatrixXf& X_t, VectorXf& y_t, 
+                void setTrainingCData(MatrixXf& X_t, VectorXf& y_t, 
                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_t,
                                    bool c = false);
                 
-                void setTrainingData(Data *d, bool toDelete = false);
+                void setTrainingCData(CData *d, bool toDelete = false);
                 
-                void setValidationData(MatrixXf& X_v, VectorXf& y_v, 
+                void setValidationCData(MatrixXf& X_v, VectorXf& y_v, 
                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_v,
                                    bool c = false);
                 
-                void setValidationData(Data *d);
+                void setValidationCData(CData *d);
                 
                 /// shuffles original data
                 void shuffle_data();

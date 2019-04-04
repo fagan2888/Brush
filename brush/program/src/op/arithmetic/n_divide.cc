@@ -29,7 +29,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeDivide::evaluate(const Data& data, State& state)
+            void NodeDivide::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
@@ -38,7 +38,7 @@ namespace FT{
                                                             1.0) ); 
             }
             #else
-            void NodeDivide::evaluate(const Data& data, State& state)
+            void NodeDivide::evaluate(const CData& data, State& state)
             {
                 GPU_Divide(state.dev_f, state.idx[otype], state.N, W[0], W[1]);
             }

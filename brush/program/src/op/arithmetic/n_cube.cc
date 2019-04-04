@@ -28,12 +28,12 @@ namespace FT{
 
             #ifndef USE_CUDA    
             /// Evaluates the node and updates the state states.  
-            void NodeCube::evaluate(const Data& data, State& state)
+            void NodeCube::evaluate(const CData& data, State& state)
             {
                 state.push<float>(limited(pow(this->W[0] * state.pop<float>(),3)));
             }   
             #else
-            void NodeCube::evaluate(const Data& data, State& state)
+            void NodeCube::evaluate(const CData& data, State& state)
             {
                 GPU_Cube(state.dev_f, state.idx['f'], state.N, W[0]);
             }

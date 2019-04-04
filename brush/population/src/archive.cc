@@ -11,12 +11,12 @@ namespace FT{
 
         Archive::Archive() : selector(true) {}
         
-        bool Archive::sortComplexity(const Individual& lhs, const Individual& rhs)
+        bool Archive::sortComplexity(const CIndividual& lhs, const CIndividual& rhs)
         {
             return lhs.c < rhs.c;
         }
 
-        bool Archive::sameFitComplexity(const Individual& lhs, const Individual& rhs)
+        bool Archive::sameFitComplexity(const CIndividual& lhs, const CIndividual& rhs)
         {
             return (lhs.fitness == rhs.fitness &&
                    lhs.get_complexity() == rhs.get_complexity());
@@ -39,10 +39,10 @@ namespace FT{
            std::sort(archive.begin(),archive.end(), &sortComplexity); 
         }
 
-        void Archive::update(const Population& pop, const Parameters& params)
+        void Archive::update(const Population& pop, const CParameters& params)
         {
                         
-            vector<Individual> tmp = pop.individuals;
+            vector<CIndividual> tmp = pop.individuals;
 
             #pragma omp parallel for
             for (unsigned int i=0; i<tmp.size(); ++i)

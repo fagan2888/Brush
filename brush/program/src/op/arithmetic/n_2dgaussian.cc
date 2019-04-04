@@ -30,7 +30,7 @@ namespace FT{
 
             /// Evaluates the node and updates the state states. 
             #ifndef USE_CUDA
-            void Node2dGaussian::evaluate(const Data& data, State& state)
+            void Node2dGaussian::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
@@ -40,7 +40,7 @@ namespace FT{
             }
             #else
             /// Evaluates the node and updates the state states. 
-            void Node2dGaussian::evaluate(const Data& data, State& state)
+            void Node2dGaussian::evaluate(const CData& data, State& state)
             {            
                 
                 ArrayXf x1(state.N);

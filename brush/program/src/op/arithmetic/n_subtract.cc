@@ -28,14 +28,14 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeSubtract::evaluate(const Data& data, State& state)
+            void NodeSubtract::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
                 state.push<float>(limited(this->W[0]*x1 - this->W[1]*x2));
             }
             #else
-            void NodeSubtract::evaluate(const Data& data, State& state)
+            void NodeSubtract::evaluate(const CData& data, State& state)
             {
                 GPU_Subtract(state.dev_f, state.idx[otype], state.N, W[0], W[1]);
             }

@@ -18,7 +18,7 @@ namespace FT{
             		NodeLog(vector<float> W0 = vector<float>());
             		
                     /// Safe log: pushes log(abs(x)) or MIN_FLT if x is near zero. 
-                    void evaluate(const Data& data, State& state);
+                    void evaluate(const CData& data, State& state);
 
                     /// Evaluates the node symbolically
                     void eval_eqn(State& state);

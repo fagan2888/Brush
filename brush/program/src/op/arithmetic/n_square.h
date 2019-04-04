@@ -18,7 +18,7 @@ namespace FT{
             		NodeSquare(vector<float> W0 = vector<float>());
             		
                     /// Evaluates the node and updates the state states. 
-                    void evaluate(const Data& data, State& state);
+                    void evaluate(const CData& data, State& state);
 
                     /// Evaluates the node symbolically
                     void eval_eqn(State& state);

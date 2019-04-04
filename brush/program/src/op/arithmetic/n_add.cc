@@ -28,7 +28,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeAdd::evaluate(const Data& data, State& state)
+            void NodeAdd::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
@@ -36,7 +36,7 @@ namespace FT{
                 /* state.push<float>(limited(this->W[0]*state.pop<float>()+this->W[1]*state.pop<float>())); */
             }
             #else
-            void NodeAdd::evaluate(const Data& data, State& state)
+            void NodeAdd::evaluate(const CData& data, State& state)
 	        {
                 GPU_Add(state.dev_f, state.idx[otype], state.N, (float)W[0], (float)W[1]);
             }

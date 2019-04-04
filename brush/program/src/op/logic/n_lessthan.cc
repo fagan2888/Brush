@@ -19,14 +19,14 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeLessThan::evaluate(const Data& data, State& state)
+            void NodeLessThan::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
                 state.push<bool>(x1 < x2);
             }
             #else
-            void NodeLessThan::evaluate(const Data& data, State& state)
+            void NodeLessThan::evaluate(const CData& data, State& state)
             {
                 GPU_LessThan(state.dev_f, state.dev_b, state.idx['f'], state.idx[otype], state.N);
             }

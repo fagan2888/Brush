@@ -50,24 +50,24 @@ namespace FT{
             CIndividual();
 
             /// calculate program output matrix Phi
-            MatrixXf out(const Data& d, const Parameters& params, bool predict=false);
+            MatrixXf out(const CData& d, const CParameters& params, bool predict=false);
 
             /// calculate program output while maintaining stack trace
-            MatrixXf out_trace(const Data& d,
-                         const Parameters& params, vector<Trace>& stack_trace);
+            MatrixXf out_trace(const CData& d,
+                         const CParameters& params, vector<Trace>& stack_trace);
                          
             /// fits an ML model to the data after transformation
-            MatrixXf fit(const Data& d, const Parameters& params, bool& pass);
+            MatrixXf fit(const CData& d, const CParameters& params, bool& pass);
             
             /*! generates prediction on data using transformation and ML predict. 
              *  @param drop_idx if specified, the phi output at drop_idx is set to zero, effectively
              *  removing its output from the transformation. used in semantic crossover.
              */
-            MatrixXf predict(const Data& d, const Parameters& params);
+            MatrixXf predict(const CData& d, const CParameters& params);
             
             //TODO discuss implementation and uncomment later
-//            VectorXf predict_vector(const Data& d, const Parameters& params);
-//            VectorXf predict_drop(const Data& d, const Parameters& params, int drop_idx);
+//            VectorXf predict_vector(const CData& d, const CParameters& params);
+//            VectorXf predict_drop(const CData& d, const CParameters& params, int drop_idx);
             /// return symbolic representation of program
             string get_eqn();
 

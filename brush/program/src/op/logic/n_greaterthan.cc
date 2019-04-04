@@ -18,14 +18,14 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeGreaterThan::evaluate(const Data& data, State& state)
+            void NodeGreaterThan::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
                 state.push<bool>(x1 > x2);
             }
             #else
-            void NodeGreaterThan::evaluate(const Data& data, State& state)
+            void NodeGreaterThan::evaluate(const CData& data, State& state)
             {
                 GPU_GreaterThan(state.dev_f, state.dev_b, state.idx['f'], state.idx[otype], state.N);
             }

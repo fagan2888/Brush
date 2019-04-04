@@ -18,12 +18,12 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeEqual::evaluate(const Data& data, State& state)
+            void NodeEqual::evaluate(const CData& data, State& state)
             {
                 state.push<bool>(state.pop<float>() == state.pop<float>());
             }
             #else
-            void NodeEqual::evaluate(const Data& data, State& state)
+            void NodeEqual::evaluate(const CData& data, State& state)
             {
                 GPU_Equal(state.dev_f, state.dev_b, state.idx['f'], state.idx[otype], state.N);
             }

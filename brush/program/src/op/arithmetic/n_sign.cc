@@ -20,7 +20,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeSign::evaluate(const Data& data, State& state)
+            void NodeSign::evaluate(const CData& data, State& state)
             {
 	            ArrayXf x = state.pop<float>();
                 ArrayXf ones = ArrayXf::Ones(x.size());
@@ -31,7 +31,7 @@ namespace FT{
                 state.push<float>(res);
             }
             #else
-            void NodeSign::evaluate(const Data& data, State& state)
+            void NodeSign::evaluate(const CData& data, State& state)
             {
                 GPU_Sign(state.dev_f, state.idx[otype], state.N);
             }

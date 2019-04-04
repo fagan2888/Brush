@@ -22,6 +22,6 @@ cdef class PyVariation:
 
     cdef vary(Population& pop,
               const vector[size_t]& parents,
-              const Parameters& params,
+              const CParameters& params,
               const Data& d):
         self.vary_obj.vary(pop, parents, params, d)

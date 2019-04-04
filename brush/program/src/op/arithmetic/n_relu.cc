@@ -28,7 +28,7 @@ namespace FT{
 
             #ifndef USE_CUDA 
             /// Evaluates the node and updates the state states. 
-            void NodeRelu::evaluate(const Data& data, State& state)
+            void NodeRelu::evaluate(const CData& data, State& state)
             {
                 ArrayXf x = state.pop<float>();
                 ArrayXf res = (W[0] * x > 0).select(W[0]*x, ArrayXf::Zero(x.size())+0.01); 
@@ -36,7 +36,7 @@ namespace FT{
             }
             #else
             /// Evaluates the node and updates the state states. 
-            void NodeRelu::evaluate(const Data& data, State& state)
+            void NodeRelu::evaluate(const CData& data, State& state)
             {
                 GPU_Relu(state.dev_f, state.idx[otype], state.N, (float)W[0]);
             }

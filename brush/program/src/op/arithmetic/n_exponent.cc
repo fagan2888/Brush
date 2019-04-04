@@ -28,7 +28,7 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeExponent::evaluate(const Data& data, State& state)
+            void NodeExponent::evaluate(const CData& data, State& state)
             {
 	            ArrayXf x1 = state.pop<float>();
                 ArrayXf x2 = state.pop<float>();
@@ -37,7 +37,7 @@ namespace FT{
                                                this->W[1] * x2)));
             }
             #else
-            void NodeExponent::evaluate(const Data& data, State& state)
+            void NodeExponent::evaluate(const CData& data, State& state)
             {
                 GPU_Exponent(state.dev_f, state.idx[otype], state.N, W[0], W[1]);
             }

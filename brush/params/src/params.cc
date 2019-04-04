@@ -9,7 +9,7 @@ namespace FT{
 
     using namespace Util;
         
-    Parameters::Parameters(int pop_size, int gens, string ml, bool classification, int max_stall, 
+    CParameters::CParameters(int pop_size, int gens, string ml, bool classification, int max_stall, 
                char ot, int verbosity, string fs, float cr, float root_xor, unsigned int max_depth, 
                unsigned int max_dim, bool constant, string obj, bool sh, float sp, 
                float fb, string sc, string fn, bool bckprp, int iters, float lr,
@@ -54,14 +54,14 @@ namespace FT{
             set_scorer(sc);
         }
     
-    Parameters::~Parameters(){}
+    CParameters::~CParameters(){}
     
     /*! checks initial parameter settings before training.
      *  make sure ml choice is valid for problem type.
      *  make sure scorer is set. 
      *  for classification, check clases and find number.
      */
-    void Parameters::init()
+    void CParameters::init()
     {
         if (!ml.compare("LinearRidgeRegression") && classification)
         {
@@ -71,10 +71,10 @@ namespace FT{
     }
   
     /// sets current generation
-    void Parameters::set_current_gen(int g) { current_gen = g; }
+    void CParameters::set_current_gen(int g) { current_gen = g; }
     
     /// sets scorer type
-    void Parameters::set_scorer(string sc)
+    void CParameters::set_scorer(string sc)
     {
         if (sc.empty())
         {
@@ -100,7 +100,7 @@ namespace FT{
     }
     
     /// sets weights for terminals. 
-    void Parameters::set_term_weights(const vector<float>& w)
+    void CParameters::set_term_weights(const vector<float>& w)
     {           
         /* cout << "weights: "; for (auto tmp : w) cout << tmp << " " ; cout << "\n"; */ 
         string weights;
@@ -144,28 +144,28 @@ namespace FT{
         logger.log(weights, 3);
     }
     
-    void Parameters::updateSize()
+    void CParameters::updateSize()
     {
     	max_size = (pow(2,max_depth+1)-1)*max_dim;
     }
     
     /// set max depth of programs
-    void Parameters::set_max_depth(unsigned int max_depth)
+    void CParameters::set_max_depth(unsigned int max_depth)
     {
     	this->max_depth = max_depth;
     	updateSize();
     }
     
     /// set maximum dimensionality of programs
-    void Parameters::set_max_dim(unsigned int max_dim)
+    void CParameters::set_max_dim(unsigned int max_dim)
     {
     	this->max_dim = max_dim;
     	updateSize();
     }
 
-    void Parameters::set_otype(char ot){ otype = ot; set_otypes();}
+    void CParameters::set_otype(char ot){ otype = ot; set_otypes();}
     
-    void Parameters::set_ttypes()
+    void CParameters::set_ttypes()
     {
         ttypes.clear();
         // set terminal types
@@ -177,7 +177,7 @@ namespace FT{
     }
 
     /// set the output types of programs
-    void Parameters::set_otypes(bool terminals_set)
+    void CParameters::set_otypes(bool terminals_set)
     {
         otypes.clear();
         // set output types
@@ -228,7 +228,7 @@ namespace FT{
 
     }
     
-    std::unique_ptr<Node> Parameters::createNode(string str,
+    std::unique_ptr<Node> CParameters::createNode(string str,
                                                  float d_val,
                                                  bool b_val,
                                                  size_t loc,
@@ -422,7 +422,7 @@ namespace FT{
     	
     }
 
-    void Parameters::set_feature_names(string fn)
+    void CParameters::set_feature_names(string fn)
     {
         if (fn.empty())
             feature_names.clear();
@@ -441,7 +441,7 @@ namespace FT{
         }
     }
     
-    void Parameters::set_functions(string fs)
+    void CParameters::set_functions(string fs)
     {
         /*! 
          * Input: 
@@ -478,7 +478,7 @@ namespace FT{
         set_otypes();
     }
 
-    void Parameters::set_terminals(int nf,
+    void CParameters::set_terminals(int nf,
                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > Z)
     {
         /*!
@@ -512,7 +512,7 @@ namespace FT{
         set_otypes(true);
     }
 
-    void Parameters::set_objectives(string obj)
+    void CParameters::set_objectives(string obj)
     {
         /*! Input: obj, a comma-separated list of objectives
          */
@@ -530,13 +530,13 @@ namespace FT{
         }
     }
     
-    void Parameters::set_verbosity(int verbosity)
+    void CParameters::set_verbosity(int verbosity)
     {
         this->verbosity = verbosity;
         logger.set_log_level(verbosity);
     }
 
-    void Parameters::set_classes(VectorXf& y)
+    void CParameters::set_classes(VectorXf& y)
     {
         classes.clear();
 
@@ -549,7 +549,7 @@ namespace FT{
             classes.push_back(int(c));
     }
 
-    void Parameters::set_sample_weights(VectorXf& y)
+    void CParameters::set_sample_weights(VectorXf& y)
     {
         // set class weights
         /* cout << "setting sample weights\n"; */

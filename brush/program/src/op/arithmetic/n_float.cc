@@ -29,13 +29,13 @@ namespace FT{
             #ifndef USE_CUDA 
             /// Evaluates the node and updates the state states. 
             template <class T>
-            void NodeFloat<T>::evaluate(const Data& data, State& state)
+            void NodeFloat<T>::evaluate(const CData& data, State& state)
             {
                 state.push<float>(state.pop<T>().template cast<float>());
             }
             #else
             template <class T>
-            void NodeFloat<T>::evaluate(const Data& data, State& state)
+            void NodeFloat<T>::evaluate(const CData& data, State& state)
             {
                 if(arity['b'])
                     GPU_Float(state.dev_f, state.dev_b, state.idx[otype], state.idx['b'], state.N);

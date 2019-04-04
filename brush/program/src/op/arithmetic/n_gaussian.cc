@@ -29,12 +29,12 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeGaussian::evaluate(const Data& data, State& state)
+            void NodeGaussian::evaluate(const CData& data, State& state)
             {
                 state.push<float>(limited(exp(-pow(W[0] - state.pop<float>(), 2))));
             }
             #else
-            void NodeGaussian::evaluate(const Data& data, State& state)
+            void NodeGaussian::evaluate(const CData& data, State& state)
             {
                 GPU_Gaussian(state.dev_f, state.idx[otype], state.N, W[0]);
             }

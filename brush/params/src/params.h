@@ -17,10 +17,10 @@ namespace FT{
 
     ////////////////////////////////////////////////////////////////////////////////// Declarations
     /*!
-     * @class Parameters
+     * @class CParameters
      * @brief holds the hyperparameters for Feat. 
      */
-    struct Parameters
+    struct CParameters
     {
         int pop_size;                   			///< population size
         int gens;                       			///< max generations
@@ -83,14 +83,14 @@ namespace FT{
         
         HC hc;                                      ///< stochastic hill climbing parameters       
         
-        Parameters(int pop_size, int gens, string ml, bool classification, int max_stall, 
-                   char ot, int verbosity, string fs, float cr, float root_xor, 
-                   unsigned int max_depth, unsigned int max_dim, bool constant, string obj, 
-                   bool sh, float sp, float fb, string sc, string fn, bool bckprp, 
-                   int iters, float lr, int bs, bool hclimb, int maxt, bool useb, bool res_xo, 
-                   bool stg_xo, bool sftmx);
+        CParameters(int pop_size, int gens, string ml, bool classification, 
+                    int max_stall, char ot, int verbosity, string fs, float cr,
+                    float root_xor, unsigned int max_depth, unsigned int max_dim,
+                    bool constant, string obj, bool sh, float sp, float fb, string sc,
+                    string fn, bool bckprp, int iters, float lr, int bs, bool hclimb,
+                    int maxt, bool useb, bool res_xo, bool stg_xo, bool sftmx);
         
-        ~Parameters();
+        ~CParameters();
         
         /*! checks initial parameter settings before training.
          *  make sure ml choice is valid for problem type.

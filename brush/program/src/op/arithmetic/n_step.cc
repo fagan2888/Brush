@@ -20,14 +20,14 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeStep::evaluate(const Data& data, State& state)
+            void NodeStep::evaluate(const CData& data, State& state)
             {
 	            ArrayXf x = state.pop<float>();
 	            ArrayXf res = (x > 0).select(ArrayXf::Ones(x.size()), ArrayXf::Zero(x.size())); 
                 state.push<float>(res);
             }
             #else
-            void NodeStep::evaluate(const Data& data, State& state)
+            void NodeStep::evaluate(const CData& data, State& state)
             {
                 GPU_Step(state.dev_f, state.idx[otype], state.N);
             }

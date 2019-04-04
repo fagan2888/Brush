@@ -32,7 +32,7 @@ namespace FT{
 
              #ifndef USE_CUDA
             template <class T>
-            void NodeSplit<T>::evaluate(const Data& data, State& state)
+            void NodeSplit<T>::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1;
                         
@@ -48,7 +48,7 @@ namespace FT{
             }
             #else
             template <class T>
-            void NodeSplit<T>::evaluate(const Data& data, State& state)
+            void NodeSplit<T>::evaluate(const CData& data, State& state)
             {
                 ArrayXf x1(state.N);
                 

@@ -26,7 +26,7 @@ namespace FT{
          */
         struct Population
         {
-            vector<Individual> individuals;     ///< individual programs
+            vector<CIndividual> individuals;     ///< individual programs
             vector<size_t> open_loc;            ///< unfilled matrix positions
             vector<size_t> locs;
             
@@ -38,7 +38,7 @@ namespace FT{
             ~Population();
             
             /// initialize population of programs. 
-            void init(const Individual& starting_model, const Parameters& params, bool random = false);
+            void init(const CIndividual& starting_model, const CParameters& params, bool random = false);
             
             /// update individual vector size 
             void resize(int pop_size, bool resize_locs=false);
@@ -56,12 +56,12 @@ namespace FT{
             void update_open_loc();
 
             /// adds a program to the population. 
-            void add(Individual&);
+            void add(CIndividual&);
             
             /// setting and getting from individuals vector
-            const Individual operator [](size_t i) const;
+            const CIndividual operator [](size_t i) const;
             
-            const Individual & operator [](size_t i);
+            const CIndividual & operator [](size_t i);
 
             /// return population equations. 
             string print_eqns(bool just_offspring=false, string sep="\n");

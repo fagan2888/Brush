@@ -22,14 +22,14 @@ namespace FT{
 
             #ifndef USE_CUDA
             /// Evaluates the node and updates the state states. 
-            void NodeIfThenElse::evaluate(const Data& data, State& state)
+            void NodeIfThenElse::evaluate(const CData& data, State& state)
             {
                 ArrayXf f1 = state.pop<float>();
                 ArrayXf f2 = state.pop<float>();
                 state.push<float>(limited(state.pop<bool>().select(f1,f2)));
             }
             #else
-            void NodeIfThenElse::evaluate(const Data& data, State& state)
+            void NodeIfThenElse::evaluate(const CData& data, State& state)
             {
                 GPU_IfThenElse(state.dev_f, state.dev_b, state.idx[otype], state.idx['b'], state.N);
             }
