@@ -7,10 +7,10 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = params.cc
 
-from Parameters cimport Parameters
+from brush.params cimport Parameters
 
 cdef class PyParams:
-    cdef Params params
+    cdef Parameters params
     
     def _cinit_(self, int pop_size, int gens, string ml, bool classification, int max_stall, 
                 char ot, int verbosity, string fs, float cr, float root_xor, 
@@ -52,7 +52,7 @@ cdef class PyParams:
         self.params.set_max_depth(max_depth)
     
     def set_max_dim(self, unsigned int max_dim):
-        self.params..set_max_dim(max_dim)
+        self.params.set_max_dim(max_dim)
     
     def set_terminals(self, int nf,
                       map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z):
