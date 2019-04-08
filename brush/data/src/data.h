@@ -59,10 +59,10 @@ namespace FT
         };
         
         /* !
-         * @class CDataRef
+         * @class CCVData
          * @brief Holds training and validation splits of data, with pointers to each.
          * */
-        class CDataRef
+        class CCVData
         {
             private:
                 bool oCreated;
@@ -83,31 +83,31 @@ namespace FT
                 CData *v = NULL;     //< pointer to validation data
                 CData *t = NULL;     //< pointer to training data
                 
-                CDataRef();
+                CCVData();
                 
-                ~CDataRef();
+                ~CCVData();
                 
         
-                CDataRef(MatrixXf& X, VectorXf& y, 
+                CCVData(MatrixXf& X, VectorXf& y, 
                                  std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > >& Z, 
                                  bool c=false);
                         
-                void setOriginalCData(MatrixXf& X, VectorXf& y, 
+                void setOriginalData(MatrixXf& X, VectorXf& y, 
                         std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z, bool c=false);
                 
-                void setOriginalCData(CData *d);
+                void setOriginalData(CData *d);
                 
-                void setTrainingCData(MatrixXf& X_t, VectorXf& y_t, 
+                void setTrainingData(MatrixXf& X_t, VectorXf& y_t, 
                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_t,
                                    bool c = false);
                 
-                void setTrainingCData(CData *d, bool toDelete = false);
+                void setTrainingData(CData *d, bool toDelete = false);
                 
-                void setValidationCData(MatrixXf& X_v, VectorXf& y_v, 
+                void setValidationData(MatrixXf& X_v, VectorXf& y_v, 
                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_v,
                                    bool c = false);
                 
-                void setValidationCData(CData *d);
+                void setValidationData(CData *d);
                 
                 /// shuffles original data
                 void shuffle_data();

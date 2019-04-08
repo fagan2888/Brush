@@ -52,14 +52,14 @@ namespace FT{
             }
         }
         
-        CDataRef::CDataRef()
+        CCVData::CCVData()
         {
             oCreated = false;
             tCreated = false;
             vCreated = false;
         }
      
-        CDataRef::CDataRef(MatrixXf& X, VectorXf& y, 
+        CCVData::CCVData(MatrixXf& X, VectorXf& y, 
                          std::map<string,std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z, bool c)
         {
             o = new CData(X, y, Z, c);
@@ -77,7 +77,7 @@ namespace FT{
             //train_test_split(params.shuffle, params.split);
         }
        
-        CDataRef::~CDataRef()
+        CCVData::~CCVData()
         {
             if(o != NULL && oCreated)
             {
@@ -98,7 +98,7 @@ namespace FT{
             }
         }
         
-        void CDataRef::setOriginalCData(MatrixXf& X, VectorXf& y, 
+        void CCVData::setOriginalData(MatrixXf& X, VectorXf& y, 
                                       std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z,
                                       bool c)
         {
@@ -114,7 +114,7 @@ namespace FT{
             classification = c;
         }
         
-        void CDataRef::setOriginalCData(CData *d)
+        void CCVData::setOriginalData(CData *d)
         {
             o = d;
             oCreated = false;
@@ -128,7 +128,7 @@ namespace FT{
             classification = d->classification;
         }
         
-        void CDataRef::setTrainingCData(MatrixXf& X_t, VectorXf& y_t, 
+        void CCVData::setTrainingData(MatrixXf& X_t, VectorXf& y_t, 
                                     std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_t,
                                     bool c)
         {
@@ -138,7 +138,7 @@ namespace FT{
             classification = c;
         }
         
-        void CDataRef::setTrainingCData(CData *d, bool toDelete)
+        void CCVData::setTrainingData(CData *d, bool toDelete)
         {
             t = d;
             if(!toDelete)
@@ -147,7 +147,7 @@ namespace FT{
                 tCreated = true;
         }
         
-        void CDataRef::setValidationCData(MatrixXf& X_v, VectorXf& y_v, 
+        void CCVData::setValidationData(MatrixXf& X_v, VectorXf& y_v, 
                                     std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_v,
                                     bool c)
         {
@@ -155,13 +155,13 @@ namespace FT{
             vCreated = true;
         }
         
-        void CDataRef::setValidationCData(CData *d)
+        void CCVData::setValidationData(CData *d)
         {
             v = d;
             vCreated = false;
         }
         
-        void CDataRef::shuffle_data()
+        void CCVData::shuffle_data()
         {
             Eigen::PermutationMatrix<Dynamic,Dynamic> perm(o->X.cols());
             perm.setIdentity();
@@ -186,7 +186,7 @@ namespace FT{
             }
         }
         
-        void CDataRef::split_stratified(float split)
+        void CCVData::split_stratified(float split)
         {
             logger.log("Stratify split called with initial data size as " + o->X.cols(), 3);
                             
@@ -263,7 +263,7 @@ namespace FT{
             
         }
      
-        void CDataRef::train_test_split(bool shuffle, float split)
+        void CCVData::train_test_split(bool shuffle, float split)
         {
             /* @param X: n_features x n_samples matrix of training data
              * @param y: n_samples vector of training labels
@@ -298,7 +298,7 @@ namespace FT{
 
         }  
         
-        void CDataRef::split_longitudinal(
+        void CCVData::split_longitudinal(
                                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z,
                                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_t,
                                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_v,
@@ -330,7 +330,7 @@ namespace FT{
             }
         }
         
-        /* void CDataRef::reorder_longitudinal(vector<ArrayXf> &vec1, vector<ArrayXf> &vec2, */
+        /* void CCVData::reorder_longitudinal(vector<ArrayXf> &vec1, vector<ArrayXf> &vec2, */
         /*                          vector<long> const &order) */
         /* { */   
         
@@ -351,7 +351,7 @@ namespace FT{
         /*     } */
         /* } */
         
-        void CDataRef::reorder_longitudinal(vector<ArrayXf> &vec1, const vector<int>& order)
+        void CCVData::reorder_longitudinal(vector<ArrayXf> &vec1, const vector<int>& order)
         {  
 			vector<int> index = order; 
 			// Fix all elements one by one 
