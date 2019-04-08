@@ -12,7 +12,7 @@ from libcpp.vector cimport vector
 from libcpp.string cimport string
 
 cdef extern from "rnd.h" namespace "FT::Util":
-    cdef cppclass Rnd:
+    cdef cppclass CRnd:
         
         @staticmethod
         Rnd* initRand()

@@ -7,21 +7,21 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = population.cc
 
-from Population cimport Population
+from brush.population.population cimport CPopulation
 
-cdef class PyPopulation:
-    cdef Population pop
+cdef class Population:
+    cdef CPopulation pop
 
     def __cinit__(self):
-        self.pop = Population()
+        self.pop = CPopulation()
 
     def __cinit__(self, int p):
-        self.pop = Population(p)
+        self.pop = CPopulation(p)
 
     cdef init(self, const Individual &starting_model,
               const Parameters &params,
               bool random):
-        self.pop.init(starting_model, params, random)
+        self.pop.init(starting_model.ind, params.params, random)
 
     def resize(self, int pop_size,
                bool resize_locs):
@@ -53,5 +53,4 @@ cdef class PyPopulation:
 
     def sorted_front(self, unsigned rank):
         return self.pop.sorted_front(rank)
-
-#TODO check with bill if sortcomplexity and samefitcomplexity need to be exposed or not
+        

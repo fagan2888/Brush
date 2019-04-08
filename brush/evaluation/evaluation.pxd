@@ -21,12 +21,12 @@ cdef extern from "evaluation.h" namespace "FT::Eval":
         void set_score(string)
 
         void fitness(vector[CIndividual] &,
-                     const Data &, 
+                     const CData &, 
                      MatrixXf &, 
-                     const Parameters &, 
+                     const CParameters &, 
                      bool,
                      bool)
           
         #TODO CLabels being used here need to remove
-        void assign_fit(CIndividual &, MatrixXf &, const shared_ptr[CLabels] &, 
-                        const VectorXf &, const Parameters &, bool)      
+        void assign_fit(CIndividual &, MatrixXf &, const VectorXf &, 
+                        const VectorXf &, const CParameters &, bool)      

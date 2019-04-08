@@ -11,16 +11,16 @@ from libcpp cimport bool
 from eigency.core cimport *
 
 cdef extern from "selection.h" namespace "FT::Sel":
-    cdef struct Selection:
+    cdef class CSelection:
 
-        Selection(string, bool) except +
+        CSelection(string, bool) except +
 
         string get_type()
 
-        vector[size_t] select(Population &,
+        vector[size_t] select(CPopulation &,
                               const MatrixXf &,
                               const CParameters &)
 
-        vector[size_t] survive(Population &,
+        vector[size_t] survive(CPopulation &,
                                const MatrixXf &,
                                const CParameters &)

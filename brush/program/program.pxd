@@ -10,20 +10,20 @@ from libcpp.string cimport string
 from libcpp cimport bool
 
 cdef extern from "nodevector.h" namespace "FT::Pop::Op":
-    cdef struct NodeVector:
+    cdef cppclass CNodeVector:
 
-        NodeVector() except +
+        CNodeVector() except +
             
-        NodeVector(const NodeVector &) except +
+        CNodeVector(const CNodeVector &) except +
         
         #TODO verify what this means
         NodeVector(NodeVector && other) except +
         
-        NodeVector& operator=(NodeVector const &)
+        CNodeVector& operator=(CNodeVector const &)
         
-        NodeVector& operator=(NodeVector &&)
+        CNodeVector& operator=(CNodeVector &&)
         
-        vector[Node*] get_data(int, int)
+        vector[CNode*] get_data(int, int)
 
         vector[size_t] roots() const;
 
@@ -35,11 +35,11 @@ cdef extern from "nodevector.h" namespace "FT::Pop::Op":
         
         bool is_valid_program(unsigned, vector[string])
 
-        void make_tree(const NodeVector &,  
-                       const NodeVector &, int,  
+        void make_tree(const CNodeVector &,  
+                       const CNodeVector &, int,  
                        const vector[float] &, char, const vector[char] &)
 
-        void make_program(const NodeVector & , 
-                          const NodeVector &, int, 
+        void make_program(const CNodeVector & , 
+                          const CNodeVector &, int, 
                           const vector[float] &, int, char, 
                           vector[string], const vector[char] &)

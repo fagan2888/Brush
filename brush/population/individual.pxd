@@ -18,15 +18,11 @@ cdef extern from "individual.h" namespace "FT::Pop":
     cdef cppclass CIndividual:
         CIndividual() except +
 
-        MatrixXf out(const Data &, const CParameters &, bool)
-
-        MatrixXf out_trace(const Data &,
-                           const CParameters &,
-                           vector[Trace] &)
+        MatrixXf out(const CData &, const CParameters &, bool)
                            
-        MatrixXf fit(const Data &, const CParameters &, bool &)
+        MatrixXf fit(const CData &, const CParameters &, bool &)
         
-        MatrixXf predict(const Data &, const CParameters &)
+        MatrixXf predict(const CData &, const CParameters &)
 
         string get_eqn()
 

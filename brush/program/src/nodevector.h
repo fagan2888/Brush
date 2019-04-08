@@ -20,7 +20,9 @@ namespace FT{
          * @class NodeVector
          * @brief an extension of a vector of unique pointers to nodes 
          */
-        struct NodeVector : public std::vector<std::unique_ptr<Node>> {
+        class NodeVector : public std::vector<std::unique_ptr<Node>>
+        {
+            public :
             
             NodeVector();
             

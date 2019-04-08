@@ -9,7 +9,8 @@ license: GNU/GPLv3
 
 from brush.evaluation.evaluation cimport CEvaluation
 from brush.population import Individual
-from ..data import Data
+from brush.params import Parameters
+from brush.data import Data
 
 cdef class Evaluation:
     cdef CEvaluation evalobj
@@ -26,11 +27,11 @@ cdef class Evaluation:
                  const Parameters &params, 
                  bool offspring,
                  bool validation):
-        self.evalobj.fitness(ind.ind,d,F,params,offspring,validation)  
+        self.evalobj.fitness(ind.ind,d.cdata,F,params.params,offspring,validation)  
 
     #TODO CLabels being used here need to remove
     def assign_fit(self, Individual &ind,
-                    MatrixXf &F, const shared_ptr[CLabels] &yhat, 
+                    MatrixXf &F, const VectorXf &yhat, 
                     const VectorXf &y, const Parameters &params, bool val):
         self.evalobj.assign_fit(ind.ind,F,yhat,y,params,val)
         return 0

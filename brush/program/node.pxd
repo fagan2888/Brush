@@ -12,10 +12,10 @@ from libcpp.memory cimport unique_ptr
 from eigency.core cimport *
 
 cdef extern from "node.h" namespace "FT::Pop::Op":
-    cdef struct Node:
+    cdef cppclass CNode:
 
-        Node() except +
+        CNode() except +
         
-        unique_ptr[Node] clone() const
+        unique_ptr[CNode] clone() const
                     
-        unique_ptr[Node] rnd_clone() const
+        unique_ptr[CNode] rnd_clone() const

@@ -7,13 +7,13 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = node.cc
 
-from Node cimport Node
+from brush.program.node cimport CNode
 
-cdef class PyNode:
-    cdef Node nodeobj
+cdef class Node:
+    cdef CNode nodeobj
     
     def __cinit__(self):
-        self.node = Node()
+        self.node = CNode()
     
     def clone(self) const:
         return self.node.clone()

@@ -13,13 +13,13 @@ from libcpp.string cimport string
 from libcpp cimport bool
 
 cdef extern from "population.h" namespace "FT::Pop":
-    cdef struct Population:
+    cdef cppclass CPopulation:
 
-        Population() except +
+        CPopulation() except +
 
-        Population(int) except +
+        CPopulation(int) except +
 
-        void init(const Individual &,
+        void init(const CIndividual &,
                   const CParameters &,
                   bool random)
 

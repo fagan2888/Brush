@@ -6,13 +6,13 @@ license: GNU/GPLv3
 
 # distutils: sources = variation.cc
 
-from Variation cimport Variation
+from brush.variation.variation cimport CVariation
 
-cdef class PyVariation:
-    cdef Variation vary_obj
+cdef class Variation:
+    cdef CVariation vary_obj
 
     def _cinit_(self, float cr):
-        self.vary_obj = Variation(cr)
+        self.vary_obj = CVariation(cr)
 
     def set_cross_rate(self, float cr):
         self.vary_obj.set_cross_rate(cr)
@@ -22,6 +22,6 @@ cdef class PyVariation:
 
     cdef vary(Population& pop,
               const vector[size_t]& parents,
-              const CParameters& params,
+              const Parameters& params,
               const Data& d):
-        self.vary_obj.vary(pop, parents, params, d)
+        self.vary_obj.vary(pop.pop, parents, params.params, d.cdata)

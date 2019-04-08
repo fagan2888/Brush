@@ -24,8 +24,10 @@ namespace FT{
          * @class Population
          * @brief Defines a population of programs and functions for constructing them. 
          */
-        struct Population
+        class Population
         {
+            public :
+            
             vector<CIndividual> individuals;     ///< individual programs
             vector<size_t> open_loc;            ///< unfilled matrix positions
             vector<size_t> locs;

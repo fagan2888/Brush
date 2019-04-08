@@ -15,21 +15,16 @@ cdef class Individual:
     def __cinit__(self):
         self.ind = CIndividual()
 
-    cdef out(self, const Data &d, const CParameters &params, bool predict):
-        return self.ind.out(d, params, predict)
-
-    cdef out_trace(self, const Data &d,
-                   const CParameters &params,
-                   vector[Trace] &stack_trace):
-        self.ind.out_trace(d, params, stack_trace)
+    cdef out(self, const Data &d, const Parameters &params, bool predict):
+        return self.ind.out(d.cdata, params.params, predict)
 
     cdef fit(self, const Data &d,
-             const CParameters &params, bool &pass_val):
-        return self.ind.fit(d, params, pass_val)
+             const Parameters &params, bool &pass_val):
+        return self.ind.fit(d.cdata, params.params, pass_val)
 
     cdef predict(self, const Data &d,
                  const CParameters &params):
-        return self.ind.predict(d, params)
+        return self.ind.predict(d.cdata, params.params)
 
     def get_eqn(self):
         return self.ind.get_eqn()
