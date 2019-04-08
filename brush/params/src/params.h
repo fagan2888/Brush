@@ -20,8 +20,9 @@ namespace FT{
      * @class CParameters
      * @brief holds the hyperparameters for Feat. 
      */
-    struct CParameters
+    class CParameters
     {
+        public:
         int pop_size;                   			///< population size
         int gens;                       			///< max generations
         int current_gen;                            ///< holds current generation

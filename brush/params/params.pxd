@@ -14,14 +14,9 @@ from libcpp.utility cimport pair
 from eigency.core cimport *
 
 cdef extern from "src/params.h" namespace "FT":
-    cdef struct CParameters:        
-        # CParameters() except +
-        # CParameters(int pop_size, int gens, string ml, bool classification, 
-        #         int max_stall, char ot, int verbosity, string fs, float cr, 
-        #         float root_xor, unsigned int max_depth, unsigned int max_dim, 
-        #         bool constant, string obj, bool sh, float sp, float fb, string sc, 
-        #         string fn, bool bckprp, int iters, float lr, int bs, bool hclimb, 
-        #         int maxt, bool useb, bool res_xo, bool stg_xo, bool sftmx) except +
+    cdef cppclass CParameters:    
+        CParameters() except +
+            
         CParameters(int pop_size, int gens, string ml, bool classification, 
                     int max_stall, char ot, int verbosity, string fs, float cr,
                     float root_xor, unsigned int max_depth, unsigned int max_dim,
@@ -29,12 +24,6 @@ cdef extern from "src/params.h" namespace "FT":
                     string fn, bool bckprp, int iters, float lr, int bs, bool hclimb,
                     int maxt, bool useb, bool res_xo, bool stg_xo, 
                     bool sftmx) except +
-        # (int, int, string, bool, int, 
-        #            char, int, string, float, float, 
-        #            unsigned int, unsigned int, bool, string, 
-        #            bool, float, float, string, string, bool, 
-        #            int, float, int, bool, int, bool, bool, 
-        #            bool, bool) except +
         
         void init()
       
