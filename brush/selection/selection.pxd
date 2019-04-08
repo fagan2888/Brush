@@ -10,9 +10,14 @@ from libcpp.string cimport string
 from libcpp cimport bool
 from eigency.core cimport *
 
-cdef extern from "selection.h" namespace "FT::Sel":
-    cdef class CSelection:
+from brush.population.population cimport CPopulation
+from brush.params.params cimport CParameters
 
+cdef extern from "selection.h" namespace "FT::Sel":
+    cdef cppclass CSelection:
+
+        CSelection() except +
+        
         CSelection(string, bool) except +
 
         string get_type()

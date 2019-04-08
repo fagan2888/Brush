@@ -10,13 +10,13 @@ license: GNU/GPLv3
 from brush.util.rnd cimport CRnd
 
 cdef class Rnd:
-    cdef CRnd r
+    cdef CRnd *r
 
     def __cinit__(self):
-        self.r = Rnd::initRand()
+        self.r = CRnd.initRand()
         
     def __dealloc__(self):
-        Rnd::destroy()
+        CRnd.destroy()
         
     def set_seed(self, int seed):
         self.r.set_seed(seed)

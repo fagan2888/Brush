@@ -9,8 +9,14 @@ license: GNU/GPLv3
 import ctypes
 from libcpp.vector cimport vector
 
+from brush.population.population cimport CPopulation
+from brush.params.params cimport CParameters
+from brush.data.data cimport CData
+
 cdef extern from "variation.h" namespace "FT::Vary":
     cdef cppclass CVariation:
+    
+        CVariation() except +
         CVariation(float) except +
 
         void set_cross_rate(float)

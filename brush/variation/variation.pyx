@@ -6,7 +6,13 @@ license: GNU/GPLv3
 
 # distutils: sources = variation.cc
 
+from libcpp.vector cimport vector
+
 from brush.variation.variation cimport CVariation
+from brush.population.population import Population
+from brush.params.params import Parameters
+from brush.data.data import Data
+
 
 cdef class Variation:
     cdef CVariation vary_obj
@@ -20,7 +26,7 @@ cdef class Variation:
     def get_cross_rate(self):
         return self.vary_obj.get_cross_rate()
 
-    cdef vary(Population& pop,
+    cdef vary(self, Population& pop,
               const vector[size_t]& parents,
               const Parameters& params,
               const Data& d):

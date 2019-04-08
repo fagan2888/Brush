@@ -13,11 +13,11 @@ cdef class Node:
     cdef CNode nodeobj
     
     def __cinit__(self):
-        self.node = CNode()
+        self.nodeobj = CNode()
     
-    def clone(self) const:
-        return self.node.clone()
+    def clone(self):
+        return self.nodeobj.clone()
         
-    def rnd_clone(self) const:
-        return self.node.clone()
+    def rnd_clone(self):
+        return self.nodeobj.clone()
         

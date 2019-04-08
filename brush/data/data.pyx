@@ -7,24 +7,35 @@ license: GNU/GPLv3
 from brush.data.data cimport CData
 from brush.data.data cimport CCVData
 
+import ctypes
+from libcpp.vector cimport vector
+from libcpp.string cimport string
+from libcpp cimport bool
+from libcpp.memory cimport unique_ptr
+from libcpp.map cimport map
+from libcpp.utility cimport pair
+from eigency.core cimport *
+
+
 cdef class Data:
     cdef CData cdata
     
-    cdef __cinit__(self, MatrixXf &X, VectorXf &y,
-                   std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> &Z,
+    #TODO consult Bill regarding this
+    cdef init(self, MatrixXf &X, VectorXf &y,
+                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z,
                    bool c):
         self.cdata = CData(X, y, Z, c)
 
-    def set_validation(bool v):
+    def set_validation(self, bool v):
         self.cdata.set_validation(v)
         
-    def get_batch(self, CData &db, int batch_size) const:
-        self.cdata.get_batch(db, batch_size)
+    def get_batch(self, Data db, int batch_size):
+        self.cdata.get_batch(db.cdata, batch_size)
         
 cdef class CVData:
     cdef CCVData cvdata
     
-    cdef __cinit__(self, MatrixXf & X, VectorXf& y, 
+    cdef init(self, MatrixXf & X, VectorXf& y, 
                    map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z, 
                    bool c):
         self.cvdata = CCVData(X, y, Z, c)
@@ -34,29 +45,29 @@ cdef class CVData:
                           bool c):
         self.cvdata.setOriginalData(X, y, Z, c)
     
-    cdef setOriginalData(self, Data d):
-        self.cvdata.setOriginalData(d.cdata)
+    def setOriginalDataFromObj(self, Data d):
+        self.cvdata.setOriginalData(&(d.cdata))
     
     cdef setTrainingData(self, MatrixXf& X_t, VectorXf& y_t, 
                          map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_t,
                          bool c):
         self.cvdata.setTrainingData(X_t, y_t, Z_t, c)
     
-    def setTrainingData(self, Data d, bool toDelete):
-        self.cvdata.setTrainingData(d.cdata, toDelete)
+    def setTrainingDataFromObj(self, Data d, bool toDelete):
+        self.cvdata.setTrainingData(&(d.cdata), toDelete)
     
     cdef setValidationData(self, MatrixXf& X_v, VectorXf& y_v, 
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_v,
-                            bool c):
+                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_v,
+                           bool c):
         self.cvdata.setValidationData(X_v, y_v, Z_v, c)
     
-    def setValidationData(self, Data d):
-        self.cvdata.setValidationData(d.cdata)
+    def setValidationDataFromObj(self, Data d):
+        self.cvdata.setValidationData(&(d.cdata))
     
     def shuffle_data(self):
         self.cvdata.shuffle_data()
     
-    def split_stratified(self, float split)
+    def split_stratified(self, float split):
         self.cvdata.split_stratified(split)
     
     def train_test_split(self, bool shuffle, float split):

@@ -7,13 +7,20 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = selection.cc
 
+from libcpp.vector cimport vector
+from libcpp.string cimport string
+from libcpp cimport bool
+from eigency.core cimport *
+
 from brush.selection.selection cimport CSelection
+from brush.population.population import Population
+from brush.params.params import Parameters
 
 cdef class Selection:
     cdef CSelection sel
 
     def __cinit__(self, string type, bool survivor):
-        self.sel = CSelection(string type, bool survivor)
+        self.sel = CSelection(type, survivor)
 
     def get_type(self):
         return self.sel.get_type()

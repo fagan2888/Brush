@@ -7,7 +7,12 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = individual.cc
 
-from brush.population cimport CIndividual
+from libcpp cimport bool
+from libcpp.vector cimport vector
+
+from brush.population.individual cimport CIndividual
+from brush.data.data import Data
+from brush.params.params import Parameters
 
 cdef class Individual:
     cdef CIndividual ind
@@ -23,7 +28,7 @@ cdef class Individual:
         return self.ind.fit(d.cdata, params.params, pass_val)
 
     cdef predict(self, const Data &d,
-                 const CParameters &params):
+                 const Parameters &params):
         return self.ind.predict(d.cdata, params.params)
 
     def get_eqn(self):
@@ -32,7 +37,7 @@ cdef class Individual:
     def get_features(self):
         return self.ind.get_features()
 
-    def program_str(self) const:
+    def program_str(self):
         return self.ind.program_str()
 
     def set_rank(self, unsigned r):
@@ -47,7 +52,7 @@ cdef class Individual:
     def complexity(self):
         return self.ind.complexity()
 
-    def get_complexity(self) const:
+    def get_complexity(self):
         return self.ind.get_complexity()
 
     def set_id(self, unsigned i):
@@ -59,13 +64,13 @@ cdef class Individual:
     cdef set_parents(self, const vector[int] &parents):
         self.ind.set_parents(parents)
 
-    def get_p(self) const:
+    def get_p(self):
         return self.ind.get_p()
 
-    def get_p(self, const size_t i, bool normalize) const:
-        return self.ind.get_pp(i, normalize)
+    def get_p(self, const size_t i, bool normalize):
+        return self.ind.get_p(i, normalize)
 
-    cdef get_p(self, const vector[size_t] &locs, bool normalize) const:
+    cdef get_p(self, const vector[size_t] &locs, bool normalize):
         return self.ind.get_p(locs, normalize)
 
     cdef set_p(self, const vector[float] &weights, const float &fb,

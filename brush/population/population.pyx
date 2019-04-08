@@ -7,7 +7,13 @@ license: GNU/GPLv3
 # distutils: language=c++
 # distutils: sources = population.cc
 
+from libcpp cimport bool
+from libcpp.vector cimport vector
+from libcpp.string cimport string
+
 from brush.population.population cimport CPopulation
+from brush.population.individual import Individual
+from brush.params.params import Parameters
 
 cdef class Population:
     cdef CPopulation pop
@@ -42,11 +48,9 @@ cdef class Population:
     cdef add(self, Individual &ind):
         self.pop.add(ind)
 
-    def operator [](self, size_t i) const:
-        return self.pop[i]
-
-    def operator [](size_t i):
-        return self.pop[i]
+    #TODO check how to do operator overloading
+    #cdef operator[](self, size_t i):
+    #    return self.pop[i]
 
     def print_eqns(self, bool just_offspring, string sep):
         return self.pop.print_eqns(just_offspring, sep)

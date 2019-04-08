@@ -66,7 +66,7 @@ cdef class Parameters:
     def set_max_dim(self, unsigned int max_dim):
         self.params.set_max_dim(max_dim)
     
-    def set_terminals(self, int nf,
+    cdef set_terminals(self, int nf,
                       map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z):
         self.params.set_terminals(nf, z)
 
@@ -85,8 +85,8 @@ cdef class Parameters:
     def set_otypes(self, bool terminals_set):
         self.params.set_otypes(terminals_set)
         
-    def set_classes(self, VectorXf& y):    
+    cdef set_classes(self, VectorXf& y):    
         self.params.set_classes(y)
             
-    def set_sample_weights(self, VectorXf& y):
+    cdef set_sample_weights(self, VectorXf& y):
         self.params.set_sample_weights(y)

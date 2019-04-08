@@ -10,11 +10,16 @@ from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 from libcpp cimport bool
 from eigency.core cimport *
-from ..population import Individual
-from brush.population cimport CIndividual
+
+
+from brush.population.individual cimport CIndividual
+from brush.data.data cimport CData
+from brush.params.params cimport CParameters
 
 cdef extern from "evaluation.h" namespace "FT::Eval":
     cdef cppclass CEvaluation:
+    
+        CEvaluation() except +
 
         CEvaluation(string) except +
                     

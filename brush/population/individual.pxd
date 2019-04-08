@@ -4,15 +4,15 @@ Copyright 2019 William La Cava
 license: GNU/GPLv3
 """
 
-# TODO check how inheritance works in cython
-# need to inherit selectionoperator class here
-
 import ctypes
 from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp.memory cimport shared_ptr
 from libcpp cimport bool
 from eigency.core cimport *
+
+from brush.data.data cimport CData
+from brush.params.params cimport CParameters
 
 cdef extern from "individual.h" namespace "FT::Pop":
     cdef cppclass CIndividual:
@@ -37,6 +37,8 @@ cdef extern from "individual.h" namespace "FT::Pop":
         unsigned int get_dim()
 
         unsigned int complexity()
+        
+        unsigned int get_complexity()
 
         void set_id(unsigned i);
 

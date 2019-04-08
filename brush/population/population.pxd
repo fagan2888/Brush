@@ -12,6 +12,9 @@ from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp cimport bool
 
+from brush.population.individual cimport CIndividual
+from brush.params.params cimport CParameters
+
 cdef extern from "population.h" namespace "FT::Pop":
     cdef cppclass CPopulation:
 
@@ -33,11 +36,11 @@ cdef extern from "population.h" namespace "FT::Pop":
 
         void update_open_loc()
 
-        void add(Individual &)
+        void add(CIndividual &)
 
-        const Individual operator [](size_t) const
+        const CIndividual operator [](size_t) const
 
-        const Individual & operator [](size_t)
+        const CIndividual & operator [](size_t)
 
         string print_eqns(bool, string)
 
