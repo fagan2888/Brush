@@ -27,11 +27,12 @@ env_params = os.environ.keys()
 
 # get path to Brush shared library for linking
 cwd = '/'.join(os.getcwd().split('/')[:-1])
-brush_lib = cwd + '/build/'
+brush_lib = cwd + '/brush/build/'
+
 exts = []
 # for n in ['data','evaluation','params','population','program','selection','util',
 #         'variation']:
-for n in ['params']:
+for n in ['node']:
     nfold = 'brush/'+n+'/'
     if n=='util':
         n = 'rnd'
@@ -48,13 +49,13 @@ for n in ['params']:
                                          '-Wno-reorder'],
                   library_dirs = [brush_lib], 
                   runtime_library_dirs = [brush_lib], 
-                  extra_link_args = [''],      
+                  extra_link_args = ['-lbrush'],      
                   language='c++'
                   ),
             )
 print('exts:',exts)
 setup(
-    name="_Brush",
+    name="Brush",
     author='William La Cava',
     author_email='williamlacava@gmail.com',
     url = 'https://epistasis.github.io/brush',
@@ -63,6 +64,6 @@ setup(
     description='A package for fast genetic programming',
     zip_safe=True,
     install_requires=['Numpy>=1.8.2','SciPy>=0.13.3','scikit-learn','Cython','pandas'],
-    py_modules=['',''],
-    ext_modules = cythonize(exts, language="c++")
+    ext_modules = cythonize(exts, language="c++"),
+    include_package_data=True
     )

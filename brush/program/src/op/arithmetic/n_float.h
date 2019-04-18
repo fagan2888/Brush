@@ -12,7 +12,7 @@ namespace FT{
     namespace Pop{
         namespace Op{
             template <class T>
-	        class NodeFloat : public Node
+	        class NodeFloat : public CNode
             {
             	public:
             	

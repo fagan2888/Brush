@@ -22,7 +22,7 @@ namespace FT{
 
         //struct CIndividual;  // forward declarations
         //struct CParameters;
-        //struct Population;
+        //struct CPopulation;
         //Rnd r;
         ////////////////////////////////////////////////////////////////////////////////// Declarations
         /*!
@@ -48,8 +48,8 @@ namespace FT{
                  /// destructor
                 ~CVariation();
 
-                /// method to handle variation of population
-                void vary(Population& pop, const vector<size_t>& parents, const CParameters& params,
+                /// method to handle variation of CPopulation
+                void vary(CPopulation& pop, const vector<size_t>& parents, const CParameters& params,
                           const CData& d);
                 
             private:
@@ -75,7 +75,7 @@ namespace FT{
                 float cross_rate;     ///< fraction of crossover in total variation
         };
 
-        std::unique_ptr<Node> random_node(const NodeVector & v);
+        std::unique_ptr<CNode> random_node(const NodeVector & v);
     }
 }
 #endif

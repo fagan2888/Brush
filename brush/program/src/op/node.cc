@@ -8,7 +8,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-            Node::Node()
+            CNode::CNode()
             {
                 arity['f'] = 0;
                 arity['b'] = 0;
@@ -16,7 +16,7 @@ namespace FT{
                 arity['z'] = 0;
             }
             
-            unsigned int Node::total_arity()
+            unsigned int CNode::total_arity()
             {
                 if(arity.find('f') == arity.end())
                     arity['f'] = 0;
@@ -33,8 +33,8 @@ namespace FT{
                 return arity['f'] + arity['b'] + arity['c'] + arity['z'];
             }
 
-            /// limits node output to be between MIN_FLT and MAX_FLT
-            ArrayXf Node::limited(ArrayXf x)
+            /// limits CNode output to be between MIN_FLT and MAX_FLT
+            ArrayXf CNode::limited(ArrayXf x)
             {
                 x = (isnan(x)).select(0,x);
                 x = (x < MIN_FLT).select(MIN_FLT,x);
@@ -42,14 +42,14 @@ namespace FT{
                 return x;
             };
 
-            /// evaluates complexity of this node in the context of its child nodes.
-            void Node::eval_complexity(map<char, vector<unsigned int>>& cstate)
+            /// evaluates complexity of this CNode in the context of its child CNodes.
+            void CNode::eval_complexity(map<char, vector<unsigned int>>& cstate)
             {
-                /*! Complexity of a node \f$ n \f$ with \f$ k \f$ arguments is defined as 
+                /*! Complexity of a CNode \f$ n \f$ with \f$ k \f$ arguments is defined as 
                  *  
                  *  \f$ C(n) = c_n * (\sum_{a=1}^k C(a)) \f$
                  *
-                 *  The complexity of a program is the complexity of its root/head node. 
+                 *  The complexity of a program is the complexity of its root/head CNode. 
                  */              
                 int c_args=1;                         // sum complexity of the arguments 
                 for (const auto& a: arity)
@@ -65,14 +65,14 @@ namespace FT{
                
             }
 
-            /// evaluates complexity of this node in the context of its child nodes.
-            void Node::eval_complexity_db(map<char, vector<string>>& cstate)
+            /// evaluates complexity of this CNode in the context of its child CNodes.
+            void CNode::eval_complexity_db(map<char, vector<string>>& cstate)
             {
-                /*! Complexity of a node \f$ n \f$ with \f$ k \f$ arguments is defined as 
+                /*! Complexity of a CNode \f$ n \f$ with \f$ k \f$ arguments is defined as 
                  *  
                  *  \f$ C(n) = c_n * (\sum_{a=1}^k C(a)) \f$
                  *
-                 *  The complexity of a program is the complexity of its root/head node. 
+                 *  The complexity of a program is the complexity of its root/head CNode. 
                  */              
                 string c_args="1";                         // sum complexity of the arguments 
                 if (total_arity() ==0)
@@ -91,11 +91,11 @@ namespace FT{
                 }
             }
 
-            /// makes a unique copy of this node
-            std::unique_ptr<Node> Node::clone() const { return std::unique_ptr<Node>(clone_impl()); }
+            /// makes a unique copy of this CNode
+            std::unique_ptr<CNode> CNode::clone() const { return std::unique_ptr<CNode>(clone_impl()); }
 
-            /// makes a randomized unique copy ofnode
-            std::unique_ptr<Node> Node::rnd_clone() const {return std::unique_ptr<Node>(rnd_clone_impl());}
+            /// makes a randomized unique copy ofCNode
+            std::unique_ptr<CNode> CNode::rnd_clone() const {return std::unique_ptr<CNode>(rnd_clone_impl());}
         }
     }
 }

@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeXor : public Node
+        	class NodeXor : public CNode
             {
             	public:
             	

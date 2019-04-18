@@ -13,13 +13,13 @@ namespace FT{
         
         Offspring::~Offspring(){}
            
-        vector<size_t> Offspring::survive(Population& pop,
+        vector<size_t> Offspring::survive(CPopulation& pop,
                                           const MatrixXf& F, 
                                           const CParameters& params)
         {
             /* Selects the offspring for survival. 
              *
-             * @param pop: population of programs, parents + offspring.
+             * @param pop: CPopulation of programs, parents + offspring.
              * @param F: n_samples x 2 * popsize matrix of program behaviors. 
              * @param params: parameters.
              *

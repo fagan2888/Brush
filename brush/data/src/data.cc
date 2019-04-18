@@ -15,9 +15,16 @@ namespace FT{
     using namespace Util;
     
     namespace Dat{
-
-        CData::CData(MatrixXf& X, VectorXf& y, std::map<string, std::pair<vector<ArrayXf>, 
-                        vector<ArrayXf>>>& Z, bool c): X(X), y(y), Z(Z), classification(c) 
+		
+		CData::CData()
+		{
+			X = NULL;
+			y = NULL;
+			Z = NULL;
+		}
+		
+        CData::CData(MatrixXf *X, VectorXf *y, std::map<string, std::pair<vector<ArrayXf>, 
+                        vector<ArrayXf>>> *Z, bool c): X(X), y(y), Z(Z), classification(c) 
         {
             validation=false;
         }
@@ -27,27 +34,27 @@ namespace FT{
         void CData::get_batch(CData &db, int batch_size) const
         {
 
-            batch_size =  std::min(batch_size,int(y.size()));
-            vector<size_t> idx(y.size());
+            batch_size =  std::min(batch_size,int(y->size()));
+            vector<size_t> idx(y->size());
             std::iota(idx.begin(), idx.end(), 0);
     //        r.shuffle(idx.begin(), idx.end());
-            db.X.resize(X.rows(),batch_size);
-            db.y.resize(batch_size);
-            for (const auto& val: Z )
+            db.X->resize(X->rows(),batch_size);
+            db.y->resize(batch_size);
+            for (const auto& val: *Z )
             {
-                db.Z[val.first].first.resize(batch_size);
-                db.Z[val.first].second.resize(batch_size);
+                db.Z->operator[](val.first).first.resize(batch_size);
+                db.Z->operator[](val.first).second.resize(batch_size);
             }
             for (unsigned i = 0; i<batch_size; ++i)
             {
                
-               db.X.col(i) = X.col(idx.at(i)); 
-               db.y(i) = y(idx.at(i)); 
+               db.X->col(i) = X->col(idx.at(i)); 
+               db.y->operator()(i) = y->operator()(idx.at(i)); 
 
-               for (const auto& val: Z )
+               for (const auto& val: *Z )
                {
-                    db.Z[val.first].first.at(i) = Z.at(val.first).first.at(idx.at(i));
-                    db.Z[val.first].second.at(i) = Z.at(val.first).second.at(idx.at(i));
+                    db.Z->operator[](val.first).first.at(i) = Z->at(val.first).first.at(idx.at(i));
+                    db.Z->operator[](val.first).second.at(i) = Z->at(val.first).second.at(idx.at(i));
                }
             }
         }
@@ -59,16 +66,16 @@ namespace FT{
             vCreated = false;
         }
      
-        CCVData::CCVData(MatrixXf& X, VectorXf& y, 
-                         std::map<string,std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z, bool c)
+        CCVData::CCVData(MatrixXf *X, VectorXf *y, 
+                         std::map<string,std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z, bool c)
         {
             o = new CData(X, y, Z, c);
             oCreated = true;
             
-            t = new CData(X_t, y_t, Z_t, c);
+            t = new CData(&X_t, &y_t, &Z_t, c);
             tCreated = true;
             
-            v = new CData(X_v, y_v, Z_v, c);
+            v = new CData(&X_v, &y_v, &Z_v, c);
             vCreated = true;
             
             classification = c;
@@ -98,17 +105,17 @@ namespace FT{
             }
         }
         
-        void CCVData::setOriginalData(MatrixXf& X, VectorXf& y, 
-                                      std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z,
+        void CCVData::setOriginalData(MatrixXf *X, VectorXf *y, 
+                                      std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z,
                                       bool c)
         {
             o = new CData(X, y, Z, c);
             oCreated = true;
             
-            t = new CData(X_t, y_t, Z_t, c);
+            t = new CData(&X_t, &y_t, &Z_t, c);
             tCreated = true;
             
-            v = new CData(X_v, y_v, Z_v, c);
+            v = new CData(&X_v, &y_v, &Z_v, c);
             vCreated = true;
             
             classification = c;
@@ -119,17 +126,17 @@ namespace FT{
             o = d;
             oCreated = false;
             
-            t = new CData(X_t, y_t, Z_t, d->classification);
+            t = new CData(&X_t, &y_t, &Z_t, d->classification);
             tCreated = true;
             
-            v = new CData(X_v, y_v, Z_v, d->classification);
+            v = new CData(&X_v, &y_v, &Z_v, d->classification);
             vCreated = true;
             
             classification = d->classification;
         }
         
-        void CCVData::setTrainingData(MatrixXf& X_t, VectorXf& y_t, 
-                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_t,
+        void CCVData::setTrainingData(MatrixXf *X_t, VectorXf *y_t, 
+                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z_t,
                                     bool c)
         {
             t = new CData(X_t, y_t, Z_t, c);
@@ -147,8 +154,8 @@ namespace FT{
                 tCreated = true;
         }
         
-        void CCVData::setValidationData(MatrixXf& X_v, VectorXf& y_v, 
-                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_v,
+        void CCVData::setValidationData(MatrixXf *X_v, VectorXf *y_v, 
+                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z_v,
                                     bool c)
         {
             v = new CData(X_v, y_v, Z_v, c);
@@ -163,22 +170,22 @@ namespace FT{
         
         void CCVData::shuffle_data()
         {
-            Eigen::PermutationMatrix<Dynamic,Dynamic> perm(o->X.cols());
+            Eigen::PermutationMatrix<Dynamic,Dynamic> perm(o->X->cols());
             perm.setIdentity();
             r.shuffle(perm.indices().data(), perm.indices().data()+perm.indices().size());
-            o->X = o->X * perm;       // shuffles columns of X
-            o->y = (o->y.transpose() * perm).transpose() ;       // shuffle y too
+            (*(o->X)) = (*(o->X)) * perm;       // shuffles columns of X
+            (*(o->y)) = (o->y->transpose() * perm).transpose() ;       // shuffle y too
             
-            if(o->Z.size() > 0)
+            if(o->Z->size() > 0)
             {
-                std::vector<int> zidx(o->y.size());
+                std::vector<int> zidx(o->y->size());
                 std::iota(zidx.begin(), zidx.end(), 0);
                 VectorXi zw = Map<VectorXi>(zidx.data(), zidx.size());
                 // shuffle z indices 
                 zw = (zw.transpose()*perm).transpose();       
                 // assign shuffled zw to zidx
                 zidx.assign(zw.data(), zw.data() + zw.size());
-                for(auto &val : o->Z)
+                for(auto &val : (*(o->Z)))
 				{
                     reorder_longitudinal(val.second.first, zidx);
                     reorder_longitudinal(val.second.second, zidx);
@@ -188,13 +195,13 @@ namespace FT{
         
         void CCVData::split_stratified(float split)
         {
-            logger.log("Stratify split called with initial data size as " + o->X.cols(), 3);
+            logger.log("Stratify split called with initial data size as " + o->X->cols(), 3);
                             
             std::map<float, vector<int>> label_indices;
                 
             //getting indices for all labels
-            for(int x = 0; x < o->y.size(); x++)
-                label_indices[o->y[x]].push_back(x);
+            for(int x = 0; x < o->y->size(); x++)
+                label_indices[o->y->operator[](x)].push_back(x);
                     
             std::map<float, vector<int>>::iterator it = label_indices.begin();
             
@@ -221,8 +228,8 @@ namespace FT{
                 
             }
             
-            X_t.resize(o->X.rows(), t_indices.size());
-            X_v.resize(o->X.rows(), v_indices.size());
+            X_t.resize(o->X->rows(), t_indices.size());
+            X_v.resize(o->X->rows(), v_indices.size());
             y_t.resize(t_indices.size());
             y_v.resize(v_indices.size());
             
@@ -230,15 +237,15 @@ namespace FT{
             
             for(int x = 0; x < t_indices.size(); x++)
             {
-                t->X.col(x) = o->X.col(t_indices[x]);
-                t->y[x] = o->y[t_indices[x]];
+                t->X->col(x) = o->X->col(t_indices[x]);
+                t->y->operator[](x) = o->y->operator[](t_indices[x]);
                 
-                if(o->Z.size() > 0)
+                if(o->Z->size() > 0)
                 {
-                    for(auto const &val : o->Z)
+                    for(auto const &val : (*(o->Z)))
                     {
-                        t->Z[val.first].first.push_back(val.second.first[t_indices[x]]);
-                        t->Z[val.first].second.push_back(val.second.second[t_indices[x]]);
+                        t->Z->operator[](val.first).first.push_back(val.second.first[t_indices[x]]);
+                        t->Z->operator[](val.first).second.push_back(val.second.second[t_indices[x]]);
                     }
                 }
             }
@@ -247,15 +254,15 @@ namespace FT{
             
             for(int x = 0; x < v_indices.size(); x++)
             {
-                v->X.col(x) = o->X.col(v_indices[x]);
-                v->y[x] = o->y[v_indices[x]];
+                v->X->col(x) = o->X->col(v_indices[x]);
+                v->y->operator[](x) = o->y->operator[](v_indices[x]);
                 
-                if(o->Z.size() > 0)
+                if(o->Z->size() > 0)
                 {
-                    for(auto const &val : o->Z)
+                    for(auto const &val : (*(o->Z)))
                     {
-                        v->Z[val.first].first.push_back(val.second.first[t_indices[x]]);
-                        v->Z[val.first].second.push_back(val.second.second[t_indices[x]]);
+                        v->Z->operator[](val.first).first.push_back(val.second.first[t_indices[x]]);
+                        v->Z->operator[](val.first).second.push_back(val.second.second[t_indices[x]]);
                     }
                 }
             }
@@ -280,53 +287,53 @@ namespace FT{
             else
             {        
                 // resize training and test sets
-                X_t.resize(o->X.rows(),int(o->X.cols()*split));
-                X_v.resize(o->X.rows(),int(o->X.cols()*(1-split)));
-                y_t.resize(int(o->y.size()*split));
-                y_v.resize(int(o->y.size()*(1-split)));
+                X_t.resize(o->X->rows(),int(o->X->cols()*split));
+                X_v.resize(o->X->rows(),int(o->X->cols()*(1-split)));
+                y_t.resize(int(o->y->size()*split));
+                y_v.resize(int(o->y->size()*(1-split)));
                 
                 // map training and test sets  
-                t->X = MatrixXf::Map(o->X.data(),t->X.rows(),t->X.cols());
-                v->X = MatrixXf::Map(o->X.data()+t->X.rows()*t->X.cols(),
-                                           v->X.rows(),v->X.cols());
+                (*(t->X)) = MatrixXf::Map(o->X->data(),t->X->rows(),t->X->cols());
+                (*(v->X)) = MatrixXf::Map(o->X->data()+t->X->rows()*t->X->cols(),
+                                           v->X->rows(),v->X->cols());
 
-                t->y = VectorXf::Map(o->y.data(),t->y.size());
-                v->y = VectorXf::Map(o->y.data()+t->y.size(),v->y.size());
-                if(o->Z.size() > 0)
+                (*(t->y)) = VectorXf::Map(o->y->data(),t->y->size());
+                (*(v->y)) = VectorXf::Map(o->y->data()+t->y->size(),v->y->size());
+                if(o->Z->size() > 0)
                     split_longitudinal(o->Z, t->Z, v->Z, split);
             }
 
         }  
         
         void CCVData::split_longitudinal(
-                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z,
-                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_t,
-                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_v,
+                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z,
+                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z_t,
+                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z_v,
                                 float split)
         {
         
             int size;
-            for ( const auto val: Z )
+            for ( const auto val: (*Z) )
             {
-                size = Z[val.first].first.size();
+                size = Z->operator[](val.first).first.size();
                 break;
             }
             
             int testSize = int(size*split);
             int validateSize = int(size*(1-split));
                 
-            for ( const auto &val: Z )
+            for ( const auto &val: (*Z) )
             {
                 vector<ArrayXf> _Z_t_v, _Z_t_t, _Z_v_v, _Z_v_t;
-                _Z_t_v.assign(Z[val.first].first.begin(), Z[val.first].first.begin()+testSize);
-                _Z_t_t.assign(Z[val.first].second.begin(), Z[val.first].second.begin()+testSize);
-                _Z_v_v.assign(Z[val.first].first.begin()+testSize, 
-                              Z[val.first].first.begin()+testSize+validateSize);
-                _Z_v_t.assign(Z[val.first].second.begin()+testSize, 
-                              Z[val.first].second.begin()+testSize+validateSize);
+                _Z_t_v.assign(Z->operator[](val.first).first.begin(), Z->operator[](val.first).first.begin()+testSize);
+                _Z_t_t.assign(Z->operator[](val.first).second.begin(), Z->operator[](val.first).second.begin()+testSize);
+                _Z_v_v.assign(Z->operator[](val.first).first.begin()+testSize, 
+                              Z->operator[](val.first).first.begin()+testSize+validateSize);
+                _Z_v_t.assign(Z->operator[](val.first).second.begin()+testSize, 
+                              Z->operator[](val.first).second.begin()+testSize+validateSize);
                 
-                Z_t[val.first] = make_pair(_Z_t_v, _Z_t_t);
-                Z_v[val.first] = make_pair(_Z_v_v, _Z_v_t);
+                Z_t->operator[](val.first) = make_pair(_Z_t_v, _Z_t_t);
+                Z_v->operator[](val.first) = make_pair(_Z_v_v, _Z_v_t);
             }
         }
         

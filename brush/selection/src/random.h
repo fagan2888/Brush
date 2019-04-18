@@ -22,10 +22,10 @@ namespace FT{
             
             ~Random();
            
-            vector<size_t> select(Population& pop, const MatrixXf& F, const CParameters& params);
-            vector<size_t> survive(Population& pop, const MatrixXf& F, const CParameters& params);
+            vector<size_t> select(CPopulation& pop, const MatrixXf& F, const CParameters& params);
+            vector<size_t> survive(CPopulation& pop, const MatrixXf& F, const CParameters& params);
             /// replaces worst individual in selected with best individual in Pop.
-            void enforce_elite(Population& pop, vector<size_t>& selected);
+            void enforce_elite(CPopulation& pop, vector<size_t>& selected);
             bool elitism;       //< whether or not to keep the best individual.
 
         };

@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeKurtosis : public Node
+        	class NodeKurtosis : public CNode
             {
             	public:
             	

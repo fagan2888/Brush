@@ -13,11 +13,11 @@ namespace FT{
         
         SimAnneal::~SimAnneal(){}
            
-        vector<size_t> SimAnneal::select(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> SimAnneal::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selects parents for making offspring.  
              *
-             * @param pop: population of programs, all potential parents
+             * @param pop: CPopulation of programs, all potential parents
              * * @param F: n_samples x 2 * popsize matrix of program behaviors. 
              * @param params: parameters.
              *
@@ -32,7 +32,7 @@ namespace FT{
             return all_idx;
         }
 
-        vector<size_t> SimAnneal::survive(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> SimAnneal::survive(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selects the offspring for survival using simulated annealing.
              *
@@ -43,7 +43,7 @@ namespace FT{
              *
              * where t is the temperature. 
              *
-             * @param pop: population of programs, parents + offspring.
+             * @param pop: CPopulation of programs, parents + offspring.
              * @param F: n_samples x 2 * popsize matrix of program behaviors. 
              * @param params: parameters.
              *

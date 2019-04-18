@@ -22,7 +22,7 @@ namespace FT{
             
             ~Offspring();
            
-            vector<size_t> survive(Population& pop, const MatrixXf& F, const CParameters& params);
+            vector<size_t> survive(CPopulation& pop, const MatrixXf& F, const CParameters& params);
 
             bool elitism;       //< whether or not to keep the best individual.
 

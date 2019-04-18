@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeMax : public Node
+        	class NodeMax : public CNode
             {
             	public:
             	

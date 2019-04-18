@@ -12,9 +12,9 @@ namespace FT{
         
         int last; 
 
-        Population::Population(){}
+        CPopulation::CPopulation(){}
         
-        Population::Population(int p)
+        CPopulation::CPopulation(int p)
         {
             individuals.resize(p); 
             locs.resize(2*p); 
@@ -26,10 +26,10 @@ namespace FT{
            }
         }
         
-        Population::~Population(){}
+        CPopulation::~CPopulation(){}
         
         /// update individual vector size 
-        void Population::resize(int pop_size, bool resize_locs)
+        void CPopulation::resize(int pop_size, bool resize_locs)
         {	
             individuals.resize(pop_size); 
             if (resize_locs)        // if this is an initial pop size, locs should be resized
@@ -39,19 +39,19 @@ namespace FT{
             }
         }
         
-        /// returns population size
-        int Population::size(){ return individuals.size(); }
+        /// returns CPopulation size
+        int CPopulation::size(){ return individuals.size(); }
 
-        const CIndividual Population::operator [](size_t i) const {return individuals.at(i);}
+        const CIndividual CPopulation::operator [](size_t i) const {return individuals.at(i);}
         
-        const CIndividual & Population::operator [](size_t i) {return individuals.at(i);}
+        const CIndividual & CPopulation::operator [](size_t i) {return individuals.at(i);}
 
 
-        void Population::init(const CIndividual& starting_model, const CParameters& params,
+        void CPopulation::init(const CIndividual& starting_model, const CParameters& params,
                               bool random)
         {
             /*!
-             *create random programs in the population, seeded by initial model weights 
+             *create random programs in the CPopulation, seeded by initial model weights 
              */
             individuals[0] = starting_model;
             individuals[0].loc = 0;
@@ -84,11 +84,11 @@ namespace FT{
             update_open_loc(); 
         }
        
-       void Population::update(vector<size_t> survivors)
+       void CPopulation::update(vector<size_t> survivors)
        {
 
            /*!
-            * cull population down to survivor indices.
+            * cull CPopulation down to survivor indices.
             */
            vector<size_t> pop_idx(individuals.size());
            std::iota(pop_idx.begin(),pop_idx.end(),0);
@@ -106,7 +106,7 @@ namespace FT{
        
        }
 
-       size_t Population::get_open_loc()
+       size_t CPopulation::get_open_loc()
        {
            /*!
             * grabs an open location and removes it from the vector.
@@ -115,7 +115,7 @@ namespace FT{
            return loc;
        }
 
-       void Population::update_open_loc()
+       void CPopulation::update_open_loc()
        {
            /*!
             * updates open_loc to any locations in [0, 2*popsize-1] not in individuals.loc
@@ -134,7 +134,7 @@ namespace FT{
             //for (auto o: open_loc) std::cout << o << " "; std::cout << "\n";
        }
 
-       void Population::add(CIndividual& ind)
+       void CPopulation::add(CIndividual& ind)
        {
            /*!
             * adds ind to individuals, giving it an open location and bookeeping.
@@ -144,7 +144,7 @@ namespace FT{
            individuals.push_back(ind);
        }
 
-       string Population::print_eqns(bool just_offspring, string sep)
+       string CPopulation::print_eqns(bool just_offspring, string sep)
        {
            string output = "";
            int start = 0;
@@ -158,7 +158,7 @@ namespace FT{
            return output;
        }
 
-        vector<size_t> Population::sorted_front(unsigned rank=1)
+        vector<size_t> CPopulation::sorted_front(unsigned rank=1)
         {
             /* Returns individuals on the Pareto front, sorted by increasign complexity. */
             vector<size_t> pf;
@@ -171,6 +171,11 @@ namespace FT{
             auto it = std::unique(pf.begin(),pf.end(),SameFitComplexity(*this));
             pf.resize(std::distance(pf.begin(),it));
             return pf;
+        }
+        
+        vector<CIndividual>& CPopulation::get_individuals()
+        {
+        	return individuals;
         }
         
     }

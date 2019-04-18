@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeEqual : public Node
+        	class NodeEqual : public CNode
             {
             	public:
             	   	

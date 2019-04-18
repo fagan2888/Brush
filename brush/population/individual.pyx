@@ -11,8 +11,8 @@ from libcpp cimport bool
 from libcpp.vector cimport vector
 
 from brush.population.individual cimport CIndividual
-from brush.data.data import Data
-from brush.params.params import Parameters
+from brush.data.data cimport Data
+from brush.params.params cimport Parameters
 
 cdef class Individual:
     cdef CIndividual ind

@@ -14,11 +14,11 @@ namespace FT{
         
         Lexicase::~Lexicase(){}
         
-        vector<size_t> Lexicase::select(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> Lexicase::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /*! Selection according to lexicase selection for classification and epsilon-lexicase
              * selection for regression. 
-             * @param pop: population
+             * @param pop: CPopulation
              * @param F: n_samples X popsize matrix of model outputs. 
              * @param params: parameters.
              *
@@ -149,7 +149,7 @@ namespace FT{
             return selected;
         }
 
-        vector<size_t> Lexicase::survive(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> Lexicase::survive(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Lexicase survival */
         }

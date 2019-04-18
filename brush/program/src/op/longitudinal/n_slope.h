@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-	        class NodeSlope : public Node
+	        class NodeSlope : public CNode
             {
             	public:
             	

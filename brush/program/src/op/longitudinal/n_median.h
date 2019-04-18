@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeMedian : public Node
+        	class NodeMedian : public CNode
             {
             	public:
             	

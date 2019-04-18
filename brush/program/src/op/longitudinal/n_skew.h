@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeSkew : public Node
+        	class NodeSkew : public CNode
             {
             	public:
             	

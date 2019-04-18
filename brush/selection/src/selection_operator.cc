@@ -11,12 +11,12 @@ namespace FT{
 
         SelectionOperator::~SelectionOperator(){}
         
-        vector<size_t> SelectionOperator::select(Population& pop, const MatrixXf& F, const CParameters& p) 
+        vector<size_t> SelectionOperator::select(CPopulation& pop, const MatrixXf& F, const CParameters& p) 
         {   
             HANDLE_ERROR_THROW("Undefined select() operation");
         }
         
-        vector<size_t> SelectionOperator::survive(Population& pop, const MatrixXf& F, const CParameters& p)
+        vector<size_t> SelectionOperator::survive(CPopulation& pop, const MatrixXf& F, const CParameters& p)
         {
             HANDLE_ERROR_THROW("Undefined select() operation");
         }

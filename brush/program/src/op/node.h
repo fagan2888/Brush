@@ -2,8 +2,8 @@
 copyright 2017 William La Cava
 license: GNU/GPL v3
 */
-#ifndef NODE_H
-#define NODE_H
+#ifndef CNode_H
+#define CNode_H
 
 #include <map>
 #include <memory>
@@ -46,53 +46,53 @@ namespace FT{
         namespace Op{
             //////////////////////////////////////////////////////////////////////////////// Declarations
              /*!
-             * @class Node
-             * @brief Represents nodes in a program.
+             * @class CNode
+             * @brief Represents CNodes in a program.
              */
-            class Node
+            class CNode
             {       
                 public:
-                    string name;              				///< node type
+                    string name;              				///< CNode type
                     char otype;             				///< output type
                     std::map<char, unsigned int> arity;		///< floating arity of the operator 
-                    int complexity;         ///< complexity of node
+                    int complexity;         ///< complexity of CNode
                     int visits = 0;
                     
-                    Node();
+                    CNode();
 
-                    virtual ~Node(){}
+                    virtual ~CNode(){}
                    
-                    /// Evaluates the node and updates the state states. 
+                    /// Evaluates the CNode and updates the state states. 
                     virtual void evaluate(const CData& data, State& state) = 0; 
 
-                    /// evaluates the node symbolically
+                    /// evaluates the CNode symbolically
                     virtual void eval_eqn(State& state) = 0;
 
                     // total arity
                     unsigned int total_arity();
 
-                    /// limits node output to be between MIN_FLT and MAX_FLT
+                    /// limits CNode output to be between MIN_FLT and MAX_FLT
                     ArrayXf limited(ArrayXf x);
 
-                    /// evaluates complexity of this node in the context of its child nodes.
+                    /// evaluates complexity of this CNode in the context of its child CNodes.
                     void eval_complexity(map<char, vector<unsigned int>>& cstate);
                     
-                    /// evaluates complexity of this node in the context of its child nodes.
+                    /// evaluates complexity of this CNode in the context of its child CNodes.
                     void eval_complexity_db(map<char, vector<string>>& cstate);
 
-                    /// check of node type
+                    /// check of CNode type
                     virtual bool isNodeDx() {return false;};
                     virtual bool isNodeTrain() {return false;};
 
-                    /// makes a unique copy of this node
-                    std::unique_ptr<Node> clone() const;
+                    /// makes a unique copy of this CNode
+                    std::unique_ptr<CNode> clone() const;
                     
-                    /// makes a randomized unique copy ofnode
-                    std::unique_ptr<Node> rnd_clone() const;
+                    /// makes a randomized unique copy ofCNode
+                    std::unique_ptr<CNode> rnd_clone() const;
                 
                 protected:
-                    virtual Node* clone_impl() const = 0;
-                    virtual Node* rnd_clone_impl() const = 0;
+                    virtual CNode* clone_impl() const = 0;
+                    virtual CNode* rnd_clone_impl() const = 0;
             };
             
         }

@@ -14,7 +14,7 @@ from eigency.core cimport *
 
 from brush.evaluation.evaluation cimport CEvaluation
 from brush.population.individual import Individual
-from brush.params.params import Parameters
+from brush.params.params cimport Parameters
 from brush.data import Data
 
 cdef class Evaluation:

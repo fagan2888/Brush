@@ -16,6 +16,8 @@ license: GNU/GPL v3
 namespace FT{
     
     namespace Pop{
+    
+    	class CPopulation;
         
         ////////////////////////////////////////////////////////////////////////////////// Declarations
 
@@ -116,7 +118,7 @@ namespace FT{
             void set_id(unsigned i);
 
             /// set parent ids using parents  
-            void set_parents(const vector<CIndividual>& parents);
+            void set_parents(const vector<CIndividual>& parent);
             
             /// set parent ids using id values 
             void set_parents(const vector<int>& parents){ parent_id = parents; }

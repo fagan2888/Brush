@@ -22,7 +22,7 @@ namespace FT{
                    lhs.get_complexity() == rhs.get_complexity());
         }
         
-        void Archive::init(Population& pop) 
+        void Archive::init(CPopulation& pop) 
         {
            auto tmp = pop.individuals;
            selector.fast_nds(tmp); 
@@ -39,7 +39,7 @@ namespace FT{
            std::sort(archive.begin(),archive.end(), &sortComplexity); 
         }
 
-        void Archive::update(const Population& pop, const CParameters& params)
+        void Archive::update(const CPopulation& pop, const CParameters& params)
         {
                         
             vector<CIndividual> tmp = pop.individuals;

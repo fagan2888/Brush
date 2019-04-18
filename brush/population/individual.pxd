@@ -14,6 +14,8 @@ from eigency.core cimport *
 from brush.data.data cimport CData
 from brush.params.params cimport CParameters
 
+cdef cppclass Individual
+
 cdef extern from "individual.h" namespace "FT::Pop":
     cdef cppclass CIndividual:
         CIndividual() except +

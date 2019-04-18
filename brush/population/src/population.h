@@ -2,8 +2,8 @@
 copyright 2017 William La Cava
 license: GNU/GPL v3
 */
-#ifndef POPULATION_H
-#define POPULATION_H
+#ifndef CPopulation_H
+#define CPopulation_H
 
 //#include "node.h" // including node.h since definition of node is in the header
 #include "individual.h"
@@ -15,16 +15,16 @@ namespace FT{
 
     /**
      * @namespace FT::Pop
-     * @brief namespace containing population representations used in Feat
+     * @brief namespace containing CPopulation representations used in Feat
      */
     namespace Pop{   
         ////////////////////////////////////////////////////////////////////////////////// Declarations
         extern int last;
         /*!
-         * @class Population
-         * @brief Defines a population of programs and functions for constructing them. 
+         * @class CPopulation
+         * @brief Defines a CPopulation of programs and functions for constructing them. 
          */
-        class Population
+        class CPopulation
         {
             public :
             
@@ -33,13 +33,13 @@ namespace FT{
             vector<size_t> locs;
             
 
-            Population();
+            CPopulation();
             
-            Population(int p);
+            CPopulation(int p);
             
-            ~Population();
+            ~CPopulation();
             
-            /// initialize population of programs. 
+            /// initialize CPopulation of programs. 
             void init(const CIndividual& starting_model, const CParameters& params, bool random = false);
             
             /// update individual vector size 
@@ -48,16 +48,16 @@ namespace FT{
             /// reduce programs to the indices in survivors. 
             void update(vector<size_t> survivors);
             
-            /// returns population size
+            /// returns CPopulation size
             int size();
 
             /// returns an open location 
             size_t get_open_loc(); 
             
-            /// updates open locations to reflect population.
+            /// updates open locations to reflect CPopulation.
             void update_open_loc();
 
-            /// adds a program to the population. 
+            /// adds a program to the CPopulation. 
             void add(CIndividual&);
             
             /// setting and getting from individuals vector
@@ -65,17 +65,19 @@ namespace FT{
             
             const CIndividual & operator [](size_t i);
 
-            /// return population equations. 
+            /// return CPopulation equations. 
             string print_eqns(bool just_offspring=false, string sep="\n");
 
             /// return complexity-sorted Pareto front indices. 
             vector<size_t> sorted_front(unsigned);
             
-            /// Sort population in increasing complexity.
+            vector<CIndividual>& get_individuals();
+            
+            /// Sort CPopulation in increasing complexity.
             struct SortComplexity
             {
-                Population& pop;
-                SortComplexity(Population& p): pop(p){}
+                CPopulation& pop;
+                SortComplexity(CPopulation& p): pop(p){}
                 bool operator()(size_t i, size_t j)
                 { 
                     return pop.individuals[i].complexity() < pop.individuals[j].complexity();
@@ -85,8 +87,8 @@ namespace FT{
             /// check for same fitness and complexity to filter uniqueness. 
             struct SameFitComplexity
             {
-                Population & pop;
-                SameFitComplexity(Population& p): pop(p){}
+                CPopulation & pop;
+                SameFitComplexity(CPopulation& p): pop(p){}
                 bool operator()(size_t i, size_t j)
                 {
                     return (pop.individuals[i].fitness == pop.individuals[j].fitness &&

@@ -12,7 +12,7 @@ namespace FT{
     namespace Pop{
         namespace Op{
             template <class T>
-	        class NodeVariable : public Node
+	        class NodeVariable : public CNode
 	        {
 		        public:
 			        size_t loc;             ///< column location in X, for x types

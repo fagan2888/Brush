@@ -38,8 +38,8 @@ namespace FT{
                         
                 x1 = state.pop<T>().template cast<float>();
                     
-                if (!data.validation && !data.y.size()==0 && train)
-                    set_threshold(x1,data.y, data.classification);
+                if (!data.validation && !data.y->size()==0 && train)
+                    set_threshold(x1,(*(data.y)), data.classification);
                     
                 if(arity['f'])
                     state.push<bool>(x1 < threshold);

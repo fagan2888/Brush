@@ -23,24 +23,24 @@ namespace FT{
             ~NSGA2();
 
             /// selection according to the survival scheme of NSGA-II
-            vector<size_t> select(Population& pop, const MatrixXf& F, const CParameters& p);
+            vector<size_t> select(CPopulation& pop, const MatrixXf& F, const CParameters& p);
             
             /// survival according to the survival scheme of NSGA-II
-            vector<size_t> survive(Population& pop, const MatrixXf& F, const CParameters& p);
+            vector<size_t> survive(CPopulation& pop, const MatrixXf& F, const CParameters& p);
 
             vector<vector<int>> front;                //< the Pareto fronts
             
             void fast_nds(vector<CIndividual>&);               //< Fast non-dominated sorting 
             
-            void crowding_distance(Population&, int); //< crowding distance of a front i
+            void crowding_distance(CPopulation&, int); //< crowding distance of a front i
                 
             private:    
 
                 /// sort based on rank, breaking ties with crowding distance
                 struct sort_n 
                 {
-                    const Population& pop;          ///< population address
-                    sort_n(const Population& population) : pop(population) {};
+                    const CPopulation& pop;          ///< CPopulation address
+                    sort_n(const CPopulation& CPopulation) : pop(CPopulation) {};
                     bool operator() (int i, int j) {
                         const CIndividual& ind1 = pop.individuals[i];
                         const CIndividual& ind2 = pop.individuals[j];
@@ -56,10 +56,10 @@ namespace FT{
                 /// sort based on objective m
                 struct comparator_obj 
                 {
-                    const Population& pop;      ///< population address
+                    const CPopulation& pop;      ///< CPopulation address
                     int m;                      ///< objective index 
-                    comparator_obj(const Population& population, int index) 
-                        : pop(population), m(index) {};
+                    comparator_obj(const CPopulation& CPopulation, int index) 
+                        : pop(CPopulation), m(index) {};
                     bool operator() (int i, int j) { return pop[i].obj[m] < pop[j].obj[m]; };
                 };
             

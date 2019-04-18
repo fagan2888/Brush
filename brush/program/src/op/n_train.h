@@ -9,7 +9,7 @@ namespace FT{
     namespace Pop{
         namespace Op{
 
-            class NodeTrain : public Node
+            class NodeTrain : public CNode
             {
             	public:
                     bool train;

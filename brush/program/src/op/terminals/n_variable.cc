@@ -27,7 +27,7 @@ namespace FT{
             template <class T>		
             void NodeVariable<T>::evaluate(const CData& data, State& state)
             {
-                state.push<T>(data.X.row(loc).template cast<T>());
+                state.push<T>(data.X->row(loc).template cast<T>());
             }
             
             #else
@@ -36,17 +36,17 @@ namespace FT{
             {
                 if(otype == 'b')
                 {
-                    ArrayXb tmp = data.X.row(loc).cast<bool>();
+                    ArrayXb tmp = data.X->row(loc).cast<bool>();
                     GPU_Variable(state.dev_b, tmp.data(), state.idx[otype], state.N);
                 }
                 else if (otype == 'c')
                 {
-                    ArrayXi tmp = data.X.row(loc).cast<int>();
+                    ArrayXi tmp = data.X->row(loc).cast<int>();
                     GPU_Variable(state.dev_c, tmp.data(), state.idx[otype], state.N);
                 }
                 else
                 {
-                    ArrayXf tmp = data.X.row(loc).cast<float>() ;
+                    ArrayXf tmp = data.X->row(loc).cast<float>() ;
                     GPU_Variable(state.dev_f, tmp.data(), state.idx[otype], state.N);
                 }
             }

@@ -12,7 +12,7 @@ namespace FT{
     
     namespace Pop{
         namespace Op{
-	        class NodeNot : public Node
+	        class NodeNot : public CNode
             {
             	public:
             	

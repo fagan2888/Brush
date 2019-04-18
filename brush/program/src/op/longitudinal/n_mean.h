@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-	        class NodeMean : public Node
+	        class NodeMean : public CNode
             {
             	public:
             	

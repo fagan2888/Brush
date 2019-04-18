@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-	        class NodeLongitudinal : public Node
+	        class NodeLongitudinal : public CNode
 	        {
 		        public:
 			        string zName;

@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-	        class NodeConstant : public Node
+	        class NodeConstant : public CNode
             {
             	public:
             		

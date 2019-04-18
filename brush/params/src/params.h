@@ -70,6 +70,7 @@ namespace FT{
            int iters;
            float learning_rate;
            int batch_size;
+           BP(){}
            BP(int i, float l, int bs): iters(i), learning_rate(l), batch_size(bs) {}
         };
 
@@ -79,10 +80,13 @@ namespace FT{
         {
            int iters;
            float step;
+           HC(){}
            HC(int i, float s): iters(i), step(s) {}
         };
         
-        HC hc;                                      ///< stochastic hill climbing parameters       
+        HC hc;                                      ///< stochastic hill climbing parameters 
+        
+        CParameters();      
         
         CParameters(int pop_size, int gens, string ml, bool classification, 
                     int max_stall, char ot, int verbosity, string fs, float cr,
@@ -110,7 +114,7 @@ namespace FT{
         void set_term_weights(const vector<float>& w);
         
         /// return unique pointer to a node based on the string passed
-        std::unique_ptr<Node> createNode(std::string str, float d_val = 0, bool b_val = false, 
+        std::unique_ptr<CNode> createNode(std::string str, float d_val = 0, bool b_val = false, 
                                          size_t loc = 0, string name = "");
         
         /// sets available functions based on comma-separated list.

@@ -13,12 +13,16 @@ from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
 
+cdef cppclass Data
+
+cdef cppclass CVData
+
 cdef extern from "src/data.h" namespace "FT::Dat":
     cdef cppclass CData:    
         CData() except +
             
-        CData(MatrixXf &, VectorXf &, 
-              map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &, bool) except +
+        CData(MatrixXf *, VectorXf *, 
+              map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *, bool) except +
 
         void set_validation(bool)
                 
@@ -27,23 +31,23 @@ cdef extern from "src/data.h" namespace "FT::Dat":
     cdef cppclass CCVData:
         CCVData() except +
         
-        CCVData(MatrixXf &, VectorXf &, 
-                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &, 
+        CCVData(MatrixXf *, VectorXf *, 
+                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *, 
                 bool) except +
                         
-        void setOriginalData(MatrixXf &, VectorXf &, 
-                              map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &, bool)
+        void setOriginalData(MatrixXf *, VectorXf *, 
+                              map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *, bool)
         
         void setOriginalData(CData *)
         
-        void setTrainingData(MatrixXf &, VectorXf &, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &,
+        void setTrainingData(MatrixXf *, VectorXf *, 
+                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
                            bool)
         
         void setTrainingData(CData *, bool)
         
-        void setValidationData(MatrixXf &, VectorXf &, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &,
+        void setValidationData(MatrixXf *, VectorXf *, 
+                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
                            bool)
         
         void setValidationData(CData *)
@@ -54,9 +58,9 @@ cdef extern from "src/data.h" namespace "FT::Dat":
         
         void train_test_split(bool, float)
 
-        void split_longitudinal(map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &,
-                                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &,
-                                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &,
+        void split_longitudinal(map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
+                                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
+                                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
                                 float)
                     
         void reorder_longitudinal(vector[ArrayXf] &, const vector[int] &)

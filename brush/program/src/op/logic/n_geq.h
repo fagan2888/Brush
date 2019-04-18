@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-	        class NodeGEQ : public Node
+	        class NodeGEQ : public CNode
             {
             	public:
             	

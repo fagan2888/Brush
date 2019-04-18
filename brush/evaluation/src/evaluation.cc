@@ -82,13 +82,13 @@ namespace FT{
                     else 
                         ind.fitness = MAX_FLT;
 
-                    F.col(ind.loc) = MAX_FLT*VectorXf::Ones(d.y.size());
+                    F.col(ind.loc) = MAX_FLT*VectorXf::Ones(d.y->size());
                 }
                 else
                 {
                     // assign weights to individual
                     /* ind.set_p(ind.ml->get_weights(),params.feedback); */
-                    assign_fit(ind,F,yhat,d.y,params,validation);
+                    assign_fit(ind,F,yhat,(*(d.y)),params,validation);
 
 //                    if (params.hillclimb && !validation)
 //                    {

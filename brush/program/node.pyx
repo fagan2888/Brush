@@ -14,10 +14,4 @@ cdef class Node:
     
     def __cinit__(self):
         self.nodeobj = CNode()
-    
-    def clone(self):
-        return self.nodeobj.clone()
-        
-    def rnd_clone(self):
-        return self.nodeobj.clone()
-        
+            

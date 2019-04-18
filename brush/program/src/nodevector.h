@@ -20,7 +20,7 @@ namespace FT{
          * @class NodeVector
          * @brief an extension of a vector of unique pointers to nodes 
          */
-        class NodeVector : public std::vector<std::unique_ptr<Node>>
+        class NodeVector : public std::vector<std::unique_ptr<CNode>>
         {
             public :
             
@@ -42,7 +42,7 @@ namespace FT{
             NodeVector& operator=(NodeVector && other);
             
             /// returns vector of raw pointers to nodes in [start,end], or all if both are zero
-            vector<Node*> get_data(int start=0,int end=0);
+            vector<CNode*> get_data(int start=0,int end=0);
 
             /// returns indices of root nodes 
             vector<size_t> roots() const;

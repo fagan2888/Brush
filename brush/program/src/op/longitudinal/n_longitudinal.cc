@@ -24,15 +24,15 @@ namespace FT{
             {
                 try
                 {
-                    state.z.push(data.Z.at(zName));
+                    state.z.push(data.Z->at(zName));
                 }
                 catch (const std::out_of_range& e) 
                 {
                     cout << "out of range error on ";
                     cout << "state.z.push(data.Z.at(" << zName << "))\n";
-                    cout << "data.Z size: " << data.Z.size() << "\n";
+                    cout << "data.Z size: " << data.Z->size() << "\n";
                     cout << "data.Z keys:\n";
-                    for (const auto& keys : data.Z)
+                    for (const auto& keys : (*(data.Z)))
                         cout << keys.first << ",";
                     cout << "\n";
                 }

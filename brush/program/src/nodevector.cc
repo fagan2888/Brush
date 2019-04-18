@@ -40,9 +40,9 @@ namespace FT{
             return *this; 
         }
                 
-        vector<Node*> NodeVector::get_data(int start,int end)
+        vector<CNode*> NodeVector::get_data(int start,int end)
         {
-            vector<Node*> v;
+            vector<CNode*> v;
             if (end == 0)
             {
                 if (start == 0)
@@ -193,7 +193,7 @@ namespace FT{
                 Z[key].second.push_back(ArrayXf::Zero(2));
              }
              
-            CData data(X, y, Z, false);
+            CData data(&X, &y, &Z, false);
             
             unsigned i = 0; 
             for (const auto& n : *this){
@@ -326,7 +326,7 @@ namespace FT{
                 push_back(functions[r.random_choice(fi)]->rnd_clone());
                 
                 /* std::cout << "back(): " << back()->name << "\n"; */ 
-                std::unique_ptr<Node> chosen(back()->clone());
+                std::unique_ptr<CNode> chosen(back()->clone());
                 /* std::cout << "chosen: " << chosen->name << "\n"; */ 
                 // recurse to fulfill the arity of the chosen function
                 for (size_t i = 0; i < chosen->arity['f']; ++i)

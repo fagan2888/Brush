@@ -27,7 +27,7 @@ namespace FT{
          /// destructor
         CVariation::~CVariation(){}
 
-        std::unique_ptr<Node> random_node(const NodeVector & v)
+        std::unique_ptr<CNode> random_node(const NodeVector & v)
         {
            /*!
             * return a random node from a list of nodes.
@@ -39,14 +39,14 @@ namespace FT{
             return v.at(idx)->clone();
         }
      
-        void CVariation::vary(Population& pop, const vector<size_t>& parents, 
+        void CVariation::vary(CPopulation& pop, const vector<size_t>& parents, 
                              const CParameters& params, const CData& d)
         {
             /*!
-             * performs variation on the current population. 
+             * performs variation on the current CPopulation. 
              *
-             * @param   pop: current population
-             * @param  	parents: indices of population to use for variation
+             * @param   pop: current CPopulation
+             * @param  	parents: indices of CPopulation to use for variation
              * @param  	params: feat parameters
              *
              * @return  appends params.pop_size offspring derived from parent variation

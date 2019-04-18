@@ -8,6 +8,8 @@ license: GNU/GPL v3
 namespace FT{
 
     using namespace Util;
+    
+    CParameters::CParameters(){}
         
     CParameters::CParameters(int pop_size, int gens, string ml, bool classification, int max_stall, 
                char ot, int verbosity, string fs, float cr, float root_xor, unsigned int max_depth, 
@@ -228,7 +230,7 @@ namespace FT{
 
     }
     
-    std::unique_ptr<Node> CParameters::createNode(string str,
+    std::unique_ptr<CNode> CParameters::createNode(string str,
                                                  float d_val,
                                                  bool b_val,
                                                  size_t loc,
@@ -236,138 +238,138 @@ namespace FT{
     {
         // algebraic operators
     	if (str.compare("+") == 0) 
-    		return std::unique_ptr<Node>(new NodeAdd({1.0, 1.0}));
+    		return std::unique_ptr<CNode>(new NodeAdd({1.0, 1.0}));
         
         else if (str.compare("-") == 0)
-    		return std::unique_ptr<Node>(new NodeSubtract({1.0, 1.0}));
+    		return std::unique_ptr<CNode>(new NodeSubtract({1.0, 1.0}));
 
         else if (str.compare("*") == 0)
-    		return std::unique_ptr<Node>(new NodeMultiply({1.0, 1.0}));
+    		return std::unique_ptr<CNode>(new NodeMultiply({1.0, 1.0}));
 
      	else if (str.compare("/") == 0)
-    		return std::unique_ptr<Node>(new NodeDivide({1.0, 1.0}));
+    		return std::unique_ptr<CNode>(new NodeDivide({1.0, 1.0}));
 
         else if (str.compare("sqrt") == 0)
-    		return std::unique_ptr<Node>(new NodeSqrt({1.0}));
+    		return std::unique_ptr<CNode>(new NodeSqrt({1.0}));
     	
     	else if (str.compare("sin") == 0)
-    		return std::unique_ptr<Node>(new NodeSin({1.0}));
+    		return std::unique_ptr<CNode>(new NodeSin({1.0}));
     		
     	else if (str.compare("cos") == 0)
-    		return std::unique_ptr<Node>(new NodeCos({1.0}));
+    		return std::unique_ptr<CNode>(new NodeCos({1.0}));
     		
     	else if (str.compare("tanh")==0)
-            return std::unique_ptr<Node>(new NodeTanh({1.0}));
+            return std::unique_ptr<CNode>(new NodeTanh({1.0}));
     	   
         else if (str.compare("^2") == 0)
-    		return std::unique_ptr<Node>(new NodeSquare({1.0}));
+    		return std::unique_ptr<CNode>(new NodeSquare({1.0}));
  	
         else if (str.compare("^3") == 0)
-    		return std::unique_ptr<Node>(new NodeCube({1.0}));
+    		return std::unique_ptr<CNode>(new NodeCube({1.0}));
     	
         else if (str.compare("^") == 0)
-    		return std::unique_ptr<Node>(new NodeExponent({1.0, 1.0}));
+    		return std::unique_ptr<CNode>(new NodeExponent({1.0, 1.0}));
 
         else if (str.compare("exp") == 0)
-    		return std::unique_ptr<Node>(new NodeExponential({1.0}));
+    		return std::unique_ptr<CNode>(new NodeExponential({1.0}));
     		
     	else if (str.compare("gauss")==0)
-            return std::unique_ptr<Node>(new NodeGaussian({1.0}));
+            return std::unique_ptr<CNode>(new NodeGaussian({1.0}));
         
         else if (str.compare("gauss2d")==0)
-            return std::unique_ptr<Node>(new Node2dGaussian({1.0, 1.0}));
+            return std::unique_ptr<CNode>(new Node2dGaussian({1.0, 1.0}));
 
         else if (str.compare("log") == 0)
-    		return std::unique_ptr<Node>(new NodeLog({1.0}));   
+    		return std::unique_ptr<CNode>(new NodeLog({1.0}));   
     		
     	else if (str.compare("logit")==0)
-            return std::unique_ptr<Node>(new NodeLogit({1.0}));
+            return std::unique_ptr<CNode>(new NodeLogit({1.0}));
 
         else if (str.compare("relu")==0)
-            return std::unique_ptr<Node>(new NodeRelu({1.0}));
+            return std::unique_ptr<CNode>(new NodeRelu({1.0}));
 
         else if (str.compare("b2f")==0)
-            return std::unique_ptr<Node>(new NodeFloat<bool>());
+            return std::unique_ptr<CNode>(new NodeFloat<bool>());
         
         else if (str.compare("c2f")==0)
-            return std::unique_ptr<Node>(new NodeFloat<int>());
+            return std::unique_ptr<CNode>(new NodeFloat<int>());
         
         // logical operators
         else if (str.compare("and") == 0)
-    		return std::unique_ptr<Node>(new NodeAnd());
+    		return std::unique_ptr<CNode>(new NodeAnd());
        
     	else if (str.compare("or") == 0)
-    		return std::unique_ptr<Node>(new NodeOr());
+    		return std::unique_ptr<CNode>(new NodeOr());
    		
      	else if (str.compare("not") == 0)
-    		return std::unique_ptr<Node>(new NodeNot());
+    		return std::unique_ptr<CNode>(new NodeNot());
     		
     	else if (str.compare("xor")==0)
-            return std::unique_ptr<Node>(new NodeXor());
+            return std::unique_ptr<CNode>(new NodeXor());
    		
     	else if (str.compare("=") == 0)
-    		return std::unique_ptr<Node>(new NodeEqual());
+    		return std::unique_ptr<CNode>(new NodeEqual());
     		
         else if (str.compare(">") == 0)
-    		return std::unique_ptr<Node>(new NodeGreaterThan());
+    		return std::unique_ptr<CNode>(new NodeGreaterThan());
 
     	else if (str.compare(">=") == 0)
-    		return std::unique_ptr<Node>(new NodeGEQ());        
+    		return std::unique_ptr<CNode>(new NodeGEQ());        
 
     	else if (str.compare("<") == 0)
-    		return std::unique_ptr<Node>(new NodeLessThan());
+    		return std::unique_ptr<CNode>(new NodeLessThan());
     	
     	else if (str.compare("<=") == 0)
-    		return std::unique_ptr<Node>(new NodeLEQ());
+    		return std::unique_ptr<CNode>(new NodeLEQ());
  
             else if (str.compare("split") == 0)
-      		    return std::unique_ptr<Node>(new NodeSplit<float>());
+      		    return std::unique_ptr<CNode>(new NodeSplit<float>());
       		
       		else if (str.compare("split_c") == 0)
-      		    return std::unique_ptr<Node>(new NodeSplit<int>());
+      		    return std::unique_ptr<CNode>(new NodeSplit<int>());
     	
      	else if (str.compare("if") == 0)
-    		return std::unique_ptr<Node>(new NodeIf());   	    		
+    		return std::unique_ptr<CNode>(new NodeIf());   	    		
         	
     	else if (str.compare("ite") == 0)
-    		return std::unique_ptr<Node>(new NodeIfThenElse());
+    		return std::unique_ptr<CNode>(new NodeIfThenElse());
     		
     	else if (str.compare("step")==0)
-            return std::unique_ptr<Node>(new NodeStep());
+            return std::unique_ptr<CNode>(new NodeStep());
             
         else if (str.compare("sign")==0)
-            return std::unique_ptr<Node>(new NodeSign());
+            return std::unique_ptr<CNode>(new NodeSign());
            
         // longitudinal nodes
         else if (str.compare("mean")==0)
-            return std::unique_ptr<Node>(new NodeMean());
+            return std::unique_ptr<CNode>(new NodeMean());
             
         else if (str.compare("median")==0)
-            return std::unique_ptr<Node>(new NodeMedian());
+            return std::unique_ptr<CNode>(new NodeMedian());
             
         else if (str.compare("max")==0)
-            return std::unique_ptr<Node>(new NodeMax());
+            return std::unique_ptr<CNode>(new NodeMax());
         
         else if (str.compare("min")==0)
-            return std::unique_ptr<Node>(new NodeMin());
+            return std::unique_ptr<CNode>(new NodeMin());
         
         else if (str.compare("variance")==0)
-            return std::unique_ptr<Node>(new NodeVar());
+            return std::unique_ptr<CNode>(new NodeVar());
             
         else if (str.compare("skew")==0)
-            return std::unique_ptr<Node>(new NodeSkew());
+            return std::unique_ptr<CNode>(new NodeSkew());
             
         else if (str.compare("kurtosis")==0)
-            return std::unique_ptr<Node>(new NodeKurtosis());
+            return std::unique_ptr<CNode>(new NodeKurtosis());
             
         else if (str.compare("slope")==0)
-            return std::unique_ptr<Node>(new NodeSlope());
+            return std::unique_ptr<CNode>(new NodeSlope());
             
         else if (str.compare("count")==0)
-            return std::unique_ptr<Node>(new NodeCount());
+            return std::unique_ptr<CNode>(new NodeCount());
         
         else if (str.compare("recent")==0)
-            return std::unique_ptr<Node>(new NodeRecent());
+            return std::unique_ptr<CNode>(new NodeRecent());
 
         // variables and constants
         else if (str.compare("x") == 0)
@@ -375,19 +377,19 @@ namespace FT{
             if(dtypes.size() == 0)
             {
                 if (feature_names.size() == 0)
-                    return std::unique_ptr<Node>(new NodeVariable<float>(loc));
+                    return std::unique_ptr<CNode>(new NodeVariable<float>(loc));
                 else
-                    return std::unique_ptr<Node>(new NodeVariable<float>(loc,'f', feature_names.at(loc)));
+                    return std::unique_ptr<CNode>(new NodeVariable<float>(loc,'f', feature_names.at(loc)));
             }
             else if (feature_names.size() == 0)
             {
                 switch(dtypes[loc])
                 {
-                    case 'b': return std::unique_ptr<Node>(new NodeVariable<bool>(loc,
+                    case 'b': return std::unique_ptr<CNode>(new NodeVariable<bool>(loc,
                                                                                   dtypes[loc]));
-                    case 'c': return std::unique_ptr<Node>(new NodeVariable<int>(loc,
+                    case 'c': return std::unique_ptr<CNode>(new NodeVariable<int>(loc,
                                                                                   dtypes[loc]));
-                    case 'f': return std::unique_ptr<Node>(new NodeVariable<float>(loc,
+                    case 'f': return std::unique_ptr<CNode>(new NodeVariable<float>(loc,
                                                                                   dtypes[loc]));
                 }
             }
@@ -395,26 +397,26 @@ namespace FT{
             {
                 switch(dtypes[loc])
                 {
-                    case 'b': return std::unique_ptr<Node>(new NodeVariable<bool>(loc, 
+                    case 'b': return std::unique_ptr<CNode>(new NodeVariable<bool>(loc, 
                                                            dtypes[loc],feature_names.at(loc)));
                     
-                    case 'c': return std::unique_ptr<Node>(new NodeVariable<int>(loc, 
+                    case 'c': return std::unique_ptr<CNode>(new NodeVariable<int>(loc, 
                                                            dtypes[loc],feature_names.at(loc)));
                     
-                    case 'f': return std::unique_ptr<Node>(new NodeVariable<float>(loc, 
+                    case 'f': return std::unique_ptr<CNode>(new NodeVariable<float>(loc, 
                                                            dtypes[loc],feature_names.at(loc)));
                 }
             }
         }
             
         else if (str.compare("kb")==0)
-            return std::unique_ptr<Node>(new NodeConstant(b_val));
+            return std::unique_ptr<CNode>(new NodeConstant(b_val));
             
         else if (str.compare("kd")==0)
-            return std::unique_ptr<Node>(new NodeConstant(d_val));
+            return std::unique_ptr<CNode>(new NodeConstant(d_val));
             
         else if (str.compare("z")==0)
-            return std::unique_ptr<Node>(new NodeLongitudinal(name));
+            return std::unique_ptr<CNode>(new NodeLongitudinal(name));
         else
             HANDLE_ERROR_THROW("Error: no node named '" + str + "' exists."); 
         

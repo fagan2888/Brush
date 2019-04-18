@@ -15,11 +15,11 @@ namespace FT{
         
         Random::~Random(){}
            
-        vector<size_t> Random::select(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> Random::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selects parents for making offspring.  
              *
-             * @param pop: population of programs, all potential parents. 
+             * @param pop: CPopulation of programs, all potential parents. 
              * @param F: n_samples x 2 * popsize matrix of program behaviors. 
              * @param params: parameters.
              *
@@ -44,11 +44,11 @@ namespace FT{
             return selected;
         }
 
-        vector<size_t> Random::survive(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> Random::survive(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selects the offspring for survival. 
              *
-             * @param pop: population of programs, parents + offspring.
+             * @param pop: CPopulation of programs, parents + offspring.
              * @param F: n_samples x 2 * popsize matrix of program behaviors. 
              * @param params: parameters.
              *
@@ -72,7 +72,7 @@ namespace FT{
             return selected;
         }
        
-        void Random::enforce_elite(Population& pop, vector<size_t>& selected)
+        void Random::enforce_elite(CPopulation& pop, vector<size_t>& selected)
         {
             // find best and worst inds and if best is not in selected, replace worst with it
             size_t best_idx, worst_idx;

@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-        	class NodeSign : public Node
+        	class NodeSign : public CNode
             {
             	public:
             	

@@ -31,14 +31,14 @@ namespace FT{
 
             Archive();
 
-            /// Sort population in increasing complexity.
+            /// Sort CPopulation in increasing complexity.
             static bool sortComplexity(const CIndividual& lhs, const CIndividual& rhs);
 
             static bool sameFitComplexity(const CIndividual& lhs, const CIndividual& rhs);
 
-            void init(Population& pop);
+            void init(CPopulation& pop);
 
-            void update(const Population& pop, const CParameters& params);
+            void update(const CPopulation& pop, const CParameters& params);
            
         };
     }

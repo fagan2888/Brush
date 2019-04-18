@@ -36,13 +36,13 @@ namespace FT{
                 return i; 
         }
         
-        vector<size_t> NSGA2::select(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> NSGA2::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selection using Pareto tournaments. 
              *
              * Input: 
              *
-             *      pop: population of programs.
+             *      pop: CPopulation of programs.
              *      params: parameters.
              *      r: random number generator
              *
@@ -68,13 +68,13 @@ namespace FT{
             return selected;
         }
 
-        vector<size_t> NSGA2::survive(Population& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> NSGA2::survive(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {
             /* Selection using the survival scheme of NSGA-II. 
              *
              * Input: 
              *
-             *      pop: population of programs.
+             *      pop: CPopulation of programs.
              *      params: parameters.
              *      r: random number generator
              *
@@ -192,7 +192,7 @@ namespace FT{
 
         }
 
-        void NSGA2::crowding_distance(Population& pop, int fronti)
+        void NSGA2::crowding_distance(CPopulation& pop, int fronti)
         {
             std::vector<int> F = front[fronti];
             if (F.size() == 0 ) return;

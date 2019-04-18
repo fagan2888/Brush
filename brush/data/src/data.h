@@ -43,14 +43,16 @@ namespace FT
             //std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z): X(X), y(y), Z(Z){}
             public:
      
-                MatrixXf& X;
-                VectorXf& y;
-                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z;
+                MatrixXf *X;
+                VectorXf *y;
+                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z;
                 bool classification;
                 bool validation; 
-
-                CData(MatrixXf& X, VectorXf& y, std::map<string, std::pair<vector<ArrayXf>, 
-                        vector<ArrayXf>>>& Z, bool c = false);
+                
+                CData();
+				
+                CData(MatrixXf *X, VectorXf *y, std::map<string, std::pair<vector<ArrayXf>, 
+                        vector<ArrayXf>>> *Z, bool c = false);
 
                 void set_validation(bool v=true);
                 
@@ -88,23 +90,23 @@ namespace FT
                 ~CCVData();
                 
         
-                CCVData(MatrixXf& X, VectorXf& y, 
-                                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > >& Z, 
+                CCVData(MatrixXf *X, VectorXf *y, 
+                                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z, 
                                  bool c=false);
                         
-                void setOriginalData(MatrixXf& X, VectorXf& y, 
-                        std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z, bool c=false);
+                void setOriginalData(MatrixXf *X, VectorXf *y, 
+                        std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z, bool c=false);
                 
                 void setOriginalData(CData *d);
                 
-                void setTrainingData(MatrixXf& X_t, VectorXf& y_t, 
-                                   std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_t,
+                void setTrainingData(MatrixXf *X_t, VectorXf *y_t, 
+                                   std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z_t,
                                    bool c = false);
                 
                 void setTrainingData(CData *d, bool toDelete = false);
                 
-                void setValidationData(MatrixXf& X_v, VectorXf& y_v, 
-                                   std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>>& Z_v,
+                void setValidationData(MatrixXf *X_v, VectorXf *y_v, 
+                                   std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> *Z_v,
                                    bool c = false);
                 
                 void setValidationData(CData *d);
@@ -119,9 +121,9 @@ namespace FT
                 void train_test_split(bool shuffle, float split);
 
                 void split_longitudinal(
-                            std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z,
-                            std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_t,
-                            std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_v,
+                            std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z,
+                            std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z_t,
+                            std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > *Z_v,
                             float split);
                             
                 /// reordering utility for shuffling longitudinal data.

@@ -11,7 +11,7 @@ namespace FT{
     namespace Pop{
         namespace Op{
 
-            class NodeDx : public Node
+            class NodeDx : public CNode
             {
             	public:
             		std::vector<float> W;

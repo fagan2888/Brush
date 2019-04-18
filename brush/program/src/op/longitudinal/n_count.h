@@ -11,7 +11,7 @@ namespace FT{
 
     namespace Pop{
         namespace Op{
-	        class NodeCount : public Node
+	        class NodeCount : public CNode
             {
             	public:
             	

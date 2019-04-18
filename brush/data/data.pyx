@@ -18,11 +18,11 @@ from eigency.core cimport *
 
 
 cdef class Data:
+
     cdef CData cdata
     
-    #TODO consult Bill regarding this
-    cdef init(self, MatrixXf &X, VectorXf &y,
-                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z,
+    cdef init(self, MatrixXf *X, VectorXf *y,
+                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z,
                    bool c):
         self.cdata = CData(X, y, Z, c)
 
@@ -35,29 +35,29 @@ cdef class Data:
 cdef class CVData:
     cdef CCVData cvdata
     
-    cdef init(self, MatrixXf & X, VectorXf& y, 
-                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z, 
+    cdef init(self, MatrixXf *X, VectorXf *y, 
+                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z, 
                    bool c):
         self.cvdata = CCVData(X, y, Z, c)
                         
-    cdef setOriginalData(self, MatrixXf& X, VectorXf& y, 
-                          map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z,
+    cdef setOriginalData(self, MatrixXf *X, VectorXf *y, 
+                          map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z,
                           bool c):
         self.cvdata.setOriginalData(X, y, Z, c)
     
     def setOriginalDataFromObj(self, Data d):
         self.cvdata.setOriginalData(&(d.cdata))
     
-    cdef setTrainingData(self, MatrixXf& X_t, VectorXf& y_t, 
-                         map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_t,
+    cdef setTrainingData(self, MatrixXf *X_t, VectorXf *y_t, 
+                         map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_t,
                          bool c):
         self.cvdata.setTrainingData(X_t, y_t, Z_t, c)
     
     def setTrainingDataFromObj(self, Data d, bool toDelete):
         self.cvdata.setTrainingData(&(d.cdata), toDelete)
     
-    cdef setValidationData(self, MatrixXf& X_v, VectorXf& y_v, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_v,
+    cdef setValidationData(self, MatrixXf *X_v, VectorXf *y_v, 
+                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_v,
                            bool c):
         self.cvdata.setValidationData(X_v, y_v, Z_v, c)
     
@@ -74,9 +74,9 @@ cdef class CVData:
         self.cvdata.train_test_split(shuffle, split)
 
     cdef split_longitudinal(self, 
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z,
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_t,
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] &Z_v,
+                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z,
+                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_t,
+                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_v,
                             float split):
         self.cvdata.split_longitudinal(Z, Z_t, Z_v, split)
                 
