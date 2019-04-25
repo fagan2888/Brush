@@ -7,6 +7,7 @@ license: GNU/GPL v3
 #include <memory>
 #include "op/node.h"
 #include "op/n_Dx.h"
+#include "op/n_train.h"
 
 #include "error.h"
 namespace FT{
@@ -43,6 +44,12 @@ namespace FT{
             
             /// returns vector of raw pointers to nodes in [start,end], or all if both are zero
             vector<CNode*> get_data(int start=0,int end=0);
+            
+            State evaluate(const CData &, bool);
+            
+            /// return program name list 
+            string program_str() const;
+
 
             /// returns indices of root nodes 
             vector<size_t> roots() const;

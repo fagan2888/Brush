@@ -76,9 +76,6 @@ namespace FT{
             /// return vectorized representation of program
             vector<string> get_features();
 
-            /// return program name list 
-            string program_str() const;
-
             /// setting and getting from individuals vector
             /* const std::unique_ptr<Node> operator [](int i) const {return program.at(i);} */ 
             /* const std::unique_ptr<Node> & operator [](int i) {return program.at(i);} */

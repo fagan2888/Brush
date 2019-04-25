@@ -55,6 +55,37 @@ namespace FT{
 
             return v;
         }
+        
+        State CNodeVector::evaluate(const CData &d, bool predict)
+        {
+        	State state;
+        	// evaluate each node in program
+            for (const auto& n : *this)
+            {
+                if (n->isNodeTrain()) // learning nodes are set for fit or predict mode
+                    dynamic_cast<NodeTrain*>(n.get())->train = !predict;
+            	if(state.check(n->arity))
+	                n->evaluate(d, state);
+                else
+                    HANDLE_ERROR_THROW("out() error: node " + n->name + " in " + program_str() + 
+                                       " failed arity check\n");
+                
+            }
+            
+            return state;
+        }
+        
+        string CNodeVector::program_str() const
+        {
+            /* @return a string of node names. */
+            string s = "";
+            for (const auto& p : *this)
+            {
+                s+= p->name;
+                s+=" ";
+            }
+            return s;
+        }
 
         /// returns indices of root nodes 
         vector<size_t> CNodeVector::roots() const

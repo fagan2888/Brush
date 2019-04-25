@@ -90,7 +90,7 @@ namespace FT{
                         CIndividual& mom = pop.individuals.at(r.random_choice(parents));
                         /* int mom = r.random_choice(parents); */                
                         logger.log("mutating " + mom.get_eqn() + "(" + 
-                                mom.program_str() + ")", 3);
+                                mom.program.program_str() + ")", 3);
                         // create child
                         pass = mutate(mom,child,params);
                         
@@ -102,7 +102,7 @@ namespace FT{
                     {
                         assert(child.size()>0);
                         assert(pop.open_loc.size()>i-start);
-                        logger.log("assigning " + child.program_str() + " to pop.individuals[" + 
+                        logger.log("assigning " + child.program.program_str() + " to pop.individuals[" + 
                             std::to_string(i) + "] with pop.open_loc[" + std::to_string(i-start) + 
                             "]=" + std::to_string(pop.open_loc[i-start]),3);
 
@@ -317,7 +317,7 @@ namespace FT{
              * @return mutated child
              * */
             logger.log("\tdeletion mutation",3);
-            logger.log("\t\tprogram: " + child.program_str(),3);
+            logger.log("\t\tprogram: " + child.program.program_str(),3);
             vector<size_t> roots = child.program.roots();
             
             size_t end = r.random_choice(roots,child.p); 
@@ -335,7 +335,7 @@ namespace FT{
             /* vector<std::unique_ptr<Node>>blanks; */
             /* splice_programs(child.program, child.program, start, end, */ 
             /*                 blanks,size_t(0),size_t(-1)); */
-            logger.log("\t\tresult of delete mutation: " + child.program_str(), 3);
+            logger.log("\t\tresult of delete mutation: " + child.program.program_str(), 3);
         }
         
         
@@ -375,8 +375,8 @@ namespace FT{
                         mlocs.push_back(i);       
                 if (mlocs.size()==0)        // mom and dad have no overlapping types, can't cross
                 {
-                    logger.log("WARNING: no overlapping types between " + mom.program_str() + "," 
-                                 + dad.program_str() + "\n", 3);
+                    logger.log("WARNING: no overlapping types between " + mom.program.program_str() + "," 
+                                 + dad.program.program_str() + "\n", 3);
                     return 0;               
                 }
                 j1 = r.random_choice(mlocs,mom.get_p(mlocs,true));    
@@ -394,11 +394,11 @@ namespace FT{
                            std::to_string(mlocs.size())+"), p size: "+std::to_string(mom.p.size()),3);
                 j1 = r.random_choice(mlocs,mom.get_p(mlocs));   // weighted probability choice    
             }
-            /* cout << "mom subtree\t" << mom.program_str() << "\n"; */
+            /* cout << "mom subtree\t" << mom.program.program_str() << "\n"; */
             // get subtree              
             i1 = mom.program.subtree(j1);
                                 
-            /* cout << "dad subtree\n" << dad.program_str() << "\n"; */
+            /* cout << "dad subtree\n" << dad.program.program_str() << "\n"; */
             // get dad subtree
             j2 = r.random_choice(dlocs);
             i2 = dad.program.subtree(j2); 

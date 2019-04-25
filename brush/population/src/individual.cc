@@ -160,37 +160,6 @@ namespace FT{
         }
 
         
-        // TODO discuss these function implementations
-
-//        VectorXf CIndividual::predict_drop(const CData& d, const CParameters& params, int drop_idx)
-//        {
-//            // calculate program output matrix Phi
-//            logger.log("Generating output for " + get_eqn(), 3);
-//            // toggle validation
-//            MatrixXf PhiDrop = Phi;           // TODO: guarantee this is not changing nodes
-//             
-//            if (Phi.size()==0)
-//                HANDLE_ERROR_THROW("Phi must be generated before predict_drop() is called\n");
-//            if (drop_idx >= 0)  // if drop_idx specified, mask that phi output
-//            {
-//                if (drop_idx >= PhiDrop.rows())
-//                    HANDLE_ERROR_THROW("drop_idx ( " + std::to_string(drop_idx) + " > Phi size (" 
-//                                       + std::to_string(Phi.rows()) + ")\n");
-//                cout << "dropping row " + std::to_string(drop_idx) + "\n";
-//                /* PhiDrop.row(drop_idx) = VectorXf::Zero(Phi.cols()); */
-//                PhiDrop.row(drop_idx).setZero();
-//            }
-//            // calculate ML model from Phi
-//            /* logger.log("ML predicting on " + get_eqn(), 3); */
-//            // assumes ML is already trained
-//            VectorXf yh = ml->predict_vector(PhiDrop);
-//            return yh;
-//        }
-
-//        VectorXf CIndividual::predict_vector(const CData& d, const CParameters& params)
-//        {
-//            return ml->labels_to_vector(this->predict(d,params));
-//        }
         
         #ifndef USE_CUDA
         // calculate program output matrix
@@ -202,23 +171,12 @@ namespace FT{
              * @param predict: if true, this guarantees nodes like split do not get trained
              * @return Phi: n_features x n_samples transformation
              */
-             
-            State state;
             
             logger.log("evaluating program " + get_eqn(),3);
             logger.log("program length: " + std::to_string(program.size()),3);
-            // evaluate each node in program
-            for (const auto& n : program)
-            {
-                if (n->isNodeTrain()) // learning nodes are set for fit or predict mode
-                    dynamic_cast<NodeTrain*>(n.get())->train = !predict;
-            	if(state.check(n->arity))
-	                n->evaluate(d, state);
-                else
-                    HANDLE_ERROR_THROW("out() error: node " + n->name + " in " + program_str() + 
-                                       " failed arity check\n");
-                
-            }
+            
+            //TODO later change in cuda and out_trace
+            State state = program.evaluate(d, predict);
             
             // convert state_f to Phi
             logger.log("converting State to Phi",3);
@@ -409,7 +367,7 @@ namespace FT{
              */
 
             State state;
-            logger.log("evaluating program " + program_str(),3);
+            logger.log("evaluating program " + program.program_str(),3);
             /* logger.log("program length: " + std::to_string(program.size()),3); */
 
             vector<size_t> roots = program.roots();
@@ -456,7 +414,8 @@ namespace FT{
                     program.at(i)->visits = 0;
 	            }
                 else
-                    HANDLE_ERROR_THROW("out() error: node " + program.at(i)->name + " in " + program_str() + " is invalid\n");
+                    HANDLE_ERROR_THROW("out() error: node " + program.at(i)->name + " in "
+                    				   + program.program_str() + " is invalid\n");
             }
             
             // convert state_f to Phi
@@ -574,7 +533,8 @@ namespace FT{
                     
                 }
                 else
-                    HANDLE_ERROR_THROW("out_trace() error: node " + program.at(i)->name + " in " + program_str() + " is invalid\n");
+                    HANDLE_ERROR_THROW("out_trace() error: node " + program.at(i)->name + " in "
+                    				   + program.program_str() + " is invalid\n");
             }
             
             state.copy_to_host();
@@ -652,7 +612,7 @@ namespace FT{
                     	n->eval_eqn(state);
                     else
                         HANDLE_ERROR_THROW("get_eqn() error: node " + n->name + " in " 
-                                           + program_str() + " is invalid\n");
+                                           + program.program_str() + " is invalid\n");
                 }
                 // tie state outputs together to return representation
                 for (auto s : state.fs) 
@@ -679,7 +639,7 @@ namespace FT{
                     n->eval_eqn(state);
                 else
                     HANDLE_ERROR_THROW("get_eqn() error: node " + n->name + " in " 
-                                       + program_str() + " is invalid\n");
+                                       + program.program_str() + " is invalid\n");
             }
             // tie state outputs together to return representation
             for (auto s : state.fs) 
@@ -803,18 +763,6 @@ namespace FT{
                 //std::cout << "eqn: " + eqn + ", complexity: " + complex_eqn +"=" +std::to_string(c) + "\n";
             }
             return c;
-        }
-
-        string CIndividual::program_str() const
-        {
-            /* @return a string of node names. */
-            string s = "";
-            for (const auto& p : program)
-            {
-                s+= p->name;
-                s+=" ";
-            }
-            return s;
         }
         
         std::map<char, size_t> CIndividual::get_max_state_size()
