@@ -32,7 +32,7 @@ brush_lib = os.getcwd() + '/build/'
 exts = []
 #'evaluation',
 for n in ['data','params','population','program','selection','util',
-         'variation']:
+         'variation','evaluation']:
 # for n in ['individual']:
     nfold = 'brush/'+n+'/'
     if n=='util':
@@ -58,6 +58,8 @@ for n in ['data','params','population','program','selection','util',
                   language='c++'
                   ),
             )
+# import pdb
+# pdb.set_trace()
 setup(
     name="Brush",
     author='William La Cava',
