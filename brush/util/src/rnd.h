@@ -22,15 +22,15 @@ namespace FT {
         ////////////////////////////////////////////////////////////////////////////////// Declarations
         
         /*!
-         * @class Rnd
+         * @class CRnd
          * @brief Defines a multi-core random number generator and its operators.
          */
 
-        class Rnd
+        class CRnd
         {
             public:
                 
-                static Rnd* initRand();
+                static CRnd* initRand();
                 
                 static void destroy();
 
@@ -107,17 +107,17 @@ namespace FT {
 
             private:
 
-                Rnd();
+                CRnd();
             
-                ~Rnd();
+                ~CRnd();
                 
                 vector<std::mt19937> rg;
                 
-                static Rnd* instance;
+                static CRnd* instance;
          
         };
         
-        static Rnd &r = *Rnd::initRand();
+        static CRnd &r = *CRnd::initRand();
     }
 }
 #endif

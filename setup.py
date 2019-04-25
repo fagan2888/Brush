@@ -30,7 +30,8 @@ env_params = os.environ.keys()
 brush_lib = os.getcwd() + '/build/'
 
 exts = []
-for n in ['data','evaluation','params','population','program','selection','util',
+#'evaluation',
+for n in ['data','params','population','program','selection','util',
          'variation']:
 # for n in ['individual']:
     nfold = 'brush/'+n+'/'
@@ -40,20 +41,23 @@ for n in ['data','evaluation','params','population','program','selection','util'
         nfold='brush/population/'
     elif n == 'node':
         nfold='brush/program/'
+    print(nfold,n)
     exts.append(
         Extension(name=n,
                   sources =  [nfold + n +'.pyx'],    # our cython source
                   include_dirs = ['.','build/',nfold,nfold+'src/']
                                   +eigency.get_includes(include_eigen=True),
                   extra_compile_args = ['-std=c++1y','-fopenmp','-Wno-sign-compare',
-                                         '-Wno-reorder'],
+                        '-Wno-reorder','-Wno-unused-variable',
+                        '-Wno-ignored-attributes', '-Wno-misleading-indentation',
+                        '-Wno-deprecated-declarations','-Wno-cpp',
+                        '-Wno-int-in-bool-context'],
                   library_dirs = [brush_lib], 
                   runtime_library_dirs = [brush_lib], 
                   extra_link_args = ['-lbrush'],      
                   language='c++'
                   ),
             )
-print('exts:',exts)
 setup(
     name="Brush",
     author='William La Cava',

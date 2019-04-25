@@ -9,9 +9,9 @@ namespace FT {
 
     namespace Util{
     
-        Rnd* Rnd::instance = NULL;
+        CRnd* CRnd::instance = NULL;
         
-        Rnd::Rnd()
+        CRnd::CRnd()
         {
             /*!
              * need a random generator for each core to do multiprocessing
@@ -20,17 +20,17 @@ namespace FT {
             rg.resize(omp_get_max_threads());                      
         }
 
-        Rnd* Rnd::initRand()
+        CRnd* CRnd::initRand()
         {
             if (!instance)
             {
-                instance = new Rnd();
+                instance = new CRnd();
             }
 
             return instance;
         }
 
-        void Rnd::destroy()
+        void CRnd::destroy()
         {
             if (instance)
                 delete instance;
@@ -38,7 +38,7 @@ namespace FT {
             instance = NULL;
         }
         
-        void Rnd::set_seed(int seed)
+        void CRnd::set_seed(int seed)
         { 
             /*!
              * set seeds for each core's random number generator
@@ -63,34 +63,34 @@ namespace FT {
             }
         }
 
-        int Rnd::rnd_int( int lowerLimit, int upperLimit ) 
+        int CRnd::rnd_int( int lowerLimit, int upperLimit ) 
         {
             std::uniform_int_distribution<> dist( lowerLimit, upperLimit );
             return dist(rg[omp_get_thread_num()]);
         }
 
-        float Rnd::rnd_flt(float min, float max)
+        float CRnd::rnd_flt(float min, float max)
         {
             std::uniform_real_distribution<float> dist(min, max);
             return dist(rg[omp_get_thread_num()]);
         }
 
-        float Rnd::rnd_dbl(float min, float max)
+        float CRnd::rnd_dbl(float min, float max)
         {
             std::uniform_real_distribution<float> dist(min, max);
             return dist(rg[omp_get_thread_num()]);
         }
         
-        float Rnd::operator()(unsigned i) 
+        float CRnd::operator()(unsigned i) 
         {
             return rnd_dbl(0.0,i);
         }
         
-        float Rnd::operator()() { return rnd_flt(0.0,1.0); }
+        float CRnd::operator()() { return rnd_flt(0.0,1.0); }
 
         /*
 	    template <class RandomAccessIterator>
-	    void Rnd::shuffle (RandomAccessIterator first, RandomAccessIterator last)
+	    void CRnd::shuffle (RandomAccessIterator first, RandomAccessIterator last)
 	    {
 	        for (auto i=(last-first)-1; i>0; --i) 
             {
@@ -100,7 +100,7 @@ namespace FT {
 	    }*/           
         
         /*template<typename Iter>                                    
-        Iter Rnd::select_randomly(Iter start, Iter end) 
+        Iter CRnd::select_randomly(Iter start, Iter end) 
         {
             std::uniform_int_distribution<> dis(0, distance(start, end) - 1);
             advance(start, dis(rg[omp_get_thread_num()]));
@@ -109,7 +109,7 @@ namespace FT {
        
         /*
         template<typename T>
-        T Rnd::random_choice(const vector<T>& v)
+        T CRnd::random_choice(const vector<T>& v)
         {
             //return a random element of a vector.          
             assert(v.size()>0 && " attemping to return random choice from empty vector");
@@ -118,7 +118,7 @@ namespace FT {
 
         /*
         template<typename T, typename D>
-        T Rnd::random_choice(const vector<T>& v, const vector<D>& w )
+        T CRnd::random_choice(const vector<T>& v, const vector<D>& w )
         {
              //return a weighted random element of a vector
              
@@ -142,7 +142,7 @@ namespace FT {
             }
         }*/
             
-        float Rnd::gasdev()
+        float CRnd::gasdev()
         //Returns a normally distributed deviate with zero mean and unit variance
         {
             float ran = rnd_flt(-1,1);
@@ -168,7 +168,7 @@ namespace FT {
                 return gset;	//and return it.
             }
         }
-        Rnd::~Rnd() {}
+        CRnd::~CRnd() {}
     }
 
 }
