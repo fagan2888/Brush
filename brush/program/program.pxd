@@ -18,6 +18,8 @@ cdef extern from "src/nodevector.h" namespace "FT::Pop":
                 
         CNodeVector& operator=(const CNodeVector &)
         
+        string program_str() const
+        
         vector[size_t] roots() const;
 
         size_t subtree(size_t, char) const

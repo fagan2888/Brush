@@ -9,7 +9,7 @@ license: GNU/GPLv3
 
 from libcpp cimport bool
 from libcpp.vector cimport vector
-
+from eigency.core cimport *
 from brush.population.individual cimport CIndividual
 from brush.data.data cimport Data
 from brush.params.params cimport Parameters
@@ -20,27 +20,26 @@ cdef class Individual:
     def __cinit__(self):
         self.ind = CIndividual()
         
-    #TODO later
-    #cdef out(self, const Data &d, const Parameters &params, bool predict):
-    #    return self.ind.out(d.cdata, params.params, predict)
+    cdef out(self, const Data &d, const Parameters &params, bool predict):
+        res = ndarray(self.ind.out(d.cdata, params.params, predict))
+        return res.flatten()
 
-    #cdef fit(self, const Data &d,
-    #         const Parameters &params, bool &pass_val):
-    #    return self.ind.fit(d.cdata, params.params, pass_val)
+    cdef fit(self, const Data &d,
+             const Parameters &params, bool &pass_val):
+             
+        res = ndarray(self.ind.fit(d.cdata, params.params, pass_val))
+        return res.flatten()
 
-    #cdef predict(self, const Data &d,
-    #             const Parameters &params):
-    #    return self.ind.predict(d.cdata, params.params)
-
+    cdef predict(self, const Data &d,
+                 const Parameters &params):
+        res = ndarray(self.ind.predict(d.cdata, params.params))
+        return res.flatten()
 
     def get_eqn(self):
         return self.ind.get_eqn()
 
     def get_features(self):
         return self.ind.get_features()
-
-    def program_str(self):
-        return self.ind.program_str()
 
     def set_rank(self, unsigned r):
         self.ind.set_rank(r)
