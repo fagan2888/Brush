@@ -14,22 +14,19 @@ namespace FT{
         
         Lexicase::~Lexicase(){}
         
-        vector<size_t> Lexicase::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> Lexicase::select(CPopulation& pop, const CParameters& params)
         {
             /*! Selection according to lexicase selection for classification and epsilon-lexicase
              * selection for regression. 
              * @param pop: CPopulation
-             * @param F: n_samples X popsize matrix of model outputs. 
              * @param params: parameters.
              *
              * @return selected: vector of indices corresponding to pop that are selected.
              *
-             * In selection mode, parents are selected among the first half of columns of F since
-             * it is assumed that we are selecting for offspring to fill the remaining columns. 
              */            
 
-            unsigned int N = F.rows(); //< number of samples
-            unsigned int P = F.cols()/2; //< number of individuals
+            unsigned int N = pop.individuals.at(0).error.size(); //< number of samples
+            unsigned int P = pop.individuals.size(); //< number of individuals
             
             // define epsilon
             ArrayXf epsilon = ArrayXf::Zero(N);
@@ -38,20 +35,28 @@ namespace FT{
             if (!params.classification || params.scorer.compare("log")==0 
                     || params.scorer.compare("multi_log")==0)
             {
-                // for columns of F, calculate epsilon
+                // for each sample, calculate epsilon
                 for (int i = 0; i<epsilon.size(); ++i)
-                    epsilon(i) = mad(F.row(i));
+                {
+                    VectorXf case_errors(pop.individuals.size());
+                    for (int j = 0; j<pop.individuals.size(); ++j)
+                    {
+                        case_errors(j) = pop.individuals.at(j).error(i);
+                    }
+                    epsilon(i) = mad(case_errors);
+                }
             }
 
-            // individual locations in F
+            // pool of individuals
             vector<size_t> starting_pool;
-            for (const auto& p : pop.individuals)
+            /* for (const auto& p : pop.individuals) */
+            for (int i = 0; i < pop.individuals.size(); ++i)
             {
-            	starting_pool.push_back(p.loc);
+            	starting_pool.push_back(i);
             }
             assert(starting_pool.size() == P);     
             
-            vector<size_t> F_locs(P,0); // selected individuals
+            vector<size_t> selected(P,0); // selected individuals
             #pragma omp parallel for 
             for (unsigned int i = 0; i<P; ++i)  // selection loop
             {
@@ -91,12 +96,12 @@ namespace FT{
                   
                   // get minimum
                   for (size_t j = 0; j<pool.size(); ++j)
-                      if (F(cases[h],pool[j]) < minfit) 
-                          minfit = F(cases[h],pool[j]);
+                      if (pop.individuals.at(pool[j]).error(cases[h]) < minfit) 
+                          minfit = pop.individuals.at(pool[j]).error(cases[h]);
                   
                   // select best
                   for (size_t j = 0; j<pool.size(); ++j)
-                      if (F(cases[h],pool[j]) <= minfit+epsilon[cases[h]])
+                      if (pop.individuals.at(pool[j]).error(cases[h]) <= minfit+epsilon[cases[h]])
                         winner.push_back(pool[j]);                 
                  
                   ++h; // next case
@@ -117,41 +122,37 @@ namespace FT{
 			
                 assert(winner.size()>0);
                 //if more than one winner, pick randomly
-                F_locs[i] = r.random_choice(winner);   
+                selected[i] = r.random_choice(winner);   
             }               
 
-            // convert F_locs to pop.individuals indices
-            vector<size_t> selected;
-            bool match = false;
-            for (const auto& f: F_locs)
-            {
-                for (unsigned i=0; i < pop.size(); ++i)
-                {
-                    if (pop.individuals[i].loc == f)
-                    {
-                        selected.push_back(i);
-                        match = true;
-                    }
-                }
-                if (!match)
-                    HANDLE_ERROR_THROW("no loc matching " + std::to_string(f) + " in pop");
-                match = false;
-            }
-            if (selected.size() != F_locs.size()){
-                std::cout << "pop.locs: ";
-                for (auto i: pop.individuals) std::cout << i.loc << " "; std::cout << "\n";
+            /* // convert F_locs to pop.individuals indices */
+            /* vector<size_t> selected; */
+            /* bool match = false; */
+            /* for (const auto& f: F_locs) */
+            /* { */
+            /*     for (unsigned i=0; i < pop.size(); ++i) */
+            /*     { */
+            /*         if (pop.individuals[i].loc == f) */
+            /*         { */
+            /*             selected.push_back(i); */
+            /*             match = true; */
+            /*         } */
+            /*     } */
+            /*     if (!match) */
+            /*         HANDLE_ERROR_THROW("no loc matching " + std::to_string(f) + " in pop"); */
+            /*     match = false; */
+            /* } */
+            if (selected.size() != pop.individuals.size()){
                 std::cout << "selected: " ;
                 for (auto s: selected) std::cout << s << " "; std::cout << "\n";
-                std::cout<< "F_locs: ";
-                for (auto f: F_locs) std::cout << f << " "; std::cout << "\n";
+                HANDLE_ERROR_THROW("Lexicase did not select correct number of parents");
             }
-            assert(selected.size() == F_locs.size());
             return selected;
         }
 
-        vector<size_t> Lexicase::survive(CPopulation& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> Lexicase::survive(CPopulation& pop, const CParameters& params)
         {
-            /* Lexicase survival */
+            /*TODO: Lexicase survival */
         }
         
     }

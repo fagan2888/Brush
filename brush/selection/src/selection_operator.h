@@ -25,9 +25,9 @@ namespace FT{
 
             virtual ~SelectionOperator();
             
-            virtual vector<size_t> select(CPopulation& pop, const MatrixXf& F, const CParameters& p);
+            virtual vector<size_t> select(CPopulation& pop, const CParameters& p);
             
-            virtual vector<size_t> survive(CPopulation& pop, const MatrixXf& F, const CParameters& p);
+            virtual vector<size_t> survive(CPopulation& pop, const CParameters& p);
         };
     }
 }

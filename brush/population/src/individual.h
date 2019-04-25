@@ -27,27 +27,28 @@ namespace FT{
          */
         class CIndividual{
         public:        
-            CNodeVector program;                         ///< executable data structure
-            MatrixXf Phi;                               ///< transformation output of program 
-            VectorXf yhat;                              ///< current output
-            float fitness;             				///< aggregate fitness score
-            float fitness_v;             				///< aggregate validation fitness score
+            CNodeVector program;            ///< executable data structure
+            MatrixXf Phi;                   ///< transformation output of program 
+            VectorXf yhat;                  ///< current output
+            VectorXf error;                 ///< current error
+            float fitness;             		///< aggregate fitness score
+            float fitness_v;             	///< aggregate validation fitness score
             float CN;
-            size_t loc;                 				///< index of individual in semantic matrix F
-            string eqn;                 				///< symbolic representation of program
-            vector<float> w;            				///< weights from ML training on program output
-            vector<float> p;                           ///< probability of variation of subprograms
-            unsigned int dim;           				///< dimensionality of individual
-            vector<float> obj;                         ///< objectives for use with Pareto selection
-            unsigned int dcounter;                      ///< number of individuals this dominates
-            vector<unsigned int> dominated;             ///< individual indices this dominates
-            unsigned int rank;                          ///< pareto front rank
-            float crowd_dist;                           ///< crowding distance on the Pareto front
-            unsigned int c;                             ///< the complexity of the program.    
-            vector<char> dtypes;                        ///< the data types of each column of the 
-                                                          // program output
-            unsigned id;                                ///< tracking id
-            vector<int> parent_id;                      ///< ids of parents
+            size_t loc;               ///< index of individual in semantic matrix F
+            string eqn;               ///< symbolic representation of program
+            vector<float> w;          ///< weights from ML training on program output
+            vector<float> p;          ///< probability of variation of subprograms
+            unsigned int dim;         ///< dimensionality of individual
+            vector<float> obj;        ///< objectives for use with Pareto selection
+            unsigned int dcounter;    ///< number of individuals this dominates
+            vector<unsigned int> dominated; ///< individual indices this dominates
+            unsigned int rank;              ///< pareto front rank
+            float crowd_dist;               ///< crowding distance on the Pareto front
+            unsigned int c;                 ///< the complexity of the program.    
+            vector<char> dtypes;            ///< the data types of each column of the 
+                                            // program output
+            unsigned id;                    ///< tracking id
+            vector<int> parent_id;          ///< ids of parents
            
             CIndividual();
 

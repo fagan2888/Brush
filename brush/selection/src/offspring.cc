@@ -14,7 +14,6 @@ namespace FT{
         Offspring::~Offspring(){}
            
         vector<size_t> Offspring::survive(CPopulation& pop,
-                                          const MatrixXf& F, 
                                           const CParameters& params)
         {
             /* Selects the offspring for survival. 
@@ -27,7 +26,7 @@ namespace FT{
              *      
              */
           
-            int P = F.cols()/2; // index P is where the offspring begin, and also the size of the pop
+            int P = pop.size()/2; // index P is where the offspring begin, and also the size of the pop
             
             vector<size_t> selected(P);
             // select F/2 to F individuals

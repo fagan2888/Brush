@@ -28,11 +28,9 @@ cdef class Selection:
     #TODO change matrixXf in select and survive to float and flatten them as fortran arrays
 
     cdef select(self, Population &pop,
-                const MatrixXf &F,
                 const Parameters &params):
         return self.sel.select(pop.pop, F, params.params)
 
     cdef survive(self, Population &pop,
-                 const MatrixXf &F,
                  const Parameters &params):
-        return self.sel.survive(pop.pop, F, params.params)
+        return self.sel.survive(pop.pop, params.params)

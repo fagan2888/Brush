@@ -36,7 +36,7 @@ namespace FT{
                 return i; 
         }
         
-        vector<size_t> NSGA2::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> NSGA2::select(CPopulation& pop, const CParameters& params)
         {
             /* Selection using Pareto tournaments. 
              *
@@ -68,7 +68,7 @@ namespace FT{
             return selected;
         }
 
-        vector<size_t> NSGA2::survive(CPopulation& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> NSGA2::survive(CPopulation& pop, const CParameters& params)
         {
             /* Selection using the survival scheme of NSGA-II. 
              *

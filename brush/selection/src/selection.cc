@@ -36,14 +36,14 @@ namespace FT{
         string CSelection::get_type(){ return pselector->name; }
         
         /// perform CSelection 
-        vector<size_t> CSelection::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
+        vector<size_t> CSelection::select(CPopulation& pop, const CParameters& params)
         {       
-            return pselector->select(pop, F, params);
+            return pselector->select(pop, params);
         }
         /// perform survival
-        vector<size_t> CSelection::survive(CPopulation& pop, const MatrixXf& F,  const CParameters& params)
+        vector<size_t> CSelection::survive(CPopulation& pop, const CParameters& params)
         {       
-            return pselector->survive(pop, F, params);
+            return pselector->survive(pop, params);
         }
     }
     

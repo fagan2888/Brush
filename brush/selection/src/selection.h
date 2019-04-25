@@ -44,10 +44,10 @@ namespace FT{
             string get_type();
             
             /// perform CSelection 
-            vector<size_t> select(CPopulation& pop, const MatrixXf& F, const CParameters& params);
+            vector<size_t> select(CPopulation& pop, const CParameters& params);
             
             /// perform survival
-            vector<size_t> survive(CPopulation& pop, const MatrixXf& F,  const CParameters& params);
+            vector<size_t> survive(CPopulation& pop,  const CParameters& params);
         };
         
     }

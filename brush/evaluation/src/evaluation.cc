@@ -30,7 +30,6 @@ namespace FT{
         // fitness of population
         void CEvaluation::fitness(vector<CIndividual>& individuals,
                                  const CData& d, 
-                                 MatrixXf& F, 
                                  const CParameters& params, 
                                  bool offspring,
                                  bool validation)
@@ -38,19 +37,17 @@ namespace FT{
         	/*!
              *      @param individuals: population
              *      @param d: CData structure
-             *      @param F: matrix of raw fitness values
              *      @param params: algorithm parameters
              *      @param offspring: if true, only evaluate last half of population
              *      @param validation: if true, call ind.predict instead of ind.fit
              
              * Output 
              
-             *      F is modified
              *      pop[:].fitness is modified
              */
             
             unsigned start =0;
-            if (offspring) start = F.cols()/2;
+            if (offspring) start = individuals.size()/2;
             
             // loop through individuals
             #pragma omp parallel for
@@ -82,13 +79,13 @@ namespace FT{
                     else 
                         ind.fitness = MAX_FLT;
 
-                    F.col(ind.loc) = MAX_FLT*VectorXf::Ones(d.y->size());
+                    ind.error = MAX_FLT*VectorXf::Ones(d.y->size());
                 }
                 else
                 {
                     // assign weights to individual
                     /* ind.set_p(ind.ml->get_weights(),params.feedback); */
-                    assign_fit(ind,F,yhat,(*(d.y)),params,validation);
+                    assign_fit(ind,yhat,(*(d.y)),params,validation);
 
 //                    if (params.hillclimb && !validation)
 //                    {
@@ -107,11 +104,11 @@ namespace FT{
         }
         
         // assign fitness to program
-        void CEvaluation::assign_fit(CIndividual& ind, MatrixXf& F, const VectorXf& yhat, 
+        void CEvaluation::assign_fit(CIndividual& ind, const VectorXf& yhat, 
                                     const VectorXf& y, const CParameters& params, bool val)
         {
             /*!
-             * assign raw errors to F, and aggregate fitnesses to individuals. 
+             * assign raw errors to individual, and aggregate fitnesses to individuals. 
              *
              *  Input: 
              *
@@ -125,18 +122,20 @@ namespace FT{
              *
              *       modifies F and ind.fitness
             */ 
-            assert(F.cols()>ind.loc);
             VectorXf loss;
             float f = score(y, yhat, loss, params.class_weights);
             
             if (val)
                 ind.fitness_v = f;
             else
+            {
                 ind.fitness = f;
+                ind.error = loss;
+            }
                 
-            F.col(ind.loc) = loss;  
             
-            logger.log("ind " + std::to_string(ind.loc) + " fitness: " + std::to_string(ind.fitness),3);
+            logger.log("ind " + std::to_string(ind.loc) + " fitness: " + 
+                       std::to_string(ind.fitness),3);
         }
     }
 

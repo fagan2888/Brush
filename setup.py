@@ -26,13 +26,13 @@ import os
 env_params = os.environ.keys() 
 
 # get path to Brush shared library for linking
-cwd = '/'.join(os.getcwd().split('/')[:-1])
-brush_lib = cwd + '/brush/build/'
+# cwd = '/'.join(os.getcwd().split('/')[:-1])
+brush_lib = os.getcwd() + '/build/'
 
 exts = []
-# for n in ['data','evaluation','params','population','program','selection','util',
-#         'variation']:
-for n in ['individual']:
+for n in ['data','evaluation','params','population','program','selection','util',
+         'variation']:
+# for n in ['individual']:
     nfold = 'brush/'+n+'/'
     if n=='util':
         n = 'rnd'

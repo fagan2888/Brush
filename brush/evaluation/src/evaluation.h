@@ -47,13 +47,12 @@ namespace FT{
                 /// fitness of population.
                 void fitness(vector<CIndividual>& individuals,
                              const CData& d, 
-                             MatrixXf& F, 
                              const CParameters& params, 
                              bool offspring = false,
                              bool validation = false);
               
-                /// assign fitness to an individual and to F.  
-                void assign_fit(CIndividual& ind, MatrixXf& F, const VectorXf& yhat, 
+                /// assign fitness to an individual.  
+                void assign_fit(CIndividual& ind, const VectorXf& yhat, 
                                 const VectorXf& y, const CParameters& params,bool val=false);       
         };
     }
