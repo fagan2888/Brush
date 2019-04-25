@@ -32,7 +32,7 @@ brush_lib = cwd + '/brush/build/'
 exts = []
 # for n in ['data','evaluation','params','population','program','selection','util',
 #         'variation']:
-for n in ['node']:
+for n in ['individual']:
     nfold = 'brush/'+n+'/'
     if n=='util':
         n = 'rnd'

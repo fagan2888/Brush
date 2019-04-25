@@ -27,3 +27,7 @@ cdef extern from "variation.h" namespace "FT::Vary":
                   const vector[size_t] &,
                   const CParameters &,
                   const CData &)
+                  
+                  
+cdef cppclass Variation:
+    CVariation vary_obj

@@ -22,21 +22,7 @@ cdef class Program:
     
     def allocate(self, Program other):
         self.nodevec = CNodeVector(other.nodevec)
-        
-    #TODO check if required
-    #cdef __cinit__(self, Program && other):
-    #    self.nodevec = CNodeVector(&& other.nodevec)
-        
-    #TODO check operator overloading    
-    #cdef Program& operator=(self, Program const &other):
-    #    return self.nodevec.=(other.nodevec)
-        
-    #def Program& operator=(self, Program && other):
-    #    return self.nodevec.=(&& other.nodevec)
-        
-    def get_data(self, int start, int end):
-        return self.nodevec.get_data(start, end)
-        
+            
     def roots(self):
         return self.nodevec.roots()
         

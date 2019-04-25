@@ -144,19 +144,19 @@ namespace FT{
             return ps;
         }
         
-        MatrixXf CIndividual::fit(const CData& d, const CParameters& params, bool& pass)
+        VectorXf CIndividual::fit(const CData& d, const CParameters& params, bool& pass)
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
-            return out(d, params);      
+            return out(d, params).row(0);      
         }
 
-        MatrixXf CIndividual::predict(const CData& d, const CParameters& params)
+        VectorXf CIndividual::predict(const CData& d, const CParameters& params)
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
             // toggle validation
-            return out(d, params, true);
+            return out(d, params, true).row(0);
         }
 
         

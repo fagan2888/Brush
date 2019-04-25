@@ -36,6 +36,8 @@ namespace FT{
 
             public:
             
+            	CVariation();
+            
                 /// constructor
                 CVariation(float cr);
                            
@@ -65,9 +67,9 @@ namespace FT{
                 void delete_mutate(CIndividual& child, const CParameters& params);
      
                 /// splice two programs together
-                void splice_programs(NodeVector& vnew, 
-                                     const NodeVector& v1, size_t i1, size_t j1, 
-                                     const NodeVector& v2, size_t i2, size_t j2);
+                void splice_programs(CNodeVector& vnew, 
+                                     const CNodeVector& v1, size_t i1, size_t j1, 
+                                     const CNodeVector& v2, size_t i2, size_t j2);
                 /// debugging printout of crossover operation.
                 void print_cross(CIndividual&,size_t,size_t,CIndividual&, size_t, size_t, CIndividual&,
                                  bool after=true);       
@@ -75,7 +77,7 @@ namespace FT{
                 float cross_rate;     ///< fraction of crossover in total variation
         };
 
-        std::unique_ptr<CNode> random_node(const NodeVector & v);
+        std::unique_ptr<CNode> random_node(const CNodeVector & v);
     }
 }
 #endif

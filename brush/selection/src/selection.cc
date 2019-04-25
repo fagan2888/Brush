@@ -9,10 +9,10 @@ namespace FT{
 
     namespace Sel{
            
-        Selection::Selection(string type, bool survival)
+        CSelection::CSelection(string type, bool survival)
         {
             /*!
-             * set type of selection operator.
+             * set type of CSelection operator.
              */
 
             if (!type.compare("lexicase"))
@@ -30,18 +30,18 @@ namespace FT{
                 
         }
 
-        Selection::~Selection(){}
+        CSelection::~CSelection(){}
         
-        /// return type of selectionoperator
-        string Selection::get_type(){ return pselector->name; }
+        /// return type of CSelectionoperator
+        string CSelection::get_type(){ return pselector->name; }
         
-        /// perform selection 
-        vector<size_t> Selection::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
+        /// perform CSelection 
+        vector<size_t> CSelection::select(CPopulation& pop, const MatrixXf& F, const CParameters& params)
         {       
             return pselector->select(pop, F, params);
         }
         /// perform survival
-        vector<size_t> Selection::survive(CPopulation& pop, const MatrixXf& F,  const CParameters& params)
+        vector<size_t> CSelection::survive(CPopulation& pop, const MatrixXf& F,  const CParameters& params)
         {       
             return pselector->survive(pop, F, params);
         }

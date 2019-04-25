@@ -13,7 +13,7 @@ from eigency.core cimport *
 from brush.population.population cimport CPopulation
 from brush.params.params cimport CParameters
 
-cdef extern from "selection.h" namespace "FT::Sel":
+cdef extern from "src/selection.h" namespace "FT::Sel":
     cdef cppclass CSelection:
 
         CSelection() except +
@@ -29,3 +29,8 @@ cdef extern from "selection.h" namespace "FT::Sel":
         vector[size_t] survive(CPopulation &,
                                const MatrixXf &,
                                const CParameters &)
+                               
+                               
+cdef cppclass Selection:
+    CSelection sel
+

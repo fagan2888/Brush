@@ -3,8 +3,8 @@ copyright 2017 William La Cava
 license: GNU/GPL v3
 */
 
-#ifndef SELECTION_H
-#define SELECTION_H
+#ifndef CSelection_H
+#define CSelection_H
 
 #include "selection_operator.h"
 #include "lexicase.h"
@@ -20,28 +20,30 @@ namespace FT{
     
     /**
      * @namespace FT::Sel
-     * @brief namespace containing Selection methods for best individuals used in Feat
+     * @brief namespace containing CSelection methods for best individuals used in Feat
      */
     namespace Sel{ 
         ////////////////////////////////////////////////////////////////////////////////// Declarations
 	
         
         /*!
-         * @class Selection
-         * @brief interfaces with selection operators. 
+         * @class CSelection
+         * @brief interfaces with CSelection operators. 
          */
-        struct Selection
+        class CSelection
         {
+        	public:
+        	
             shared_ptr<SelectionOperator> pselector; 
             
-            Selection(string type="lexicase", bool survival=false);
+            CSelection(string type="lexicase", bool survival=false);
             
-            ~Selection();
+            ~CSelection();
             
-            /// return type of selectionoperator
+            /// return type of CSelectionoperator
             string get_type();
             
-            /// perform selection 
+            /// perform CSelection 
             vector<size_t> select(CPopulation& pop, const MatrixXf& F, const CParameters& params);
             
             /// perform survival

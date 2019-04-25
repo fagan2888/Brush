@@ -19,17 +19,19 @@ cdef class Individual:
 
     def __cinit__(self):
         self.ind = CIndividual()
+        
+    #TODO later
+    #cdef out(self, const Data &d, const Parameters &params, bool predict):
+    #    return self.ind.out(d.cdata, params.params, predict)
 
-    cdef out(self, const Data &d, const Parameters &params, bool predict):
-        return self.ind.out(d.cdata, params.params, predict)
+    #cdef fit(self, const Data &d,
+    #         const Parameters &params, bool &pass_val):
+    #    return self.ind.fit(d.cdata, params.params, pass_val)
 
-    cdef fit(self, const Data &d,
-             const Parameters &params, bool &pass_val):
-        return self.ind.fit(d.cdata, params.params, pass_val)
+    #cdef predict(self, const Data &d,
+    #             const Parameters &params):
+    #    return self.ind.predict(d.cdata, params.params)
 
-    cdef predict(self, const Data &d,
-                 const Parameters &params):
-        return self.ind.predict(d.cdata, params.params)
 
     def get_eqn(self):
         return self.ind.get_eqn()
@@ -58,20 +60,8 @@ cdef class Individual:
     def set_id(self, unsigned i):
         self.ind.set_id(i)
 
-    cdef set_parents(self, const vector[Individual] &parents):
-        self.ind.set_parents(parents)
-
-    cdef set_parents(self, const vector[int] &parents):
-        self.ind.set_parents(parents)
-
     def get_p(self):
         return self.ind.get_p()
-
-    def get_p(self, const size_t i, bool normalize):
-        return self.ind.get_p(i, normalize)
-
-    cdef get_p(self, const vector[size_t] &locs, bool normalize):
-        return self.ind.get_p(locs, normalize)
 
     cdef set_p(self, const vector[float] &weights, const float &fb,
                const bool softmax_norm):

@@ -15,7 +15,7 @@ from libcpp cimport bool
 from brush.population.individual cimport CIndividual
 from brush.params.params cimport CParameters
 
-cdef extern from "population.h" namespace "FT::Pop":
+cdef extern from "src/population.h" namespace "FT::Pop":
     cdef cppclass CPopulation:
 
         CPopulation() except +
@@ -45,3 +45,7 @@ cdef extern from "population.h" namespace "FT::Pop":
         string print_eqns(bool, string)
 
         vector[size_t] sorted_front(unsigned)
+        
+        
+cdef cppclass Population:
+    CPopulation pop

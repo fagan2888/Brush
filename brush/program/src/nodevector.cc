@@ -8,39 +8,39 @@ license: GNU/GPL v3
 namespace FT{
 
     namespace Pop{    
-        NodeVector::NodeVector() = default;
+        CNodeVector::CNodeVector() = default;
         
-        NodeVector::~NodeVector() = default; 
+        CNodeVector::~CNodeVector() = default; 
 
-        NodeVector::NodeVector(NodeVector && other) = default;
+        CNodeVector::CNodeVector(CNodeVector && other) = default;
 
-        NodeVector& NodeVector::operator=(NodeVector && other) = default;
+        CNodeVector& CNodeVector::operator=(CNodeVector && other) = default;
 
-        NodeVector::NodeVector(const NodeVector& other)
+        CNodeVector::CNodeVector(const CNodeVector& other)
         {
-            /* std::cout<<"in NodeVector(const NodeVector& other)\n"; */
+            /* std::cout<<"in CNodeVector(const CNodeVector& other)\n"; */
             this->resize(0);
             for (const auto& p : other)
                 this->push_back(p->clone());
         }
         
         /* { */
-        /*     std::cout<<"in NodeVector(NodeVector&& other)\n"; */
+        /*     std::cout<<"in CNodeVector(CNodeVector&& other)\n"; */
         /*     for (const auto& p : other) */
         /*         this->push_back(p->clone()); */
         /* } */
         
-        NodeVector& NodeVector::operator=(NodeVector const& other)
+        CNodeVector& CNodeVector::operator=(CNodeVector const& other)
         { 
 
-            /* std::cout << "in NodeVector& operator=(NodeVector const& other)\n"; */
+            /* std::cout << "in CNodeVector& operator=(CNodeVector const& other)\n"; */
             this->resize(0);
             for (const auto& p : other)
                 this->push_back(p->clone());
             return *this; 
         }
                 
-        vector<CNode*> NodeVector::get_data(int start,int end)
+        vector<CNode*> CNodeVector::get_data(int start,int end)
         {
             vector<CNode*> v;
             if (end == 0)
@@ -57,7 +57,7 @@ namespace FT{
         }
 
         /// returns indices of root nodes 
-        vector<size_t> NodeVector::roots() const
+        vector<size_t> CNodeVector::roots() const
         {
             // find "root" nodes of program, where roots are final values that output 
             // something directly to the state
@@ -82,7 +82,7 @@ namespace FT{
             return indices; 
         }
 
-        size_t NodeVector::subtree(size_t i, char otype) const 
+        size_t CNodeVector::subtree(size_t i, char otype) const 
         {
 
            /*!
@@ -132,7 +132,7 @@ namespace FT{
            return std::min(i,i4);
         }
         
-        void NodeVector::set_weights(vector<vector<float>>& weights)
+        void CNodeVector::set_weights(vector<vector<float>>& weights)
         {
             if (weights.size()==0) return;
             int count = 0;
@@ -161,7 +161,7 @@ namespace FT{
             }
         }
         
-        vector<vector<float>> NodeVector::get_weights()
+        vector<vector<float>> CNodeVector::get_weights()
         {
             vector<vector<float>> weights;
             for (unsigned i = 0; i< this->size(); ++i)
@@ -174,7 +174,7 @@ namespace FT{
             return weights;
         }
         
-        bool NodeVector::is_valid_program(unsigned num_features, 
+        bool CNodeVector::is_valid_program(unsigned num_features, 
                                           vector<string> longitudinalMap)
         {
             /*! checks whether program fulfills all its arities. */
@@ -212,8 +212,8 @@ namespace FT{
             return true;
         }
        
-        void NodeVector::make_tree(const NodeVector& functions, 
-                                   const NodeVector& terminals, int max_d,  
+        void CNodeVector::make_tree(const CNodeVector& functions, 
+                                   const CNodeVector& terminals, int max_d,  
                                    const vector<float>& term_weights,
                                    char otype, const vector<char>& term_types)
         {  
@@ -343,8 +343,8 @@ namespace FT{
             /* for (const auto& p : *(this) ) std::cout << p->name << " "; */
         }
 
-        void NodeVector::make_program(const NodeVector& functions, 
-                                      const NodeVector& terminals, int max_d, 
+        void CNodeVector::make_program(const CNodeVector& functions, 
+                                      const CNodeVector& terminals, int max_d, 
                                       const vector<float>& term_weights, int dim, char otype, 
                                       vector<string> longitudinalMap, const vector<char>& term_types)
         {

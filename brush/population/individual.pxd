@@ -14,9 +14,8 @@ from eigency.core cimport *
 from brush.data.data cimport CData
 from brush.params.params cimport CParameters
 
-cdef cppclass Individual
 
-cdef extern from "individual.h" namespace "FT::Pop":
+cdef extern from "src/individual.h" namespace "FT::Pop":
     cdef cppclass CIndividual:
         CIndividual() except +
 
@@ -42,18 +41,14 @@ cdef extern from "individual.h" namespace "FT::Pop":
         
         unsigned int get_complexity()
 
-        void set_id(unsigned i);
-
-        void set_parents(const vector[CIndividual] &)
-
-        void set_parents(const vector[int] &)
+        void set_id(unsigned i)
 
         vector[float] get_p() const
 
-        float get_p(const size_t, bool) const
-
-        vector[float] get_p(const vector[size_t] &, bool) const
-
         void set_p(const vector[float] &, const float &,
                    const bool)
+                   
+
+cdef cppclass Individual:
+    CIndividual ind
 

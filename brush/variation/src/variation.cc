@@ -8,6 +8,8 @@ license: GNU/GPL v3
 namespace FT{
     
     namespace Vary{
+    
+    	CVariation::CVariation(){}
 
         /// constructor
         CVariation::CVariation(float cr): cross_rate(cr) {}
@@ -27,7 +29,7 @@ namespace FT{
          /// destructor
         CVariation::~CVariation(){}
 
-        std::unique_ptr<CNode> random_node(const NodeVector & v)
+        std::unique_ptr<CNode> random_node(const CNodeVector & v)
         {
            /*!
             * return a random node from a list of nodes.
@@ -165,7 +167,7 @@ namespace FT{
                 if (r() < child.get_p(i))  // mutate p. 
                 {
                     logger.log("\t\tmutating node " + p->name, 3);
-                    NodeVector replacements;  // potential replacements for p
+                    CNodeVector replacements;  // potential replacements for p
 
                     if (p->total_arity() > 0) // then it is an instruction
                     {
@@ -221,8 +223,8 @@ namespace FT{
                         logger.log("\t\tinsert mutating node " + child.program[i]->name +
                                    " with probability " + std::to_string(child.get_p(i)) + 
                                    "/" + std::to_string(n), 3);
-                        NodeVector insertion;  // inserted segment
-                        NodeVector fns;  // potential fns 
+                        CNodeVector insertion;  // inserted segment
+                        CNodeVector fns;  // potential fns 
                         
                         // find instructions with matching output types and a matching arity to i
                         for (const auto& f: params.functions)
@@ -278,7 +280,7 @@ namespace FT{
                         string s; 
                         for (const auto& ins : insertion) s += ins->name + " "; 
                         logger.log("\t\tinsertion: " + s + "\n", 3);
-                        NodeVector new_program; 
+                        CNodeVector new_program; 
                         splice_programs(new_program, 
                                         child.program, i, i, 
                                         insertion, size_t(0), insertion.size()-1);
@@ -296,7 +298,7 @@ namespace FT{
             }
             else    // add a dimension
             {            
-                NodeVector insertion; // new dimension
+                CNodeVector insertion; // new dimension
                 insertion.make_program(params.functions, params.terminals, 1,  
                              params.term_weights,1,r.random_choice(params.otypes),
                              params.longitudinalMap, params.ttypes);
@@ -414,9 +416,9 @@ namespace FT{
         }
         
         // swap vector subsets with different sizes. 
-        void CVariation::splice_programs( NodeVector& vnew,
-                                         const NodeVector& v1, size_t i1, size_t j1, 
-                                         const NodeVector& v2, size_t i2, size_t j2)
+        void CVariation::splice_programs( CNodeVector& vnew,
+                                         const CNodeVector& v1, size_t i1, size_t j1, 
+                                         const CNodeVector& v2, size_t i2, size_t j2)
         {
             /*!
              * swap vector subsets with different sizes. 

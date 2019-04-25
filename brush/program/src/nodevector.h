@@ -2,8 +2,8 @@
 copyright 2017 William La Cava
 license: GNU/GPL v3
 */
-#ifndef NODEVECTOR_H
-#define NODEVECTOR_H
+#ifndef CNodeVector_H
+#define CNodeVector_H
 #include <memory>
 #include "op/node.h"
 #include "op/n_Dx.h"
@@ -17,29 +17,29 @@ namespace FT{
         ////////////////////////////////////////////////////////////////////////////////// Declarations
 
         /*!
-         * @class NodeVector
+         * @class CNodeVector
          * @brief an extension of a vector of unique pointers to nodes 
          */
-        class NodeVector : public std::vector<std::unique_ptr<CNode>>
+        class CNodeVector : public std::vector<std::unique_ptr<CNode>>
         {
             public :
             
-            NodeVector();
+            CNodeVector();
             
-            ~NodeVector();
+            ~CNodeVector();
             
-            NodeVector(const NodeVector& other);
+            CNodeVector(const CNodeVector& other);
             
-            NodeVector(NodeVector && other);
+            CNodeVector(CNodeVector && other);
             /* { */
-            /*     std::cout<<"in NodeVector(NodeVector&& other)\n"; */
+            /*     std::cout<<"in CNodeVector(CNodeVector&& other)\n"; */
             /*     for (const auto& p : other) */
             /*         this->push_back(p->clone()); */
             /* } */
             
-            NodeVector& operator=(NodeVector const& other);
+            CNodeVector& operator=(CNodeVector const& other);
             
-            NodeVector& operator=(NodeVector && other);
+            CNodeVector& operator=(CNodeVector && other);
             
             /// returns vector of raw pointers to nodes in [start,end], or all if both are zero
             vector<CNode*> get_data(int start=0,int end=0);
@@ -56,16 +56,16 @@ namespace FT{
             bool is_valid_program(unsigned num_features, 
                                   vector<string> longitudinalMap);
        
-            void make_tree(const NodeVector& functions, 
-                           const NodeVector& terminals, int max_d,  
+            void make_tree(const CNodeVector& functions, 
+                           const CNodeVector& terminals, int max_d,  
                            const vector<float>& term_weights, char otype, const vector<char>& term_types);
 
-            void make_program(const NodeVector& functions, 
-                              const NodeVector& terminals, int max_d, 
+            void make_program(const CNodeVector& functions, 
+                              const CNodeVector& terminals, int max_d, 
                               const vector<float>& term_weights, int dim, char otype, 
                               vector<string> longitudinalMap, const vector<char>& term_types);
             
-        }; //NodeVector
+        }; //CNodeVector
         
     }
 } // FT

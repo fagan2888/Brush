@@ -35,8 +35,8 @@ namespace FT{
         int verbosity;                  			///< amount of printing. 0: none, 1: minimal, 
                                                     // 2: all
         vector<float> term_weights;    			///< probability weighting of terminals
-        NodeVector functions;                       ///< function nodes available in programs
-        NodeVector terminals;                       ///< terminal nodes available in programs
+        CNodeVector functions;                       ///< function nodes available in programs
+        CNodeVector terminals;                       ///< terminal nodes available in programs
         vector<std::string> longitudinalMap;        ///<vector storing longitudinal data keys
 
         unsigned int max_depth;         			///< max depth of programs

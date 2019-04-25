@@ -27,7 +27,7 @@ namespace FT{
          */
         class CIndividual{
         public:        
-            NodeVector program;                         ///< executable data structure
+            CNodeVector program;                         ///< executable data structure
             MatrixXf Phi;                               ///< transformation output of program 
             VectorXf yhat;                              ///< current output
             float fitness;             				///< aggregate fitness score
@@ -59,13 +59,13 @@ namespace FT{
                          const CParameters& params, vector<Trace>& stack_trace);
                          
             /// fits an ML model to the data after transformation
-            MatrixXf fit(const CData& d, const CParameters& params, bool& pass);
+            VectorXf fit(const CData& d, const CParameters& params, bool& pass);
             
             /*! generates prediction on data using transformation and ML predict. 
              *  @param drop_idx if specified, the phi output at drop_idx is set to zero, effectively
              *  removing its output from the transformation. used in semantic crossover.
              */
-            MatrixXf predict(const CData& d, const CParameters& params);
+            VectorXf predict(const CData& d, const CParameters& params);
             
             //TODO discuss implementation and uncomment later
 //            VectorXf predict_vector(const CData& d, const CParameters& params);

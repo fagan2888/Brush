@@ -12,8 +12,8 @@ from libcpp.vector cimport vector
 from libcpp.string cimport string
 
 from brush.population.population cimport CPopulation
-from brush.population.individual import Individual
-from brush.params.params import Parameters
+from brush.population.individual cimport Individual
+from brush.params.params cimport Parameters
 
 cdef class Population:
     cdef CPopulation pop
@@ -46,7 +46,7 @@ cdef class Population:
         self.pop.update_open_loc()
 
     cdef add(self, Individual &ind):
-        self.pop.add(ind)
+        self.pop.add(ind.ind)
 
     #TODO check how to do operator overloading
     #cdef operator[](self, size_t i):

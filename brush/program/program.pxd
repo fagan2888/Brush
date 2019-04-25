@@ -9,25 +9,15 @@ from libcpp.vector cimport vector
 from libcpp.string cimport string
 from libcpp cimport bool
 
-from brush.program.node cimport CNode
-
-cdef extern from "nodevector.h" namespace "FT::Pop::Op":
+cdef extern from "src/nodevector.h" namespace "FT::Pop":
     cdef cppclass CNodeVector:
 
         CNodeVector() except +
             
         CNodeVector(const CNodeVector &) except +
-        
-        #TODO verify what this means
-        CNodeVector(CNodeVector && other) except +
-        
+                
         CNodeVector& operator=(const CNodeVector &)
         
-        #TODO check if required
-        CNodeVector& operator=(CNodeVector &&)
-        
-        vector[CNode*] get_data(int, int)
-
         vector[size_t] roots() const;
 
         size_t subtree(size_t, char) const

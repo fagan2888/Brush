@@ -9,9 +9,9 @@ license: GNU/GPLv3
 from libcpp.vector cimport vector
 
 from brush.variation.variation cimport CVariation
-from brush.population.population import Population
-from brush.params.params import Parameters
-from brush.data.data import Data
+from brush.population.population cimport Population
+from brush.params.params cimport Parameters
+from brush.data.data cimport Data
 
 
 cdef class Variation:

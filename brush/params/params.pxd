@@ -13,8 +13,6 @@ from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
 
-cdef cppclass Parameters
-
 cdef extern from "src/params.h" namespace "FT":
     cdef cppclass CParameters:    
         CParameters() except +
@@ -64,4 +62,7 @@ cdef extern from "src/params.h" namespace "FT":
         void set_classes(VectorXf&)    
         
         void set_sample_weights(VectorXf& y)
+        
 
+cdef cppclass Parameters:
+    CParameters params

@@ -13,8 +13,6 @@ from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
 
-cdef cppclass Data
-
 cdef cppclass CVData
 
 cdef extern from "src/data.h" namespace "FT::Dat":
@@ -64,3 +62,7 @@ cdef extern from "src/data.h" namespace "FT::Dat":
                                 float)
                     
         void reorder_longitudinal(vector[ArrayXf] &, const vector[int] &)
+        
+        
+cdef cppclass Data:
+    CData cdata

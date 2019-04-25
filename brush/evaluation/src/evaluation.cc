@@ -67,7 +67,7 @@ namespace FT{
 
                 bool pass = true;
 
-                VectorXf yhat = validation? ind.predict(d,params).row(0) : ind.fit(d,params,pass).row(0); 
+                VectorXf yhat = validation? ind.predict(d,params): ind.fit(d,params,pass); 
                 // assign F and aggregate fitness
                 logger.log("Assigning fitness to " + ind.get_eqn(), 3);
 
