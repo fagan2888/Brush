@@ -23,11 +23,9 @@ cdef extern from "src/selection.h" namespace "FT::Sel":
         string get_type()
 
         vector[size_t] select(CPopulation &,
-                              const MatrixXf &,
                               const CParameters &)
 
         vector[size_t] survive(CPopulation &,
-                               const MatrixXf &,
                                const CParameters &)
                                
                                

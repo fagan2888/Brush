@@ -15,6 +15,7 @@ from eigency.core cimport *
 from brush.population.individual cimport CIndividual
 from brush.data.data cimport CData
 from brush.params.params cimport CParameters
+from brush.population.population cimport CPopulation
 
 cdef extern from "evaluation.h" namespace "FT::Eval":
     cdef cppclass CEvaluation:
@@ -25,13 +26,12 @@ cdef extern from "evaluation.h" namespace "FT::Eval":
                     
         void set_score(string)
 
-        void fitness(vector[CIndividual] &,
+        void fitness(CPopulation &,
                      const CData &, 
-                     MatrixXf &, 
                      const CParameters &, 
                      bool,
                      bool)
           
         #TODO CLabels being used here need to remove
-        void assign_fit(CIndividual &, MatrixXf &, const VectorXf &, 
+        void assign_fit(CIndividual &, const VectorXf &, 
                         const VectorXf &, const CParameters &, bool)      

@@ -28,14 +28,14 @@ namespace FT{
         CEvaluation::~CEvaluation(){}
                             
         // fitness of population
-        void CEvaluation::fitness(vector<CIndividual>& individuals,
+        void CEvaluation::fitness(CPopulation& pop,
                                  const CData& d, 
                                  const CParameters& params, 
                                  bool offspring,
                                  bool validation)
         {
         	/*!
-             *      @param individuals: population
+             *      @param pop: population
              *      @param d: CData structure
              *      @param params: algorithm parameters
              *      @param offspring: if true, only evaluate last half of population
@@ -47,13 +47,13 @@ namespace FT{
              */
             
             unsigned start =0;
-            if (offspring) start = individuals.size()/2;
+            if (offspring) start = pop.individuals.size()/2;
             
             // loop through individuals
             #pragma omp parallel for
-            for (unsigned i = start; i<individuals.size(); ++i)
+            for (unsigned i = start; i<pop.individuals.size(); ++i)
             {
-                CIndividual& ind = individuals.at(i);
+                CIndividual& ind = pop.individuals.at(i);
 
 //                if (params.backprop)
 //                {

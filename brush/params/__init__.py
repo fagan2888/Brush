@@ -1,1 +1,1 @@
-from .params import Parameters
+from brush.params.params import Parameters

@@ -9,7 +9,7 @@ license: GNU/GPL v3
 //#include "../opt/auto_backprop.h"
 //#include "../opt/hillclimb.h"
 //using namespace shogun;
-#include "../../population/src/individual.h"
+#include "../../population/src/population.h"
 using Eigen::Map;
 
 // code to evaluate GP programs.
@@ -21,7 +21,7 @@ namespace FT{
      */
     namespace Eval{
     
-        ////////////////////////////////////////////////////////////////////////////////// Declarations
+        /////////////////////////////////////////////////////////////// Declarations
         /*!
          * @class CEvaluation
          * @brief evaluation mixin class for Feat
@@ -33,19 +33,22 @@ namespace FT{
         {
             public:
             
+                // pointer to scoring function
                 float (* score)(const VectorXf&, const VectorXf&, VectorXf&, 
-                                 const vector<float>&);    // pointer to scoring function
-                                 
+                                 const vector<float>&);
+
                 std::map<string, funcPointer> score_hash;
 
                 CEvaluation(string scorer);
+                CEvaluation(){};
+
 
                 ~CEvaluation();
                     
                 void set_score(string scorer);
 
                 /// fitness of population.
-                void fitness(vector<CIndividual>& individuals,
+                void fitness(CPopulation& pop,
                              const CData& d, 
                              const CParameters& params, 
                              bool offspring = false,
@@ -53,7 +56,8 @@ namespace FT{
               
                 /// assign fitness to an individual.  
                 void assign_fit(CIndividual& ind, const VectorXf& yhat, 
-                                const VectorXf& y, const CParameters& params,bool val=false);       
+                                const VectorXf& y, const CParameters& params,
+                                bool val=false);       
         };
     }
 }

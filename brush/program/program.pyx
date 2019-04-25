@@ -23,7 +23,7 @@ cdef class Program:
     def allocate(self, Program other):
         self.nodevec = CNodeVector(other.nodevec)
         
-    def program_str():
+    def program_str(self):
         return self.nodevec.program_str()
             
     def roots(self):

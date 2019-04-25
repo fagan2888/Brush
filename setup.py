@@ -43,7 +43,7 @@ for n in ['data','evaluation','params','population','program','selection','util'
     exts.append(
         Extension(name=n,
                   sources =  [nfold + n +'.pyx'],    # our cython source
-                  include_dirs = ['build/',nfold,nfold+'src/']
+                  include_dirs = ['.','build/',nfold,nfold+'src/']
                                   +eigency.get_includes(include_eigen=True),
                   extra_compile_args = ['-std=c++1y','-fopenmp','-Wno-sign-compare',
                                          '-Wno-reorder'],

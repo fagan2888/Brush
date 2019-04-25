@@ -3,10 +3,10 @@ from sklearn.base import BaseEstimator, RegressorMixin, ClassifierMixin
 import time
 import numpy as np
 # brush imports
-from .params import Parameters
-from .population import Population
-from .selection import Selection, Survival
-from .data import Data
+from brush.params import Parameters
+from population import Population
+from selection import Selection, Survival
+from data import Data
 
 class BrushBase(BestEstimator):
     """Base class for Brush learners.
