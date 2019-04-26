@@ -17,7 +17,7 @@ from brush.data.data cimport CData
 from brush.params.params cimport CParameters
 from brush.population.population cimport CPopulation
 
-cdef extern from "evaluation.h" namespace "FT::Eval":
+cdef extern from "src/evaluation.h" namespace "FT::Eval":
     cdef cppclass CEvaluation:
     
         CEvaluation() except +
@@ -32,6 +32,9 @@ cdef extern from "evaluation.h" namespace "FT::Eval":
                      bool,
                      bool)
           
-        #TODO CLabels being used here need to remove
         void assign_fit(CIndividual &, const VectorXf &, 
-                        const VectorXf &, const CParameters &, bool)      
+                        const VectorXf &, const CParameters &, bool) 
+                        
+
+cdef cppclass Evaluation:
+    CEvaluation evalobj     

@@ -1,10 +1,11 @@
-# distutils: language = c++
-# distutils: sources = evaluation.cc
 # -*- coding: utf-8 -*-
 """
 Copyright 2019 William La Cava
 license: GNU/GPLv3
 """
+
+# distutils: language=c++
+# distutils: sources = evaluation.cc
 
 from libcpp.string cimport string
 from libcpp.vector cimport vector
