@@ -21,6 +21,10 @@ cdef extern from "src/data.h" namespace "FT::Dat":
             
         CData(float *, int, int,
               float *, int,
+              bool) except +
+              
+        CData(float *, int, int,
+              float *, int,
               string, int *, int,
               bool) except +
 
@@ -31,6 +35,10 @@ cdef extern from "src/data.h" namespace "FT::Dat":
     cdef cppclass CCVData:
         CCVData() except +
         
+        CCVData(float *, int, int,
+              float *, int,
+              bool) except +
+              
         CCVData(float *, int, int,
               float *, int,
               string, int *, int,

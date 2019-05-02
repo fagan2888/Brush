@@ -22,7 +22,20 @@ cdef class Data:
 
     cdef CData cdata
     
-    def __cinit__(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, bool classification):
+    def init(self,np.ndarray X,np.ndarray y, bool classification):
+        cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
+        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
+        cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
+        check_X_y(X,y,ensure_2d=True,ensure_min_samples=1)
+        X = X.transpose()
+        arr_x = np.asfortranarray(X, dtype=np.float32)
+        arr_y = np.asfortranarray(y, dtype=np.float32)
+        
+        self.cdata = CData(&arr_x[0,0],X.shape[0],X.shape[1],
+        				   &arr_y[0],len(arr_y),
+                           classification)
+                               
+    def init_with_z(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, bool classification):
         cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
         cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
         cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
@@ -33,9 +46,9 @@ cdef class Data:
         arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
         
         self.cdata = CData(&arr_x[0,0],X.shape[0],X.shape[1],
-        					   &arr_y[0],len(arr_y),
-                               zfile, &arr_z_id[0], len(arr_z_id),
-                               classification)
+        				   &arr_y[0],len(arr_y),
+                           zfile, &arr_z_id[0], len(arr_z_id),
+                           classification)
 
     def set_validation(self, bool v):
         self.cdata.set_validation(v)
@@ -46,7 +59,20 @@ cdef class Data:
 cdef class CVData:
     cdef CCVData cvdata
     
-    def __cinit__(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, bool classification):
+    def init(self,np.ndarray X,np.ndarray y, bool classification):
+        cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
+        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
+        cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
+        check_X_y(X,y,ensure_2d=True,ensure_min_samples=1)
+        X = X.transpose()
+        arr_x = np.asfortranarray(X, dtype=np.float32)
+        arr_y = np.asfortranarray(y, dtype=np.float32)
+        
+        self.cvdata = CCVData(&arr_x[0,0],X.shape[0],X.shape[1],
+        					  &arr_y[0],len(arr_y),
+                           	  classification)
+    
+    def init_with_z(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, bool classification):
         cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
         cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
         cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
@@ -57,9 +83,9 @@ cdef class CVData:
         arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
         
         self.cvdata = CCVData(&arr_x[0,0],X.shape[0],X.shape[1],
-        						  &arr_y[0],len(arr_y),
-                           		  zfile, &arr_z_id[0], len(arr_z_id),
-                           		  classification)
+        					  &arr_y[0],len(arr_y),
+                           	  zfile, &arr_z_id[0], len(arr_z_id),
+                           	  classification)
     
     def shuffle_data(self):
         self.cvdata.shuffle_data()

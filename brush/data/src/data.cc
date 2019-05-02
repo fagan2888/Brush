@@ -31,6 +31,16 @@ namespace FT{
         
         CData::CData(float * X, int rowsX, int colsX,
               		 float * Y, int lenY,
+              		 bool c)
+        {
+        	this->X = Map<MatrixXf>(X,rowsX,colsX);
+    		this->y = Map<VectorXf>(Y,lenY);
+    		validation = false;
+    		classification = c;
+        }
+        
+        CData::CData(float * X, int rowsX, int colsX,
+              		 float * Y, int lenY,
               		 string s, int * idx, int idx_size, bool c)
         {
         	this->X = Map<MatrixXf>(X,rowsX,colsX);
@@ -118,6 +128,25 @@ namespace FT{
           
             // split data into training and test sets
             //train_test_split(params.shuffle, params.split);
+        }
+        
+        CCVData::CCVData(float * X, int rowsX, int colsX,
+                	  	float * Y, int lenY,
+                	  	bool c)
+        {
+        	o = new CData(X, rowsX, colsX,
+        				  Y, lenY,
+        				  c);
+        				  
+            oCreated = true;
+            
+            t = new CData(X_t, y_t, Z_t, c);
+            tCreated = true;
+            
+            v = new CData(X_v, y_v, Z_v, c);
+            vCreated = true;
+            
+            classification = c;
         }
         
         CCVData::CCVData(float * X, int rowsX, int colsX,

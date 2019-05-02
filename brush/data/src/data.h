@@ -56,6 +56,10 @@ namespace FT
                         
                 CData(float * X, int rowsX, int colsX,
                 	  float * Y, int lenY,
+                	  bool c=false);
+                        
+                CData(float * X, int rowsX, int colsX,
+                	  float * Y, int lenY,
                 	  string s, int * idx, int idx_size,
                 	  bool c = false);
 
@@ -103,6 +107,10 @@ namespace FT
                                  std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > Z, 
                                  bool c=false);
                                  
+				CCVData(float * X, int rowsX, int colsX,
+                	  	float * Y, int lenY,
+                	  	bool c=false);
+                	  	                                 
 				CCVData(float * X, int rowsX, int colsX,
                 	  	float * Y, int lenY,
                 	  	string s, int * idx, int idx_size,
