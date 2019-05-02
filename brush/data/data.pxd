@@ -19,8 +19,10 @@ cdef extern from "src/data.h" namespace "FT::Dat":
     cdef cppclass CData:    
         CData() except +
             
-        CData(MatrixXf *, VectorXf *, 
-              map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *, bool) except +
+        CData(float *, int, int,
+              float *, int,
+              string, int *, int,
+              bool) except +
 
         void set_validation(bool)
                 
@@ -29,39 +31,16 @@ cdef extern from "src/data.h" namespace "FT::Dat":
     cdef cppclass CCVData:
         CCVData() except +
         
-        CCVData(MatrixXf *, VectorXf *, 
-                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *, 
-                bool) except +
-                        
-        void setOriginalData(MatrixXf *, VectorXf *, 
-                              map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *, bool)
-        
-        void setOriginalData(CData *)
-        
-        void setTrainingData(MatrixXf *, VectorXf *, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
-                           bool)
-        
-        void setTrainingData(CData *, bool)
-        
-        void setValidationData(MatrixXf *, VectorXf *, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
-                           bool)
-        
-        void setValidationData(CData *)
+        CCVData(float *, int, int,
+              float *, int,
+              string, int *, int,
+              bool) except +
         
         void shuffle_data()
         
         void split_stratified(float)
         
         void train_test_split(bool, float)
-
-        void split_longitudinal(map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
-                                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
-                                map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *,
-                                float)
-                    
-        void reorder_longitudinal(vector[ArrayXf] &, const vector[int] &)
         
         
 cdef cppclass Data:

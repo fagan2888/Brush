@@ -37,9 +37,9 @@ namespace FT{
             void NodeConstant::evaluate(const CData& data, State& state)
             {
 	            if (otype == 'b')
-                    state.push<bool>(ArrayXb::Constant(data.X->cols(),int(b_value)));
+                    state.push<bool>(ArrayXb::Constant(data.X.cols(),int(b_value)));
                 else 	
-                    state.push<float>(limited(ArrayXf::Constant(data.X->cols(),d_value)));
+                    state.push<float>(limited(ArrayXf::Constant(data.X.cols(),d_value)));
             }
             #else
             void NodeConstant::evaluate(const CData& data, State& state)

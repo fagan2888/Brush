@@ -31,7 +31,7 @@ brush_lib = os.getcwd() + '/build/'
 
 exts = []
 #'evaluation',
-for n in ['data','params','population','program','selection','util',
+for n in ['data','params','individual','population','program','selection','util',
          'variation','evaluation']:
 # for n in ['individual']:
     nfold = 'brush/'+n+'/'

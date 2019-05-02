@@ -27,7 +27,7 @@ namespace FT{
             template <class T>		
             void NodeVariable<T>::evaluate(const CData& data, State& state)
             {
-                state.push<T>(data.X->row(loc).template cast<T>());
+                state.push<T>(data.X.row(loc).template cast<T>());
             }
             
             #else

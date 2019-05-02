@@ -38,8 +38,8 @@ namespace FT{
                         
                 x1 = state.pop<T>().template cast<float>();
                     
-                if (!data.validation && !data.y->size()==0 && train)
-                    set_threshold(x1,(*(data.y)), data.classification);
+                if (!data.validation && !data.y.size()==0 && train)
+                    set_threshold(x1,data.y, data.classification);
                     
                 if(arity['f'])
                     state.push<bool>(x1 < threshold);
@@ -93,7 +93,7 @@ namespace FT{
             NodeSplit<T>* NodeSplit<T>::rnd_clone_impl() const { return new NodeSplit<T>(); };  
             
             template <class T>
-            void NodeSplit<T>::set_threshold(ArrayXf& x, VectorXf& y, bool classification)
+            void NodeSplit<T>::set_threshold(ArrayXf& x, const VectorXf& y, bool classification)
             {
                 /* cout << "setting threshold\n"; */
                 // for each unique value in x, calculate the reduction in the heuristic brought about by

@@ -15,16 +15,27 @@ from libcpp.memory cimport unique_ptr
 from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
+from sklearn.utils import check_X_y
 
 
 cdef class Data:
 
     cdef CData cdata
     
-    cdef init(self, MatrixXf *X, VectorXf *y,
-                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z,
-                   bool c):
-        self.cdata = CData(X, y, Z, c)
+    def __cinit__(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, bool classification):
+        cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
+        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
+        cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
+        check_X_y(X,y,ensure_2d=True,ensure_min_samples=1)
+        X = X.transpose()
+        arr_x = np.asfortranarray(X, dtype=np.float32)
+        arr_y = np.asfortranarray(y, dtype=np.float32)
+        arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
+        
+        self.cdata = CData(&arr_x[0,0],X.shape[0],X.shape[1],
+        					   &arr_y[0],len(arr_y),
+                               zfile, &arr_z_id[0], len(arr_z_id),
+                               classification)
 
     def set_validation(self, bool v):
         self.cdata.set_validation(v)
@@ -35,34 +46,20 @@ cdef class Data:
 cdef class CVData:
     cdef CCVData cvdata
     
-    cdef init(self, MatrixXf *X, VectorXf *y, 
-                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z, 
-                   bool c):
-        self.cvdata = CCVData(X, y, Z, c)
-                        
-    cdef setOriginalData(self, MatrixXf *X, VectorXf *y, 
-                          map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z,
-                          bool c):
-        self.cvdata.setOriginalData(X, y, Z, c)
-    
-    def setOriginalDataFromObj(self, Data d):
-        self.cvdata.setOriginalData(&(d.cdata))
-    
-    cdef setTrainingData(self, MatrixXf *X_t, VectorXf *y_t, 
-                         map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_t,
-                         bool c):
-        self.cvdata.setTrainingData(X_t, y_t, Z_t, c)
-    
-    def setTrainingDataFromObj(self, Data d, bool toDelete):
-        self.cvdata.setTrainingData(&(d.cdata), toDelete)
-    
-    cdef setValidationData(self, MatrixXf *X_v, VectorXf *y_v, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_v,
-                           bool c):
-        self.cvdata.setValidationData(X_v, y_v, Z_v, c)
-    
-    def setValidationDataFromObj(self, Data d):
-        self.cvdata.setValidationData(&(d.cdata))
+    def __cinit__(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, bool classification):
+        cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
+        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
+        cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
+        check_X_y(X,y,ensure_2d=True,ensure_min_samples=1)
+        X = X.transpose()
+        arr_x = np.asfortranarray(X, dtype=np.float32)
+        arr_y = np.asfortranarray(y, dtype=np.float32)
+        arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
+        
+        self.cvdata = CCVData(&arr_x[0,0],X.shape[0],X.shape[1],
+        						  &arr_y[0],len(arr_y),
+                           		  zfile, &arr_z_id[0], len(arr_z_id),
+                           		  classification)
     
     def shuffle_data(self):
         self.cvdata.shuffle_data()
@@ -73,12 +70,3 @@ cdef class CVData:
     def train_test_split(self, bool shuffle, float split):
         self.cvdata.train_test_split(shuffle, split)
 
-    cdef split_longitudinal(self, 
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z,
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_t,
-                            map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] *Z_v,
-                            float split):
-        self.cvdata.split_longitudinal(Z, Z_t, Z_v, split)
-                
-    cdef reorder_longitudinal(self, vector[ArrayXf] &vec1, const vector[int] &order):
-        self.cvdata.reorder_longitudinal(vec1, order)
