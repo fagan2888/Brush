@@ -14,4 +14,5 @@ TODO
 def test_fit():
     """Individual successfully fits to data"""
     Ind = Individual()
+    #TODO create push node functionality for individual programs
 
