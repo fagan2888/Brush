@@ -12,7 +12,6 @@ from libcpp.string cimport string
 
 
 from brush.program.program cimport CNodeVector
-from brush.program.node import Node
 
 cdef class Program:
     cdef CNodeVector nodevec

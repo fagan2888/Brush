@@ -18,14 +18,14 @@ from eigency.core cimport *
 cdef class Parameters:
     cdef CParameters params
     
-    def __cinit__(self, int pop_size, int gens, string ml, bool classification, 
-                    int max_stall, char ot, int verbosity, string fs, float cr,
-                    float root_xor, unsigned int max_depth, unsigned int max_dim,
-                    bool constant, string obj, bool sh, float sp, float fb, string sc,
-                    string fn, bool bckprp, int iters, float lr, int bs, bool hclimb,
-                    int maxt, bool useb, bool res_xo, bool stg_xo, 
-                    bool sftmx):
-                
+    def __cinit__(self, int pop_size=100, int gens=100, string ml="LinearRidgeRegression", bool classification=False,
+                  int max_stall = 0, char ot='a',int verbosity = 2,string fs="", float cr = 0.5,
+                  float root_xor=0.5,unsigned int max_depth=3, unsigned int max_dim=10,
+                  bool constant=False, string obj="fitness,complexity", bool sh=True, float sp=0.75, float fb=0.5, string sc="",
+                  string fn="", bool bckprp=False,int iters=10, float lr=0.1, int bs=100, bool hclimb=False,
+                  int maxt=-1, bool useb=False, bool res_xo=False, bool stg_xo=False,
+                  bool sftmx=False):
+                  
         # cdef char ot_char
         # if ( len(ot) == 0):
         #     ot_char = 'a' #Defaut Value

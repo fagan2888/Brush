@@ -13,8 +13,6 @@ from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
 
-cdef cppclass CVData
-
 cdef extern from "src/data.h" namespace "FT::Dat":
     cdef cppclass CData:    
         CData() except +
@@ -53,3 +51,6 @@ cdef extern from "src/data.h" namespace "FT::Dat":
         
 cdef cppclass Data:
     CData cdata
+    
+cdef cppclass CVData:
+    CCVData cvdata

@@ -43,6 +43,19 @@ else()
     include_directories(${EIGEN3_INCLUDE_DIR})
 endif()
 
+# Locate GTest
+option(TEST "build tests" OFF)
+if (TEST)
+    option(GTEST_DIR "use GTest environment path" OFF)
+    if (GTEST_DIR)
+        include_directories("$ENV{GTEST_DIR}/include")
+
+    else()
+        find_package(GTest REQUIRED)
+        include_directories(${GTEST_INCLUDE_DIRS})
+    endif()
+endif()
+
 # autocomplete for YouCompleteMe needs commands to be exported
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -89,5 +102,18 @@ if (CORE_USE_CUDA)
     cuda_add_library(brush SHARED ${sources} ${cuda_files})
 else()
     add_library(brush SHARED ${sources})
+endif()
+
+if (TEST)
+    # Link runTests with what we want to test and the GTest and pthread library
+    file(GLOB_RECURSE testsSrc "tests/*.cc")
+    
+    add_executable(tests ${testsSrc})
+    
+    if (CORE_USE_CUDA)
+        target_link_libraries(tests brush ${CUDA_LIBRARIES} ${GTEST_LIBRARIES} pthread)
+    else()
+        target_link_libraries(tests brush ${GTEST_LIBRARIES} pthread)
+    endif()
 endif()
 

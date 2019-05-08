@@ -4,15 +4,16 @@ import time
 import numpy as np
 # brush imports
 from brush.params import Parameters
-from population import Population
-from selection import Selection, Survival
-from data import Data
+from brush.population import Population
+from brush.selection import Selection
+from brush.data import Data
 
-class BrushBase(BestEstimator):
+class BrushBase(BaseEstimator):
     """Base class for Brush learners.
     """
+    #TODO survival class not defined
     def __init__(self, pop_size=100, offspring_size=100, classification=False,
-            selection=None, survival=None, xo_rate=0.5, functions=None,
+            selection=None, xo_rate=0.5, functions=None,
             n_jobs=-1, verbosity=1, max_stall=0, logfile=None, objectives=None,
             scoring_function=None):
         self.pop_size = pop_size
@@ -20,7 +21,6 @@ class BrushBase(BestEstimator):
         self.classification = classification
         self.regression = not self.classification
         self.selection = selection
-        self.survival = survival
         self.xo_rate = xo_rate
         self.functions = functions
         self.n_jobs = n_jobs
@@ -31,9 +31,10 @@ class BrushBase(BestEstimator):
         self.objectives = objectives
 
         self.params = Parameters()
-        self.selection = Selection(self.params)
-        self.survival = Survival(self.params)
-        self.pop = Population(self.params)
+        self.selection = Selection()
+        self.pop = Population(10)
+        
+        print("Population size is ", self.pop.size())
 
     def _fit_init(self):
         """Routines to run at the beginning of the fit method"""
@@ -63,11 +64,15 @@ class BrushBase(BestEstimator):
         # do stuff
 
 class BrushRegressor(BrushBase, RegressorMixin):
-    self.classification=False
-    self.regression = True
-    self.scoring_function = 'r2_score'
+
+    def __init__(self, classification=False, regression=True, scoring_function='r2_score'):
+        self.classification=classification
+        self.regression = regression
+        self.scoring_function = scoring_function
 
 class BrushClassifier(BrushBase, ClassifierMixin):
-    self.classification=False
-    self.regression = True
-    self.scoring_function = 'accuracy'
+
+    def __init__(self, classification=False, regression=True, scoring_function='accuracy'):
+        self.classification=classification
+        self.regression = regression
+        self.scoring_function = scoring_function
