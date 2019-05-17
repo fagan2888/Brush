@@ -87,20 +87,6 @@ namespace FT{
 			std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > Z;
 			vector<int> ids(idx,idx+idx_size);
 			load_partial_longitudinal(s,Z,',',ids);
-			/* for (auto& z : Z){ */
-			/*     reorder_longitudinal(z.second.first, ids); */
-			/*     reorder_longitudinal(z.second.second, ids); */
-			/* } */
-			/* cout << "Z:\n"; */
-			/* for (auto& z : Z) */
-			/* { */
-			/*     cout << z.first << "\n"; */
-			/*     for (unsigned i = 0; i < z.second.first.size(); ++i) */
-			/*     { */
-			/*         cout << "value: " << z.second.first.at(i).matrix().transpose() << "\n"; */
-			/*         cout << "time: " << z.second.second.at(i).matrix().transpose() << "\n"; */
-			/*     } */
-			/* } */
 				
 			return Z;
 		}
@@ -469,32 +455,5 @@ namespace FT{
             cout << "\n";
         }
         
-//        void DataRef::reorder_longitudinal(vector<ArrayXf> &vec1, const vector<int>& order)
-//        {  
-//			vector<int> index = order; 
-//			// Fix all elements one by one 
-//			for (int i=0; i<index.size(); i++) 
-//			{ 
-//				// While index[i] and vec1[i] are not fixed 
-//				while (index.at(i) != i) 
-//				{ 
-//					// Store values of the target (or correct)  
-//					// position before placing vec1[i] there 
-//					int  oldTargetI  = index.at(index.at(i)); 
-//					auto oldTargetE  = vec1.at(index.at(i)); 
-//		  
-//					// Place vec1[i] at its target (or correct) 
-//					// position. Also copy corrected index for 
-//					// new position 
-//					vec1.at(index.at(i)) = vec1.at(i); 
-//					index.at(index.at(i)) = index.at(i); 
-//		  
-//					// Copy old target values to vec1[i] and 
-//					// index[i] 
-//					index.at(i) = oldTargetI; 
-//					vec1.at(i)   = oldTargetE; 
-//				} 
-//			}   
-//        }    
     }
 }

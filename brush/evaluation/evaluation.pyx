@@ -32,7 +32,7 @@ cdef class Evaluation:
                  const Data &d, 
                  const Parameters &params, 
                  bool offspring,
-                 bool validation):
+                 bool validation=False):
         self.evalobj.fitness(pop.pop, d.cdata, params.params, offspring, 
                 validation)  
 

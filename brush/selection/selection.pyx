@@ -19,13 +19,14 @@ from brush.params.params cimport Parameters
 cdef class Selection:
     cdef CSelection sel
 
-    def __cinit__(self, string type='lexicase', bool survival=False):
-        self.sel = CSelection(type, survival)
+    def __cinit__(self, string name='lexicase', bool survival=False):
+        self.sel = CSelection(name, survival)
 
     def get_type(self):
         return self.sel.get_type()
 
-    #TODO change matrixXf in select and survive to float and flatten them as fortran arrays
+    #TODO change matrixXf in select and survive to float and flatten them as 
+    #fortran arrays
 
     cdef select(self, Population &pop,
                 const Parameters &params):

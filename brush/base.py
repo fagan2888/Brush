@@ -13,7 +13,7 @@ class BrushBase(BaseEstimator):
     """
     #TODO survival class not defined
     def __init__(self, pop_size=100, offspring_size=100, classification=False,
-            selection=None, xo_rate=0.5, functions=None,
+            selection=None, survial=None, xo_rate=0.5, functions=None,
             n_jobs=-1, verbosity=1, max_stall=0, logfile=None, objectives=None,
             scoring_function=None):
         self.pop_size = pop_size
@@ -31,24 +31,62 @@ class BrushBase(BaseEstimator):
         self.objectives = objectives
 
         self.params = Parameters()
-        self.selection = Selection()
+        self.selection = Selection(selection)
+        self.survival = Selection(survival)
+        self.evaluation = Evaluation()
         self.pop = Population(10)
         
         print("Population size is ", self.pop.size())
 
     def _fit_init(self):
         """Routines to run at the beginning of the fit method"""
+        self.stall_count = 0
+        self.params.current_generation = 0
+        
+        # initialize any parameters that depend on the data
 
     def fit(self,features,target):
         """fit a model"""
-        X, y = check_X_y(features, target, accept_sparse=True, dtype=None)
+        
+        # initialize the data class
+        self.data = CVData(features, target, params.classification)
+        self.data.train_test_split(self.params.shuffle, self.params.split)
+
+        self._fit_init()
 
         while not self._terminate():
-            parents = self.selection.select(self.pop)
-            offspring = self.variation.vary(self.pop)
-            self.evaluate(offspring)
-            self.survival.survive(self.pop)
-            self.update_best()
+            self._run_generation()
+        
+        self._select_final_model()
+        
+        return self
+
+    def _run_generation(data): 
+        """Runs one generation of the population on data"""
+        data = self.data.get_batch() if self.params.use_batch else data
+
+        parents = self.selection.select(self.pop, self.params)
+        self.variation.vary(self.pop, parents, self.params, data)
+        self.evaluation.fitness(offspring, data, self.params, offspring=True)
+        survivors = self.survival.survive(self.pop)
+        self.update_best()
+        self.pop.update(survivors)
+        self.params.current_generation += 1
+
+    # def _get_train_batch():
+    #     """Returns data to train on, potentially a batch"""
+    #     if self.params.use_batch:
+    #         return data.get_batch(params.batch_size)
+    #     else:
+    #         return data
+
+    def _select_final_model():
+        """Evaluates population/archive on validation set and chooses best"""
+
+        if (params.split < 1):
+            self.evaluation.fitness(self.pop, data.val, self.params, 
+                    offspring=False, validation=True)
+            self.update_best(data, true)
 
     def predict(self, X):
         """generate prediction"""
@@ -64,15 +102,11 @@ class BrushBase(BaseEstimator):
         # do stuff
 
 class BrushRegressor(BrushBase, RegressorMixin):
-
-    def __init__(self, classification=False, regression=True, scoring_function='r2_score'):
-        self.classification=classification
-        self.regression = regression
-        self.scoring_function = scoring_function
+    classification=False
+    regression=True
+    scoring_function = 'r2_score'
 
 class BrushClassifier(BrushBase, ClassifierMixin):
-
-    def __init__(self, classification=False, regression=True, scoring_function='accuracy'):
-        self.classification=classification
-        self.regression = regression
-        self.scoring_function = scoring_function
+    classification=True
+    regression=False
+    scoring_function = 'balanced_accuracy'
