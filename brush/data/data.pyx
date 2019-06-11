@@ -35,12 +35,12 @@ cdef class Data:
             arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
             
             self.cdata = CData(&arr_x[0,0],X.shape[0],X.shape[1],
-                                               &arr_y[0],len(arr_y),
+                               &arr_y[0],len(arr_y),
                                zfile, &arr_z_id[0], len(arr_z_id),
                                classification)
         else:
             self.cdata = CData(&arr_x[0,0],X.shape[0],X.shape[1],
-                                               &arr_y[0],len(arr_y),
+                               &arr_y[0],len(arr_y),
                                classification)
                                
     # def init_with_z(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, 
@@ -60,6 +60,7 @@ cdef class Data:
         self.cdata.get_batch(db.cdata, batch_size)
         
 cdef class CVData:
+    """Includes train and validation folds data objects"""
     cdef CCVData cvdata
     
     def init(self,np.ndarray X,np.ndarray y, bool classification):
@@ -74,21 +75,21 @@ cdef class CVData:
         self.cvdata = CCVData(&arr_x[0,0],X.shape[0],X.shape[1],
                 &arr_y[0],len(arr_y), classification)
     
-    def init_with_z(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, 
-            bool classification):
-        cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
-        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
-        cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
-        check_X_y(X,y,ensure_2d=True,ensure_min_samples=1)
-        X = X.transpose()
-        arr_x = np.asfortranarray(X, dtype=np.float32)
-        arr_y = np.asfortranarray(y, dtype=np.float32)
-        arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
+    # def init_with_z(self,np.ndarray X,np.ndarray y, string zfile, np.ndarray zids, 
+    #         bool classification):
+    #     cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x
+    #     cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr_y
+    #     cdef np.ndarray[int, ndim=1, mode="fortran"] arr_z_id
+    #     check_X_y(X,y,ensure_2d=True,ensure_min_samples=1)
+    #     X = X.transpose()
+    #     arr_x = np.asfortranarray(X, dtype=np.float32)
+    #     arr_y = np.asfortranarray(y, dtype=np.float32)
+    #     arr_z_id = np.asfortranarray(zids, dtype=ctypes.c_int)
         
-        self.cvdata = CCVData(&arr_x[0,0],X.shape[0],X.shape[1],
-        		      &arr_y[0],len(arr_y),
-                              zfile, &arr_z_id[0], len(arr_z_id), 
-                              classification)
+    #     self.cvdata = CCVData(&arr_x[0,0],X.shape[0],X.shape[1],
+    #     		      &arr_y[0],len(arr_y),
+    #                           zfile, &arr_z_id[0], len(arr_z_id), 
+    #                           classification)
     
     def shuffle_data(self):
         self.cvdata.shuffle_data()
@@ -99,17 +100,14 @@ cdef class CVData:
     def train_test_split(self, bool shuffle, float split):
         self.cvdata.train_test_split(shuffle, split)
 
-    def set_training_data(self, Data d):
-        self.cvdata.setTrainingData(d.cdata)
+    # def set_training_data(self, Data d):
+    #     self.cvdata.setTrainingData(d.cdata)
 
-    def set_validation_data(self, Data d):
-        self.cvdata.setValidationData(d.cdata)
+    # def set_validation_data(self, Data d):
+    #     self.cvdata.setValidationData(d.cdata)
 
     def get_batch(self, int batch_size):
-        db = Data()
         dbcv = CVData()
-        self.cvdata.t.get_batch(db, batch_size)
-        dbcv.set_training_data(db)
-        dbcv.set_validation_data(self.cvdata.v)
+        self.cvdata.get_batch(dbcv.cvdata, batch_size)
 
         return dbcv

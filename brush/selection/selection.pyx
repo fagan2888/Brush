@@ -30,8 +30,8 @@ cdef class Selection:
 
     cdef select(self, Population &pop,
                 const Parameters &params):
-        return self.sel.select(pop.pop, params.params)
+        return self.sel.select(pop.pop, params.c_params)
 
     cdef survive(self, Population &pop,
                  const Parameters &params):
-        return self.sel.survive(pop.pop, params.params)
+        return self.sel.survive(pop.pop, params.c_params)

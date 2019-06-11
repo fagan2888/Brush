@@ -43,7 +43,7 @@ for n in ['data','params','individual','population','program','selection','util'
         nfold='brush/program/'
     print(nfold,n)
     exts.append(
-        Extension(name='brush.'+n,
+        Extension(name=nfold.replace('/','.')+n,
                   sources =  [nfold + n +'.pyx'],    # our cython source
                   include_dirs = ['.','build/',nfold,nfold+'src/']
                                   +eigency.get_includes(include_eigen=True),
@@ -68,7 +68,7 @@ setup(
     download_url='https://github.com/epistasis/brush/releases/tag/'+package_version,
     license='GNU/GPLv3',
     description='A package for fast genetic programming',
-    zip_safe=True,
+    zip_safe=False,
     install_requires=['Numpy>=1.8.2','SciPy>=0.13.3','scikit-learn','Cython','pandas'],
     py_modules=['brush.base'],
     ext_modules = cythonize(exts),

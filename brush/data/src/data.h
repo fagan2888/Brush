@@ -92,6 +92,7 @@ namespace FT
                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > Z_v;
                 
                 bool classification;
+                CData dbatch;        //< permanent class used to handle batches
 
             public:
                 CData *o = NULL;     //< pointer to original data
@@ -154,6 +155,8 @@ namespace FT
                                           vector<int> order);
                                           
                 //void reorder_longitudinal(vector<ArrayXf> &vec1, const vector<int>& order); 
+                /// gets a batch 
+                void get_batch(CCVData& cvbatch, int batch_size);
 
         };
     }

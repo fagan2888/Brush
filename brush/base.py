@@ -3,10 +3,12 @@ from sklearn.base import BaseEstimator, RegressorMixin, ClassifierMixin
 import time
 import numpy as np
 # brush imports
-from brush.params import Parameters
-from brush.population import Population
-from brush.selection import Selection
-from brush.data import Data
+# from brush.params import Parameters
+import brush.params
+import brush.population 
+import brush.selection 
+import brush.data 
+import brush.evaluation
 
 class BrushBase(BaseEstimator):
     """Base class for Brush learners.
@@ -30,11 +32,11 @@ class BrushBase(BaseEstimator):
         self.logfile = logfile
         self.objectives = objectives
 
-        self.params = Parameters()
-        self.selection = Selection(selection)
-        self.survival = Selection(survival)
-        self.evaluation = Evaluation()
-        self.pop = Population(10)
+        self.params = brush.params.Parameters()
+        self.selection = brush.selection.Selection(selection)
+        self.survival = brush.selection.Selection(survival)
+        self.evaluation = brush.evaluation.Evaluation()
+        self.pop = brush.population.Population(10)
         
         print("Population size is ", self.pop.size())
 

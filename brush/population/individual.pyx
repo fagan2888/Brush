@@ -21,18 +21,18 @@ cdef class Individual:
         self.ind = CIndividual()
         
     cdef out(self, const Data &d, const Parameters &params, bool predict):
-        res = ndarray(self.ind.out(d.cdata, params.params, predict))
+        res = ndarray(self.ind.out(d.cdata, params.c_params, predict))
         return res.flatten()
 
     cdef fit(self, const Data &d,
              const Parameters &params, bool &pass_val):
              
-        res = ndarray(self.ind.fit(d.cdata, params.params, pass_val))
+        res = ndarray(self.ind.fit(d.cdata, params.c_params, pass_val))
         return res.flatten()
 
     cdef predict(self, const Data &d,
                  const Parameters &params):
-        res = ndarray(self.ind.predict(d.cdata, params.params))
+        res = ndarray(self.ind.predict(d.cdata, params.c_params))
         return res.flatten()
 
     def get_eqn(self):

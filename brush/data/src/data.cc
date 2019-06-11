@@ -454,6 +454,15 @@ namespace FT{
                 cout << order[x] << "\t";
             cout << "\n";
         }
+
+        /// gets a batch 
+        void CCVData::get_batch(CCVData& cvbatch, int batch_size)
+        {
+            this->t->get_batch(this->dbatch, batch_size);
+            cvbatch.setTrainingData(&this->dbatch);
+            cvbatch.setValidationData(this->v);
+
+        }
         
     }
 }

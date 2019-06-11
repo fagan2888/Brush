@@ -33,10 +33,10 @@ cdef class Evaluation:
                  const Parameters &params, 
                  bool offspring,
                  bool validation=False):
-        self.evalobj.fitness(pop.pop, d.cdata, params.params, offspring, 
+        self.evalobj.fitness(pop.pop, d.cdata, params.c_params, offspring, 
                 validation)  
 
     cdef assign_fit(self, Individual &ind, const VectorXf &yhat, 
                     const VectorXf &y, const Parameters &params, bool val):
-        self.evalobj.assign_fit(ind.ind, yhat, y, params.params, val)
+        self.evalobj.assign_fit(ind.ind, yhat, y, params.c_params, val)
 

@@ -27,7 +27,7 @@ cdef class Population:
     cdef init(self, const Individual &starting_model,
               const Parameters &params,
               bool random):
-        self.pop.init(starting_model.ind, params.params, random)
+        self.pop.init(starting_model.ind, params.c_params, random)
 
     def resize(self, int pop_size,
                bool resize_locs):

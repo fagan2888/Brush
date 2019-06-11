@@ -36,5 +36,5 @@ cdef extern from "src/evaluation.h" namespace "FT::Eval":
                         const VectorXf &, const CParameters &, bool) 
                         
 
-cdef cppclass Evaluation:
+cdef class Evaluation:
     CEvaluation evalobj     

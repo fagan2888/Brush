@@ -48,14 +48,16 @@ cdef extern from "src/data.h" namespace "FT::Dat":
         
         void train_test_split(bool, float)
         
-        void setValidationData(CData* d)
-        void setTrainingData(CData* d)
-
-        CData t
-        CData v
+        void get_batch(CCVData&, int)
         
-cdef cppclass Data:
+        # void setValidationData(CData* d)
+        # void setTrainingData(CData* d)
+
+        # CData t
+        # CData v
+        
+cdef class Data:
     CData cdata
     
-cdef cppclass CVData:
+cdef class CVData:
     CCVData cvdata
