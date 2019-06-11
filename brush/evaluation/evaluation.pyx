@@ -13,11 +13,11 @@ from libcpp cimport bool
 from eigency.core cimport *
 
 
-from brush.evaluation.evaluation cimport CEvaluation
-from brush.population.individual cimport Individual
-from brush.population.population cimport Population
-from brush.params.params cimport Parameters
-from brush.data.data cimport Data
+from brush.evaluation.c_evaluation cimport CEvaluation
+from brush.population.individual import Individual
+from brush.population.population import Population
+from brush.params.params import Parameters
+from brush.data.data import Data
 
 cdef class Evaluation:
     cdef CEvaluation evalobj

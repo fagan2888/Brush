@@ -13,8 +13,8 @@ from libcpp cimport bool
 from eigency.core cimport *
 
 from brush.selection.selection cimport CSelection
-from brush.population.population cimport Population
-from brush.params.params cimport Parameters
+from brush.population.population import Population
+from brush.params.params import Parameters
 
 cdef class Selection:
     cdef CSelection sel
