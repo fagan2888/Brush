@@ -16,15 +16,18 @@ from eigency.core cimport *
 
 cdef class Parameters:
     """This is the wrapper class that stores all the parameters for Brush."""
-    cdef CParameters c_params
+    # cdef CParameters c_params
     
-    def __cinit__(self, int pop_size=100, int gens=100, string ml="LinearRidgeRegression", bool classification=False,
-                  int max_stall = 0, char ot='a',int verbosity = 2,string fs="", float cr = 0.5,
-                  float root_xor=0.5,unsigned int max_depth=3, unsigned int max_dim=10,
-                  bool constant=False, string obj="fitness,complexity", bool sh=True, float sp=0.75, float fb=0.5, string sc="",
-                  string fn="", bool bckprp=False,int iters=10, float lr=0.1, int bs=100, bool hclimb=False,
-                  int maxt=-1, bool useb=False, bool res_xo=False, bool stg_xo=False,
-                  bool sftmx=False):
+    def __cinit__(self, int pop_size=100, int gens=100, 
+                  string ml="LinearRidgeRegression", bool classification=False,
+                  int max_stall = 0, char ot='a',int verbosity = 2,string fs="", 
+                  float cr = 0.5, float root_xor=0.5,unsigned int max_depth=3, 
+                  unsigned int max_dim=10, bool constant=False, 
+                  string obj="fitness,complexity", bool sh=True, float sp=0.75, 
+                  float fb=0.5, string sc="", string fn="", bool bckprp=False,
+                  int iters=10, float lr=0.1, int bs=100, bool hclimb=False,
+                  int maxt=-1, bool useb=False, bool res_xo=False, 
+                  bool stg_xo=False, bool sftmx=False):
                   
         # cdef char ot_char
         # if ( len(ot) == 0):

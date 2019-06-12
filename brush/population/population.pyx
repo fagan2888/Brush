@@ -16,7 +16,7 @@ from brush.population.individual cimport Individual
 from brush.params.params cimport Parameters
 
 cdef class Population:
-    cdef CPopulation pop
+    # cdef CPopulation pop
 
     def __cinit__(self):
         self.pop = CPopulation()
@@ -24,8 +24,8 @@ cdef class Population:
     def __cinit__(self, int p):
         self.pop = CPopulation(p)
 
-    cdef init(self, const Individual &starting_model,
-              const Parameters &params,
+    def init(self, Individual starting_model,
+              Parameters params,
               bool random):
         self.pop.init(starting_model.ind, params.c_params, random)
 
@@ -45,7 +45,7 @@ cdef class Population:
     def update_open_loc(self):
         self.pop.update_open_loc()
 
-    cdef add(self, Individual &ind):
+    def add(self, Individual ind):
         self.pop.add(ind.ind)
 
     #TODO check how to do operator overloading

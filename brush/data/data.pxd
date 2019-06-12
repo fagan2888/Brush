@@ -56,8 +56,9 @@ cdef extern from "src/data.h" namespace "FT::Dat":
         # CData t
         # CData v
         
+# forward declarations
 cdef class Data:
-    CData cdata
+    cdef CData cdata
     
 cdef class CVData:
-    CCVData cvdata
+    cdef CCVData cvdata

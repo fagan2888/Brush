@@ -13,11 +13,11 @@ from libcpp cimport bool
 from eigency.core cimport *
 
 from brush.selection.selection cimport CSelection
-from brush.population.population import Population
-from brush.params.params import Parameters
+from brush.population.population cimport Population
+from brush.params.params cimport Parameters
 
 cdef class Selection:
-    cdef CSelection sel
+    # cdef CSelection sel
 
     def __cinit__(self, string name='lexicase', bool survival=False):
         self.sel = CSelection(name, survival)
@@ -28,10 +28,10 @@ cdef class Selection:
     #TODO change matrixXf in select and survive to float and flatten them as 
     #fortran arrays
 
-    cdef select(self, Population &pop,
-                const Parameters &params):
+    def select(self, Population pop,
+                Parameters params):
         return self.sel.select(pop.pop, params.c_params)
 
-    cdef survive(self, Population &pop,
-                 const Parameters &params):
+    def survive(self, Population pop,
+                 Parameters params):
         return self.sel.survive(pop.pop, params.c_params)

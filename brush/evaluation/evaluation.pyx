@@ -14,10 +14,10 @@ from eigency.core cimport *
 
 
 from brush.evaluation.c_evaluation cimport CEvaluation
-from brush.population.individual import Individual
-from brush.population.population import Population
-from brush.params.params import Parameters
-from brush.data.data import Data
+from brush.population.individual cimport Individual
+from brush.population.population cimport Population
+from brush.params.params cimport Parameters
+from brush.data.data cimport Data
 
 cdef class Evaluation:
     cdef CEvaluation evalobj
@@ -28,15 +28,15 @@ cdef class Evaluation:
     def set_score(self, string scorer):
         self.evalobj.set_score(scorer)
 
-    cdef fitness(self, Population& pop,
-                 const Data &d, 
-                 const Parameters &params, 
+    cdef fitness(self, Population pop,
+                 Data d, 
+                 Parameters params, 
                  bool offspring,
                  bool validation=False):
         self.evalobj.fitness(pop.pop, d.cdata, params.c_params, offspring, 
                 validation)  
 
-    cdef assign_fit(self, Individual &ind, const VectorXf &yhat, 
-                    const VectorXf &y, const Parameters &params, bool val):
+    cdef assign_fit(self, Individual ind, const VectorXf &yhat, 
+                    const VectorXf &y, Parameters params, bool val):
         self.evalobj.assign_fit(ind.ind, yhat, y, params.c_params, val)
 

@@ -19,7 +19,7 @@ from sklearn.utils import check_X_y
 
 cdef class Data:
 
-    cdef CData cdata
+    # cdef CData cdata
     
     def __cinit__(self,np.ndarray X,np.ndarray y, bool classification,
                   string zfile='', np.ndarray zids=None):
@@ -61,7 +61,7 @@ cdef class Data:
         
 cdef class CVData:
     """Includes train and validation folds data objects"""
-    cdef CCVData cvdata
+    # cdef CCVData cvdata
     
     def init(self,np.ndarray X,np.ndarray y, bool classification):
         cdef np.ndarray[np.float32_t, ndim=2, mode="fortran"] arr_x

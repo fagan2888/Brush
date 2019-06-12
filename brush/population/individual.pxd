@@ -47,6 +47,5 @@ cdef extern from "src/individual.h" namespace "FT::Pop":
                    const bool)
                    
 
-cdef cppclass Individual:
-    CIndividual ind
-
+cdef class Individual:
+    cdef CIndividual ind

@@ -47,5 +47,5 @@ cdef extern from "src/population.h" namespace "FT::Pop":
         vector[size_t] sorted_front(unsigned)
         
         
-cdef cppclass Population:
-    CPopulation pop
+cdef class Population:
+    cdef CPopulation pop

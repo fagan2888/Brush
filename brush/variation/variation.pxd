@@ -29,5 +29,5 @@ cdef extern from "variation.h" namespace "FT::Vary":
                   const CData &)
                   
                   
-cdef cppclass Variation:
-    CVariation vary_obj
+cdef class Variation:
+    cdef CVariation c_vary

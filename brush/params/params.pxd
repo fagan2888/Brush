@@ -47,8 +47,8 @@ cdef extern from "src/params.h" namespace "FT":
         
         void set_max_dim(unsigned int)
         
-        void set_terminals(int,
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ])
+        void set_terminals(int, 
+                           map[string, pair[vector[ArrayXf], vector[ArrayXf]]])
 
         void set_feature_names(string)
 
@@ -68,4 +68,8 @@ cdef extern from "src/params.h" namespace "FT":
         
 
 cdef class Parameters:
-    CParameters c_params
+    cdef CParameters c_params
+    cdef set_terminals(self, int nf,
+                      map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z)
+    cdef set_classes(self, VectorXf& y)
+    cdef set_sample_weights(self, VectorXf& y)

@@ -29,6 +29,6 @@ cdef extern from "src/selection.h" namespace "FT::Sel":
                                const CParameters &)
                                
                                
-cdef cppclass Selection:
-    CSelection sel
+cdef class Selection:
+    cdef CSelection sel
 

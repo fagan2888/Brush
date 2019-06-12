@@ -15,19 +15,19 @@ from brush.data.data cimport Data
 
 
 cdef class Variation:
-    cdef CVariation vary_obj
+    # cdef CVariation c_vary
 
     def _cinit_(self, float cr):
-        self.vary_obj = CVariation(cr)
+        self.c_vary = CVariation(cr)
 
     def set_cross_rate(self, float cr):
-        self.vary_obj.set_cross_rate(cr)
+        self.c_vary.set_cross_rate(cr)
 
     def get_cross_rate(self):
-        return self.vary_obj.get_cross_rate()
+        return self.c_vary.get_cross_rate()
 
-    cdef vary(self, Population& pop,
+    def vary(self, Population pop,
               const vector[size_t]& parents,
-              const Parameters& params,
-              const Data& d):
-        self.vary_obj.vary(pop.pop, parents, params.c_params, d.cdata)
+              Parameters params,
+              Data d):
+        self.c_vary.vary(pop.pop, parents, params.c_params, d.cdata)
