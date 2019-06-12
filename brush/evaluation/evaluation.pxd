@@ -32,9 +32,9 @@ cdef extern from "src/evaluation.h" namespace "FT::Eval":
                      bool,
                      bool)
           
-        void assign_fit(CIndividual &, const VectorXf &, 
-                        const VectorXf &, const CParameters &, bool) 
+        # void assign_fit(CIndividual &, const VectorXf &, 
+        #                 const VectorXf &, const CParameters &, bool) 
                         
 
-# cdef class Evaluation:
-#     CEvaluation evalobj     
+cdef class Evaluation:
+    cdef CEvaluation c_eval     

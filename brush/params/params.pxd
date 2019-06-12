@@ -13,9 +13,6 @@ from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
 
-cdef extern from "src/params.cc" namespace "FT":
-    pass
-
 cdef extern from "src/params.h" namespace "FT":
     cdef cppclass CParameters:    
         CParameters() except +

@@ -13,30 +13,30 @@ from libcpp cimport bool
 from eigency.core cimport *
 
 
-from brush.evaluation.c_evaluation cimport CEvaluation
+from brush.evaluation.evaluation cimport CEvaluation
 from brush.population.individual cimport Individual
 from brush.population.population cimport Population
 from brush.params.params cimport Parameters
 from brush.data.data cimport Data
 
 cdef class Evaluation:
-    cdef CEvaluation evalobj
+    # cdef CEvaluation c_eval
 
     def __cinit__(self, string scorer):
-        self.evalobj = CEvaluation(scorer)
+        self.c_eval = CEvaluation(scorer)
         
     def set_score(self, string scorer):
-        self.evalobj.set_score(scorer)
+        self.c_eval.set_score(scorer)
 
-    cdef fitness(self, Population pop,
+    def fitness(self, Population pop,
                  Data d, 
                  Parameters params, 
                  bool offspring,
                  bool validation=False):
-        self.evalobj.fitness(pop.pop, d.cdata, params.c_params, offspring, 
+        self.c_eval.fitness(pop.pop, d.cdata, params.c_params, offspring, 
                 validation)  
 
-    cdef assign_fit(self, Individual ind, const VectorXf &yhat, 
-                    const VectorXf &y, Parameters params, bool val):
-        self.evalobj.assign_fit(ind.ind, yhat, y, params.c_params, val)
+    # def assign_fit(self, Individual ind, const VectorXf &yhat, 
+    #                 const VectorXf &y, Parameters params, bool val):
+    #     self.c_eval.assign_fit(ind.ind, yhat, y, params.c_params, val)
 

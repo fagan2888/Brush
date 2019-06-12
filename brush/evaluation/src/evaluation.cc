@@ -12,16 +12,19 @@ namespace FT{
     
     namespace Eval{
     
+
         CEvaluation::CEvaluation(string scorer)
         {
             score_hash["mse"] = &mse;
             score_hash["zero_one"] = &zero_one_loss;
             score_hash["bal_zero_one"] = &bal_zero_one_loss;
             score_hash["log"] =  &mean_log_loss; 
-            
-            //TODO check how to change this 
-            //score_hash["multi_log"] =  &multi_log_loss; 
-        
+
+            set_score(scorer);
+        }
+
+        void CEvaluation::set_score(string scorer)
+        {
             score = score_hash[scorer];
         }
 

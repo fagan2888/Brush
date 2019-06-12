@@ -4,18 +4,18 @@ import time
 import numpy as np
 # brush imports
 # from brush.params import Parameters
-import brush.params
-import brush.population 
-import brush.selection 
-import brush.data 
-import brush.evaluation
+from brush.params import Parameters
+from brush.population import Population
+from brush.selection import Selection
+from brush.data import CVData 
+from brush.evaluation import Evaluation
 
 class BrushBase(BaseEstimator):
     """Base class for Brush learners.
     """
     #TODO survival class not defined
     def __init__(self, pop_size=100, offspring_size=100, classification=False,
-            selection=None, survial=None, xo_rate=0.5, functions=None,
+            selection='lexicase', survival='offspring', xo_rate=0.5, functions=None,
             n_jobs=-1, verbosity=1, max_stall=0, logfile=None, objectives=None,
             scoring_function=None):
         self.pop_size = pop_size
@@ -32,11 +32,11 @@ class BrushBase(BaseEstimator):
         self.logfile = logfile
         self.objectives = objectives
 
-        self.params = brush.params.Parameters()
-        self.selection = brush.selection.Selection(selection)
-        self.survival = brush.selection.Selection(survival)
-        self.evaluation = brush.evaluation.Evaluation()
-        self.pop = brush.population.Population(10)
+        self.params = Parameters()
+        self.selection = Selection(selection.encode())
+        self.survival = Selection(survival.encode())
+        self.evaluation = Evaluation(b'mse')
+        self.pop = Population(10)
         
         print("Population size is ", self.pop.size())
 
@@ -51,7 +51,7 @@ class BrushBase(BaseEstimator):
         """fit a model"""
         
         # initialize the data class
-        self.data = CVData(features, target, params.classification)
+        self.data = CVData(features, target, self.params.classification)
         self.data.train_test_split(self.params.shuffle, self.params.split)
 
         self._fit_init()

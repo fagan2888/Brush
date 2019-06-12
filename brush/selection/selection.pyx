@@ -19,8 +19,8 @@ from brush.params.params cimport Parameters
 cdef class Selection:
     # cdef CSelection sel
 
-    def __cinit__(self, string name='lexicase', bool survival=False):
-        self.sel = CSelection(name, survival)
+    def __cinit__(self, string name, bool survival=False):
+        self.sel = CSelection(name.encode(), survival)
 
     def get_type(self):
         return self.sel.get_type()

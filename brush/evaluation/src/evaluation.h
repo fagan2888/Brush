@@ -39,9 +39,7 @@ namespace FT{
 
                 std::map<string, funcPointer> score_hash;
 
-                CEvaluation(string scorer);
-                CEvaluation(){};
-
+                CEvaluation(string scorer="mse");
 
                 ~CEvaluation();
                     

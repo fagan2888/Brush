@@ -93,3 +93,5 @@ cdef class Parameters:
             
     cdef set_sample_weights(self, VectorXf& y):
         self.c_params.set_sample_weights(y)
+
+    # TODO: add property getters/setters
