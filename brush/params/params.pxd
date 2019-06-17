@@ -17,7 +17,7 @@ cdef extern from "src/params.h" namespace "FT":
     cdef cppclass CParameters:    
         CParameters() except +
             
-        CParameters(int pop_size, int gens, string ml, bool classification, 
+        CParameters(int pop_size, int gens, bool classification, 
                     int max_stall, char ot, int verbosity, string fs, float cr,
                     float root_xor, unsigned int max_depth, unsigned int max_dim,
                     bool constant, string obj, bool sh, float sp, float fb, string sc,
@@ -38,7 +38,7 @@ cdef extern from "src/params.h" namespace "FT":
         
         void set_functions(string)
         
-        void updateSize()
+        # void updateSize()
         
         void set_max_depth(unsigned int)
         
@@ -62,6 +62,11 @@ cdef extern from "src/params.h" namespace "FT":
         void set_classes(VectorXf&)    
         
         void set_sample_weights(VectorXf& y)
+
+        char otype
+        int current_gen, verbosity, max_depth, max_dim, max_stall
+        float split
+        bool classification, shuffle
         
 
 cdef class Parameters:
@@ -70,3 +75,6 @@ cdef class Parameters:
                       map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z)
     cdef set_classes(self, VectorXf& y)
     cdef set_sample_weights(self, VectorXf& y)
+    # cdef public int current_gen, verbosity, max_depth, max_dim, max_stall
+    # cdef public bool classification     
+    # cdef public char otype

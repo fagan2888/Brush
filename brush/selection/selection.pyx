@@ -20,7 +20,7 @@ cdef class Selection:
     # cdef CSelection sel
 
     def __cinit__(self, string name, bool survival=False):
-        self.sel = CSelection(name.encode(), survival)
+        self.sel = CSelection(name, survival)
 
     def get_type(self):
         return self.sel.get_type()

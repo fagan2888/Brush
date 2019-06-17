@@ -26,7 +26,6 @@ namespace FT{
         int pop_size;                   			///< population size
         int gens;                       			///< max generations
         int current_gen;                            ///< holds current generation
-        string ml;                              ///< machine learner used with Feat
         bool classification; ///< flag to conduct classification rather than 
         int max_stall;       ///< maximum stall in learning, in generations
         vector<char> otypes; ///< program output types ('f', 'b')
@@ -87,7 +86,7 @@ namespace FT{
         
         CParameters();      
         
-        CParameters(int pop_size, int gens, string ml, bool classification, 
+        CParameters(int pop_size, int gens, bool classification, 
                     int max_stall, char ot, int verbosity, string fs, float cr,
                     float root_xor, unsigned int max_depth, unsigned int max_dim,
                     bool constant, string obj, bool sh, float sp, float fb, string sc,
@@ -97,7 +96,6 @@ namespace FT{
         ~CParameters();
         
         /*! checks initial parameter settings before training.
-         *  make sure ml choice is valid for problem type.
          *  make sure scorer is set. 
          *  for classification, check clases and find number.
          */

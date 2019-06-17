@@ -11,14 +11,13 @@ namespace FT{
     
     CParameters::CParameters(){}
         
-    CParameters::CParameters(int pop_size, int gens, string ml, bool classification, int max_stall, 
+    CParameters::CParameters(int pop_size, int gens, bool classification, int max_stall, 
                char ot, int verbosity, string fs, float cr, float root_xor, unsigned int max_depth, 
                unsigned int max_dim, bool constant, string obj, bool sh, float sp, 
                float fb, string sc, string fn, bool bckprp, int iters, float lr,
                int bs, bool hclimb, int maxt, bool useb, bool res_xo, bool stg_xo, bool sftmx):    
             pop_size(pop_size),
             gens(gens),
-            ml(ml),
             classification(classification),
             max_stall(max_stall), 
             cross_rate(cr),
@@ -59,17 +58,11 @@ namespace FT{
     CParameters::~CParameters(){}
     
     /*! checks initial parameter settings before training.
-     *  make sure ml choice is valid for problem type.
      *  make sure scorer is set. 
      *  for classification, check clases and find number.
      */
     void CParameters::init()
     {
-        if (!ml.compare("LinearRidgeRegression") && classification)
-        {
-            logger.log("Setting ML type to LR",3);
-            ml = "LR";            
-        }
     }
   
     /// sets current generation
@@ -78,20 +71,21 @@ namespace FT{
     /// sets scorer type
     void CParameters::set_scorer(string sc)
     {
+        // TODO: revisit this for brush
         if (sc.empty())
         {
             if (classification && n_classes == 2)
             {
-                if (ml.compare("LR") || ml.compare("SVM"))
-                    scorer = "log";
-                else
-                    scorer = "zero_one";
+                /* if (ml.compare("LR") || ml.compare("SVM")) */
+                /*     scorer = "log"; */
+                /* else */
+                scorer = "zero_one";
             }
             else if (classification){
-                if (ml.compare("LR") || ml.compare("SVM"))
-                    scorer = "multi_log";
-                else
-                    scorer = "bal_zero_one";
+                /* if (ml.compare("LR") || ml.compare("SVM")) */
+                /*     scorer = "multi_log"; */
+                /* else */
+                scorer = "bal_zero_one";
             }
             else
                 scorer = "mse";

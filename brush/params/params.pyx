@@ -19,8 +19,8 @@ cdef class Parameters:
     # cdef CParameters c_params
     
     def __cinit__(self, int pop_size=100, int gens=100, 
-                  string ml="LinearRidgeRegression", bool classification=False,
-                  int max_stall = 0, char ot='a',int verbosity = 2,string fs="", 
+                  bool classification=False, int max_stall = 0, char ot='a',
+                  int verbosity = 2,string fs="", 
                   float cr = 0.5, float root_xor=0.5,unsigned int max_depth=3, 
                   unsigned int max_dim=10, bool constant=False, 
                   string obj="fitness,complexity", bool sh=True, float sp=0.75, 
@@ -34,7 +34,7 @@ cdef class Parameters:
         #     ot_char = 'a' #Defaut Value
         # else:
         #     ot_char = ord(ot)
-        self.c_params = CParameters(pop_size, gens, ml, classification, max_stall, 
+        self.c_params = CParameters(pop_size, gens, classification, max_stall, 
                                   ot, verbosity, fs, cr, root_xor, 
                                   max_depth, max_dim, constant, obj, 
                                   sh, sp, fb, sc, fn, bckprp, 
@@ -44,54 +44,92 @@ cdef class Parameters:
     def init(self):
         self.c_params.init()
   
-    def set_current_gen(self, int g):
-        self.c_params.set_current_gen(g)
+    # def set_scorer(self, string sc):
+    #     self.c_params.set_scorer(sc)
     
-    def set_scorer(self, string sc):
-        self.c_params.set_scorer(sc)
-    
-    def set_term_weights(self, const vector[float]& w):
-        self.c_params.set_term_weights(w)
+    # def set_term_weights(self, const vector[float]& w):
+    #     self.c_params.set_term_weights(w)
         
     # def createNode(self, string name, float d_val, bool b_val, 
     #                                  size_t loc, string name):
     #     return self.c_params.createNode(name, d_val, b_val, loc, name)
     
-    def set_functions(self, string fs):
-        self.c_params.set_functions(fs)
+    # def set_functions(self, string fs):
+    #     self.c_params.set_functions(fs)
     
-    def updateSize(self):
-        self.c_params.updateSize()
-    
-    def set_max_depth(self, unsigned int max_depth):
-        self.c_params.set_max_depth(max_depth)
-    
-    def set_max_dim(self, unsigned int max_dim):
-        self.c_params.set_max_dim(max_dim)
+    # def set_objectives(self, string obj):
+    #     self.c_params.set_objectives(obj)
     
     cdef set_terminals(self, int nf,
                       map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z):
         self.c_params.set_terminals(nf, z)
-
-    def set_objectives(self, string obj):
-        self.c_params.set_objectives(obj)
     
-    def set_verbosity(self, int verbosity):
-        self.c_params.set_verbosity(verbosity)
-
-    def set_otype(self, char ot):
-        self.c_params.set_otype(ot)
-    
-    def set_ttypes(self):
-        self.c_params.set_ttypes()
-
-    def set_otypes(self, bool terminals_set):
-        self.c_params.set_otypes(terminals_set)
-        
     cdef set_classes(self, VectorXf& y):    
         self.c_params.set_classes(y)
             
     cdef set_sample_weights(self, VectorXf& y):
         self.c_params.set_sample_weights(y)
 
-    # TODO: add property getters/setters
+    # Attribute access
+    @property
+    def current_gen(self):
+        return self.c_params.current_gen
+    @current_gen.setter
+    def current_gen(self, current_gen):
+        self.c_params.set_current_gen(current_gen)
+    
+    @property
+    def classification(self):
+        return self.c_params.classification
+    @classification.setter
+    def classification(self, classification):
+        self.c_params.classification = classification
+
+    @property
+    def max_stall(self):
+        return self.c_params.max_stall
+    @max_stall.setter
+    def max_stall(self, max_stall):
+        self.c_params.max_stall = max_stall
+
+    @property
+    def otype(self):
+        return self.c_params.otype
+    @otype.setter
+    def otype(self, otype):
+        self.c_params.set_otype(otype)
+    
+    @property
+    def verbosity(self):
+        return self.c_params.verbosity
+    @verbosity.setter
+    def verbosity(self, verbosity):
+        self.c_params.set_verbosity(verbosity)
+    
+    @property
+    def max_depth(self):
+        return self.c_params.max_depth
+    @max_depth.setter
+    def max_depth(self, max_depth):
+        self.c_params.set_max_depth(max_depth)
+    
+    @property
+    def max_dim(self):
+        return self.c_params.max_dim
+    @max_dim.setter
+    def max_dim(self, max_dim):
+        self.c_params.set_max_dim(max_dim)
+    
+    @property
+    def shuffle(self):
+        return self.c_params.shuffle
+    @shuffle.setter
+    def shuffle(self, shuffle):
+        self.c_params.shuffle = shuffle
+
+    @property
+    def split(self):
+        return self.c_params.split
+    @split.setter
+    def split(self, split):
+        self.c_params.split = split
