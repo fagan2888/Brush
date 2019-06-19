@@ -1,2 +1,0 @@
-make -C build -j10
-python setup.py install --force

@@ -27,6 +27,7 @@ env_params = os.environ.keys()
 
 # get path to Brush shared library for linking
 # cwd = '/'.join(os.getcwd().split('/')[:-1])
+# brush_lib = os.getcwd() + '/debug/'
 brush_lib = os.getcwd() + '/build/'
 
 exts = []

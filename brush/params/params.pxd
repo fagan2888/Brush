@@ -63,10 +63,10 @@ cdef extern from "src/params.h" namespace "FT":
         
         void set_sample_weights(VectorXf& y)
 
+        bool classification, shuffle, use_batch
         char otype
-        int current_gen, verbosity, max_depth, max_dim, max_stall
+        int current_gen, gens, max_depth, max_dim, max_stall, verbosity
         float split
-        bool classification, shuffle
         
 
 cdef class Parameters:

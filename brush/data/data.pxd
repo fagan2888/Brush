@@ -30,35 +30,43 @@ cdef extern from "src/data.h" namespace "FT::Dat":
                 
         void get_batch(CData &, int) const
         
-    cdef cppclass CCVData:
-        CCVData() except +
-        
-        CCVData(float *, int, int,
-              float *, int,
-              bool) except +
-              
-        CCVData(float *, int, int,
-              float *, int,
-              string, int *, int,
-              bool) except +
-        
-        void shuffle_data()
-        
-        void split_stratified(float)
-        
-        void train_test_split(bool, float)
-        
-        void get_batch(CCVData&, int)
-        
-        # void setValidationData(CData* d)
-        # void setTrainingData(CData* d)
+        MatrixXf &get_X()
+        void set_X(Map[MatrixXf] &)
 
-        # CData t
-        # CData v
+        VectorXf &get_y()
+        void set_y(Map[VectorXf] &)
+
+    # cdef cppclass CCVData:
+    #     CCVData() except +
+        
+    #     CCVData(float *, int, int,
+    #           float *, int,
+    #           bool) except +
+              
+    #     CCVData(float *, int, int,
+    #           float *, int,
+    #           string, int *, int,
+    #           bool) except +
+        
+    #     void shuffle_data()
+        
+    #     void split_stratified(float)
+        
+    #     void train_test_split(bool, float)
+        
+    #     void get_batch(CCVData*, int)
+        
+    #     # void setValidationData(CData* d)
+    #     # void setTrainingData(CData* d)
+
+    #     CData* o
+    #     CData* t
+    #     CData* v
         
 # forward declarations
 cdef class Data:
     cdef CData cdata
     
-cdef class CVData:
-    cdef CCVData cvdata
+# cdef class CVData:
+#     cdef CCVData* c_cvdata
+    # cdef get_batch(self, int batch_size)

@@ -1,1 +1,2 @@
-from .data import Data, CVData
+from .data import Data 
+from .cvdata import CVData

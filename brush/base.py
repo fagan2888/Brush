@@ -9,6 +9,8 @@ from brush.population import Population
 from brush.selection import Selection
 from brush.data import CVData 
 from brush.evaluation import Evaluation
+import pdb
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -40,11 +42,12 @@ class BrushBase(BaseEstimator):
         self.exit_on_stall = max_stall > 0
         self.logfile = logfile
         self.objectives = objectives
-        self.params = Parameters()
+        self.P = Parameters()
         self.selection = Selection(selection.encode())
         self.survival = Selection(survival.encode())
         self.evaluation = Evaluation(b'mse')
         self.pop = Population(10)
+        self.random_state = None
         
         print("Population size is ", self.pop.size())
 
@@ -52,7 +55,7 @@ class BrushBase(BaseEstimator):
         """Routines to run at the beginning of the fit method"""
         logger.debug('fit initialization')
         self.stall_count = 0
-        self.params.current_generation = 0
+        self.P.current_gen = 0
         
         # initialize any parameters that depend on the data
 
@@ -61,9 +64,16 @@ class BrushBase(BaseEstimator):
         
         logger.debug('setting the CVData class')
         # initialize the data class
-        self.data = CVData(features, target, self.params.classification)
-        logger.debug('train test split')
-        self.data.train_test_split(self.params.shuffle, self.params.split)
+        self.data = CVData(features, target, self.P.classification, self.P.shuffle,
+                           self.P.split, self.random_state)
+        # pdb.set_trace()
+        # logger.debug('train test split')
+        # self.data.train_test_split(self.P.shuffle, self.P.split)
+        print('self.data:',self.data,dir(self.data))
+        print('self.data X_train:',self.data.train.X[:10])
+        print('self.data X_test:',self.data.val.X[:10])
+        print('self.data y_train:',self.data.train.y[:10])
+        print('self.data y_test:',self.data.val.y[:10])
 
         self._fit_init()
         
@@ -77,27 +87,31 @@ class BrushBase(BaseEstimator):
         
         return self
 
-    def _run_generation(data): 
+    def _run_generation(self): 
         """Runs one generation of the population on data"""
         logger.debug('get batch')
-        data = self.data.get_batch() if self.params.use_batch else data
-
+        data = self.data.get_batch() if self.P.use_batch else self.data
+        print('data:',data,dir(data))
+        print('data X_train:',data.train.X[:10])
+        print('data X_test:',data.val.X[:10])
+        print('data y_train:',data.train.y[:10])
+        print('data y_test:',data.val.y[:10])
         logger.debug('selection')
-        parents = self.selection.select(self.pop, self.params)
+        parents = self.selection.select(self.pop, self.P)
         logger.debug('variation')
-        self.variation.vary(self.pop, parents, self.params, data)
+        self.variation.vary(self.pop, parents, self.P, data)
         logger.debug('fitness')
-        self.evaluation.fitness(offspring, data, self.params, offspring=True)
+        self.evaluation.fitness(offspring, data, self.P, offspring=True)
         logger.debug('survival')
         survivors = self.survival.survive(self.pop)
         logger.debug('update best')
         self.update_best()
         self.pop.update(survivors)
-        self.params.current_generation += 1
+        self.P.current_gen+= 1
 
     # def _get_train_batch():
     #     """Returns data to train on, potentially a batch"""
-    #     if self.params.use_batch:
+    #     if self.P.use_batch:
     #         return data.get_batch(params.batch_size)
     #     else:
     #         return data
@@ -106,7 +120,7 @@ class BrushBase(BaseEstimator):
         """Evaluates population/archive on validation set and chooses best"""
 
         if (params.split < 1):
-            self.evaluation.fitness(self.pop, data.val, self.params, 
+            self.evaluation.fitness(self.pop, data.val, self.P, 
                     offspring=False, validation=True)
             self.update_best(data, true)
 
@@ -116,8 +130,8 @@ class BrushBase(BaseEstimator):
 
     def _terminate(self):
         """Checks whether or not to stop"""
-        return (self.current_generation == self.generations or
-                (self.exit_on_stall and self.stall_count > self.max_stall))
+        return (self.P.current_gen == self.P.gens or
+               (self.exit_on_stall and self.stall_count > self.P.max_stall))
 
     def update_best(self):
         """Keeps track of the best current estimator"""

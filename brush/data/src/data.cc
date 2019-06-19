@@ -19,8 +19,9 @@ namespace FT{
     
     	CData::CData(){};
 
-        CData::CData(MatrixXf X, VectorXf y, std::map<string, std::pair<vector<ArrayXf>, 
-                        vector<ArrayXf>>> Z, bool c): X(X), y(y), Z(Z), classification(c) 
+        CData::CData(MatrixXf& X, VectorXf& y, 
+                std::map<string, std::pair<vector<ArrayXf>, 
+                vector<ArrayXf>>>& Z, bool c) 
         {
         	this->X = Map<MatrixXf>(X.data(), X.rows(), X.cols());
         	this->y = Map<VectorXf>(y.data(), y.size());
@@ -49,6 +50,23 @@ namespace FT{
     		validation = false;
     		classification = c;
         }
+
+        
+        void CData::set_X(const Map<MatrixXf> & mat)
+        {
+            /* this->X = Map<MatrixXf>(mat.data(), mat.rows(), mat.cols()); */
+            cout << "CData::set_X\n";
+            cout << "current X:" << this->X.data() << "\n" << this->X << "\n";
+            this->X = mat;
+            cout << "new X:" << this->X.data() << "\n" << this->X << "\n";
+        }
+
+        void CData::set_y(const Map<VectorXf> & ynew)
+        {
+            /* this->y = Map<VectorXf>(ynew.data(), ynew.rows(), ynew.cols()); */
+            this->y = ynew;
+        }
+
         
         void CData::set_validation(bool v){validation=v;}
         
@@ -74,15 +92,14 @@ namespace FT{
 
                for (const auto& val: Z )
                {
-                    db.Z[val.first].first.at(i) = Z.at(val.first).first.at(idx.at(i));
-                    db.Z[val.first].second.at(i) = Z.at(val.first).second.at(idx.at(i));
+                  db.Z[val.first].first.at(i) = Z.at(val.first).first.at(idx.at(i));
+                  db.Z[val.first].second.at(i) = Z.at(val.first).second.at(idx.at(i));
                }
             }
         }
         
         /// get longitudinal data from file s
-		std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> CData::get_Z(string s, 
-				int * idx, int idx_size)
+		std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> CData::get_Z(string s, int * idx, int idx_size)
 		{
 			std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > Z;
 			vector<int> ids(idx,idx+idx_size);
@@ -99,8 +116,10 @@ namespace FT{
         }
      
         CCVData::CCVData(MatrixXf X, VectorXf y, 
-                         std::map<string,std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z, bool c)
+                 std::map<string,std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z, 
+                 bool c)
         {
+            cout << "in CCVData vectorxf constructor\n";
             o = new CData(X, y, Z, c);
             oCreated = true;
             
@@ -120,19 +139,22 @@ namespace FT{
                 	  	float * Y, int lenY,
                 	  	bool c)
         {
-        	o = new CData(X, rowsX, colsX,
-        				  Y, lenY,
-        				  c);
+            cout << "in the appropriate constructor\n";
+        	this->o = new CData(X, rowsX, colsX, Y, lenY, c);
         				  
-            oCreated = true;
+            this->oCreated = true;
+            cout << "training created\n";
             
-            t = new CData(X_t, y_t, Z_t, c);
+            this->t = new CData(X_t, y_t, Z_t, c);
             tCreated = true;
             
-            v = new CData(X_v, y_v, Z_v, c);
-            vCreated = true;
-            
-            classification = c;
+            cout << "validation created\n";
+            this->v = new CData(X_v, y_v, Z_v, c);
+            this->vCreated = true;
+           
+            cout << "classification created\n";
+            this->classification = c;
+            cout << "exiting CVData()\n";
         }
         
         CCVData::CCVData(float * X, int rowsX, int colsX,
@@ -158,28 +180,33 @@ namespace FT{
        
         CCVData::~CCVData()
         {
+            cout << "destructor called\n";
             if(o != NULL && oCreated)
             {
+                cout << "oCreated: " << oCreated << ", o: " << o << "; deleting...\n";
                 delete(o);
                 o = NULL;
             }
             
             if(t != NULL && tCreated)
             {
+                cout << "tCreated: " << tCreated << ", t: " << t << "; deleting...\n";
                 delete(t);
                 t = NULL;
             }
             
             if(v != NULL && vCreated)
             {
+                cout << "vCreated: " << vCreated << ", v: " << v << "; deleting...\n";
                 delete(v);
                 v = NULL;
             }
+            cout << "destructor exited\n";
         }
         
         void CCVData::setOriginalData(MatrixXf X, VectorXf y, 
-                                      std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z,
-                                      bool c)
+                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z,
+                    bool c)
         {
             o = new CData(X, y, Z, c);
             oCreated = true;
@@ -208,7 +235,7 @@ namespace FT{
         }
         
         void CCVData::setTrainingData(MatrixXf X_t, VectorXf y_t, 
-                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z_t,
+                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z_t,
                                     bool c)
         {
             t = new CData(X_t, y_t, Z_t, c);
@@ -227,7 +254,7 @@ namespace FT{
         }
         
         void CCVData::setValidationData(MatrixXf X_v, VectorXf y_v, 
-                                    std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z_v,
+                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf>>> Z_v,
                                     bool c)
         {
             v = new CData(X_v, y_v, Z_v, c);
@@ -244,6 +271,7 @@ namespace FT{
         {
             Eigen::PermutationMatrix<Dynamic,Dynamic> perm(o->X.cols());
             perm.setIdentity();
+            cout << "r.shuffle\n";
             r.shuffle(perm.indices().data(), perm.indices().data()+perm.indices().size());
             o->X = o->X * perm;       // shuffles columns of X
             o->y = (o->y.transpose() * perm).transpose() ;       // shuffle y too
@@ -361,7 +389,8 @@ namespace FT{
              * @param[out] X_t, X_v, y_t, y_v: training and validation matrices
              */
              
-                                     
+                      
+            cout << "shuffle\n";
             if (shuffle)     // generate shuffle index for the split
                 shuffle_data();
                 
@@ -369,6 +398,7 @@ namespace FT{
                 split_stratified(split);
             else
             {        
+                cout << "resizing\n";
                 // resize training and test sets
                 X_t.resize(o->X.rows(),int(o->X.cols()*split));
                 X_v.resize(o->X.rows(),int(o->X.cols()*(1-split)));
@@ -389,9 +419,9 @@ namespace FT{
         }  
         
         void CCVData::split_longitudinal(
-                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z,
-                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_t,
-                                std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_v,
+                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z,
+                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_t,
+                 std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > &Z_v,
                                 float split)
         {
         
@@ -456,11 +486,11 @@ namespace FT{
         }
 
         /// gets a batch 
-        void CCVData::get_batch(CCVData& cvbatch, int batch_size)
+        void CCVData::get_batch(CCVData* cvbatch, int batch_size)
         {
             this->t->get_batch(this->dbatch, batch_size);
-            cvbatch.setTrainingData(&this->dbatch);
-            cvbatch.setValidationData(this->v);
+            cvbatch->setTrainingData(&this->dbatch);
+            cvbatch->setValidationData(this->v);
 
         }
         

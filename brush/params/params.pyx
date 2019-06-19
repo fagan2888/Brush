@@ -78,6 +78,14 @@ cdef class Parameters:
     def current_gen(self, current_gen):
         self.c_params.set_current_gen(current_gen)
     
+    # Attribute access
+    @property
+    def gens(self):
+        return self.c_params.gens
+    @gens.setter
+    def gens(self, gens):
+        self.c_params.gens = gens 
+
     @property
     def classification(self):
         return self.c_params.classification
@@ -133,3 +141,10 @@ cdef class Parameters:
     @split.setter
     def split(self, split):
         self.c_params.split = split
+
+    @property
+    def use_batch(self):
+        return self.c_params.use_batch
+    @use_batch.setter
+    def use_batch(self, use_batch):
+        self.c_params.use_batch = use_batch
