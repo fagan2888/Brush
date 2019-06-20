@@ -10,49 +10,45 @@ namespace FT{
     using namespace Util;
     
     CParameters::CParameters(){}
-        
-    CParameters::CParameters(int pop_size, int gens, bool classification, int max_stall, 
-               char ot, int verbosity, string fs, float cr, float root_xor, unsigned int max_depth, 
-               unsigned int max_dim, bool constant, string obj, bool sh, float sp, 
-               float fb, string sc, string fn, bool bckprp, int iters, float lr,
-               int bs, bool hclimb, int maxt, bool useb, bool res_xo, bool stg_xo, bool sftmx):    
+     CParameters::CParameters(int pop_size, int gens, bool classification, 
+                    int max_stall, char output_type, int verbosity, string functions, 
+                    float xo_rate, unsigned int max_depth, unsigned max_dim,
+                    string objectives, bool shuffle, float split, float feedback, 
+                    string scorer, string feature_names, bool backprop, int iters,
+                    float learning_rate, int batch_size, bool hill_climb,
+                    int max_time, bool use_batch):
             pop_size(pop_size),
             gens(gens),
             classification(classification),
             max_stall(max_stall), 
-            cross_rate(cr),
-            root_xo_rate(root_xor),
+            cross_rate(xo_rate),
             max_depth(max_depth),
             max_dim(max_dim),
-            erc(constant),
-            shuffle(sh),
-            split(sp),
-            otype(ot),
-            feedback(fb),
-            backprop(bckprp),
-            bp(iters, lr, bs),
-            hillclimb(hclimb),
-            hc(iters, lr),
-            max_time(maxt),
-            use_batch(useb),
-            residual_xo(res_xo),
-            stagewise_xo(stg_xo),
-            softmax_norm(sftmx)
+            shuffle(shuffle),
+            split(split),
+            otype(output_type),
+            feedback(feedback),
+            backprop(backprop),
+            bp(iters, learning_rate, batch_size),
+            hillclimb(hillclimb),
+            hc(iters, learning_rate),
+            max_time(max_time),
+            use_batch(use_batch)
         {
             set_verbosity(verbosity);
-            if (fs.empty())
-                fs = "+,-,*,/,^2,^3,sqrt,sin,cos,exp,log,^,"
+            if (functions.empty())
+                functions = "+,-,*,/,^2,^3,sqrt,sin,cos,exp,log,^,"
                       "logit,tanh,gauss,relu,"
                       "split,split_c,"
                       "b2f,c2f,and,or,not,xor,=,<,<=,>,>=,if,ite";
                 
-            set_functions(fs);
-            set_objectives(obj);
-            set_feature_names(fn);
+            set_functions(functions);
+            set_objectives(objectives);
+            set_feature_names(feature_names);
             updateSize();     
             set_otypes();
             n_classes = 2;
-            set_scorer(sc);
+            set_scorer(scorer);
         }
     
     CParameters::~CParameters(){}
@@ -474,27 +470,18 @@ namespace FT{
         set_otypes();
     }
 
-    void CParameters::set_terminals(int nf,
-                                   std::map<string, std::pair<vector<ArrayXf>, vector<ArrayXf> > > Z)
+    void CParameters::set_terminals(CData& d)
     {
         /*!
          * based on number of features.
          */
         terminals.clear();
-        num_features = nf; 
+        num_features = d.X.rows(); 
         for (size_t i = 0; i < nf; ++i)
             terminals.push_back(createNode(string("x"), 0, 0, i));
     	
-        if(erc)
-    		for (int i = 0; i < nf; ++i)
-    		{
-    			if(r() < 0.5)
-    	       		terminals.push_back(createNode(string("kb"), 0, r(), 0));
-    	       	else
-    	       		terminals.push_back(createNode(string("kd"), r(), 0, 0));
-    	    }        
        
-        for (const auto &val : Z)
+        for (const auto &val : d.Z)
         {
             longitudinalMap.push_back(val.first);
             terminals.push_back(createNode(string("z"), 0, 0, 0, val.first));

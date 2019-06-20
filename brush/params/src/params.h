@@ -40,7 +40,6 @@ namespace FT{
         unsigned int max_depth;  ///< max depth of programs
         unsigned int max_size;   ///< max size of programs (length)
         unsigned int max_dim;    ///< maximum dimensionality of programs
-        bool erc;				///< whether to include constants for terminals 
         unsigned num_features;    ///< number of features
         vector<string> objectives; ///< Pareto objectives 
         bool shuffle;              ///< option to shuffle the data
@@ -87,11 +86,12 @@ namespace FT{
         CParameters();      
         
         CParameters(int pop_size, int gens, bool classification, 
-                    int max_stall, char ot, int verbosity, string fs, float cr,
-                    float root_xor, unsigned int max_depth, unsigned int max_dim,
-                    bool constant, string obj, bool sh, float sp, float fb, string sc,
-                    string fn, bool bckprp, int iters, float lr, int bs, bool hclimb,
-                    int maxt, bool useb, bool res_xo, bool stg_xo, bool sftmx);
+                    int max_stall, char output_type, int verbosity, string functions, 
+                    float xo_rate, unsigned int max_depth, unsigned int max_dim,
+                    string objectives, bool shuffle, float split, float feedback, 
+                    string scorer, string feature_names, bool backprop, int iters,
+                    float learning_rate, int batch_size, bool hill_climb,
+                    int max_time, bool use_batch);
         
         ~CParameters();
         
@@ -128,11 +128,9 @@ namespace FT{
         void set_max_dim(unsigned int max_dim);
         
         /// set the terminals
-        void set_terminals(int nf,
-                           std::map<string, std::pair<vector<ArrayXf>, 
-                           vector<ArrayXf> > > Z = 
-                           std::map<string, std::pair<vector<ArrayXf>, 
-                           vector<ArrayXf> > > ());
+        /* void set_terminals(int nf){ this->set_terminals_with_Z(nf);} */
+
+        void set_terminals(const CData& d);
 
         void set_feature_names(string fn); 
         /// set the objectives

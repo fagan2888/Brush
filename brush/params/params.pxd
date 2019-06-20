@@ -18,12 +18,12 @@ cdef extern from "src/params.h" namespace "FT":
         CParameters() except +
             
         CParameters(int pop_size, int gens, bool classification, 
-                    int max_stall, char ot, int verbosity, string fs, float cr,
-                    float root_xor, unsigned int max_depth, unsigned int max_dim,
-                    bool constant, string obj, bool sh, float sp, float fb, string sc,
-                    string fn, bool bckprp, int iters, float lr, int bs, bool hclimb,
-                    int maxt, bool useb, bool res_xo, bool stg_xo, 
-                    bool sftmx) except +
+                    int max_stall, char output_type, int verbosity, string functions, 
+                    float xo_rate, unsigned int max_depth, unsigned max_dim, 
+                    string objectives, bool shuffle, float split, float feedback, 
+                    string scorer, string feature_names, bool backprop, int iters,
+                    float learning_rate, int batch_size, bool hill_climb,
+                    int max_time, bool use_batch) except +
         
         void init()
       
@@ -42,10 +42,7 @@ cdef extern from "src/params.h" namespace "FT":
         
         void set_max_depth(unsigned int)
         
-        void set_max_dim(unsigned int)
-        
-        void set_terminals(int, 
-                           map[string, pair[vector[ArrayXf], vector[ArrayXf]]])
+        void set_terminals(int)
 
         void set_feature_names(string)
 
@@ -65,14 +62,15 @@ cdef extern from "src/params.h" namespace "FT":
 
         bool classification, shuffle, use_batch
         char otype
-        int current_gen, gens, max_depth, max_dim, max_stall, verbosity
+        int pop_size, current_gen, gens, max_depth, max_dim, max_stall, verbosity
         float split
+        string scorer
         
 
 cdef class Parameters:
     cdef CParameters c_params
-    cdef set_terminals(self, int nf,
-                      map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z)
+    # cdef set_terminals(self, int nf,
+    #                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z)
     cdef set_classes(self, VectorXf& y)
     cdef set_sample_weights(self, VectorXf& y)
     # cdef public int current_gen, verbosity, max_depth, max_dim, max_stall

@@ -18,34 +18,36 @@ cdef class Parameters:
     """This is the wrapper class that stores all the parameters for Brush."""
     # cdef CParameters c_params
     
-    def __cinit__(self, int pop_size=100, int gens=100, 
-                  bool classification=False, int max_stall = 0, char ot='a',
-                  int verbosity = 2,string fs="", 
-                  float cr = 0.5, float root_xor=0.5,unsigned int max_depth=3, 
-                  unsigned int max_dim=10, bool constant=False, 
-                  string obj="fitness,complexity", bool sh=True, float sp=0.75, 
-                  float fb=0.5, string sc="", string fn="", bool bckprp=False,
-                  int iters=10, float lr=0.1, int bs=100, bool hclimb=False,
-                  int maxt=-1, bool useb=False, bool res_xo=False, 
-                  bool stg_xo=False, bool sftmx=False):
+    def __cinit__(self, int pop_size, 
+                    int gens, bool classification, 
+                    int max_stall, 
+                    string output_type, 
+                    int verbosity, 
+                    string functions, 
+                    float xo_rate, 
+                    unsigned int max_depth, unsigned int max_dim, 
+                    string objectives, bool shuffle, float split, float feedback, 
+                    string scorer, string feature_names, bool backprop, int iters,
+                    float learning_rate, int batch_size, bool hill_climb,
+                    int max_time, bool use_batch):
                   
-        # cdef char ot_char
-        # if ( len(ot) == 0):
-        #     ot_char = 'a' #Defaut Value
-        # else:
-        #     ot_char = ord(ot)
+        # convert output_type to char
+        cdef char ot_char
+        if ( len(output_type) == 0):
+            ot_char = 'a' #Defaut Value
+        else:
+            ot_char = ord(output_type)
+
         self.c_params = CParameters(pop_size, gens, classification, max_stall, 
-                                  ot, verbosity, fs, cr, root_xor, 
-                                  max_depth, max_dim, constant, obj, 
-                                  sh, sp, fb, sc, fn, bckprp, 
-                                  iters, lr, bs, hclimb, maxt, useb, res_xo, 
-                                  stg_xo, sftmx)
-        
+                                  ot_char, verbosity, functions, xo_rate,  
+                                  max_depth, max_dim, objectives, 
+                                  shuffle, split, feedback, scorer, feature_names, 
+                                  backprop, iters, learning_rate, batch_size, 
+                                  hill_climb, max_time, use_batch)
+
     def init(self):
         self.c_params.init()
   
-    # def set_scorer(self, string sc):
-    #     self.c_params.set_scorer(sc)
     
     # def set_term_weights(self, const vector[float]& w):
     #     self.c_params.set_term_weights(w)
@@ -60,9 +62,12 @@ cdef class Parameters:
     # def set_objectives(self, string obj):
     #     self.c_params.set_objectives(obj)
     
-    cdef set_terminals(self, int nf,
-                      map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z):
-        self.c_params.set_terminals(nf, z)
+    def set_terminals(self, int nf):
+        self.c_params.set_terminals(nf)
+    
+    # cdef set_terminals(self, int nf,
+    #                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z):
+    #     self.c_params.set_terminals(nf, z)
     
     cdef set_classes(self, VectorXf& y):    
         self.c_params.set_classes(y)
@@ -122,13 +127,6 @@ cdef class Parameters:
         self.c_params.set_max_depth(max_depth)
     
     @property
-    def max_dim(self):
-        return self.c_params.max_dim
-    @max_dim.setter
-    def max_dim(self, max_dim):
-        self.c_params.set_max_dim(max_dim)
-    
-    @property
     def shuffle(self):
         return self.c_params.shuffle
     @shuffle.setter
@@ -148,3 +146,17 @@ cdef class Parameters:
     @use_batch.setter
     def use_batch(self, use_batch):
         self.c_params.use_batch = use_batch
+    
+    @property
+    def scorer(self):
+        return self.c_params.scorer
+    @scorer.setter
+    def scorer(self, scorer):
+        self.c_params.set_scorer(scorer.encode())
+    
+    @property
+    def pop_size(self):
+        return self.c_params.pop_size
+    @pop_size.setter
+    def pop_size(self, pop_size):
+        self.c_params.pop_size = pop_size
