@@ -52,11 +52,11 @@ namespace FT{
             /*!
              *create random programs in the CPopulation, seeded by initial model weights 
              */
-            individuals[0] = starting_model;
-            individuals[0].loc = 0;
+            /* individuals[0] = starting_model; */
+            /* individuals[0].loc = 0; */
 
             #pragma omp parallel for
-            for (unsigned i = 1; i< individuals.size(); ++i)
+            for (unsigned i = 0; i< individuals.size(); ++i)
             {          
                 // pick a dimensionality for this individual
                 int dim = r.rnd_int(1,params.max_dim);      
