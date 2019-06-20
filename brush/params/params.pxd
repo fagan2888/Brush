@@ -12,6 +12,7 @@ from libcpp.memory cimport unique_ptr
 from libcpp.map cimport map
 from libcpp.utility cimport pair
 from eigency.core cimport *
+from brush.data.data cimport CData
 
 cdef extern from "src/params.h" namespace "FT":
     cdef cppclass CParameters:    
@@ -25,7 +26,7 @@ cdef extern from "src/params.h" namespace "FT":
                     float learning_rate, int batch_size, bool hill_climb,
                     int max_time, bool use_batch) except +
         
-        void init()
+        void init(CData&)
       
         void set_current_gen(int)
         
@@ -42,7 +43,7 @@ cdef extern from "src/params.h" namespace "FT":
         
         void set_max_depth(unsigned int)
         
-        void set_terminals(int)
+        # void set_terminals(const CData& )
 
         void set_feature_names(string)
 

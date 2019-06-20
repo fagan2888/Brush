@@ -7,6 +7,7 @@ license: GNU/GPLv3
 # distutils: language=c++
 
 from brush.params.params cimport CParameters
+from brush.data.data cimport Data
 from libcpp.string cimport string
 from libcpp cimport bool
 from libcpp.vector cimport vector
@@ -45,8 +46,8 @@ cdef class Parameters:
                                   backprop, iters, learning_rate, batch_size, 
                                   hill_climb, max_time, use_batch)
 
-    def init(self):
-        self.c_params.init()
+    def init(self, Data d):
+        self.c_params.init(d.cdata)
   
     
     # def set_term_weights(self, const vector[float]& w):
@@ -62,8 +63,8 @@ cdef class Parameters:
     # def set_objectives(self, string obj):
     #     self.c_params.set_objectives(obj)
     
-    def set_terminals(self, int nf):
-        self.c_params.set_terminals(nf)
+    # def set_terminals(self, Data d):
+    #     self.c_params.set_terminals(d.cdata)
     
     # cdef set_terminals(self, int nf,
     #                   map[string, pair[vector[ArrayXf], vector[ArrayXf] ] ] z):

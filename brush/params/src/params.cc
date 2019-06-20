@@ -57,8 +57,23 @@ namespace FT{
      *  make sure scorer is set. 
      *  for classification, check clases and find number.
      */
-    void CParameters::init()
+    void CParameters::init(CData& d)
     {
+
+        if (this->classification)  // setup classification endpoint
+        {
+           this->set_classes(d.y);       
+           this->set_scorer(scorer);
+           this->set_sample_weights(d.y); 
+        } 
+        
+        if (this->dtypes.size()==0)    // set feature types if not set
+            this->dtypes = find_dtypes(d.X);
+       
+        this->set_terminals(d);
+        /* if (params.normalize) */
+        /*     N.fit_normalize(X,params.dtypes);                   // normalize data */
+
     }
   
     /// sets current generation
@@ -470,14 +485,14 @@ namespace FT{
         set_otypes();
     }
 
-    void CParameters::set_terminals(CData& d)
+    void CParameters::set_terminals(const CData& d)
     {
         /*!
          * based on number of features.
          */
         terminals.clear();
         num_features = d.X.rows(); 
-        for (size_t i = 0; i < nf; ++i)
+        for (size_t i = 0; i < num_features; ++i)
             terminals.push_back(createNode(string("x"), 0, 0, i));
     	
        

@@ -146,10 +146,10 @@ class BrushBase(BaseEstimator):
         self.stall_count = 0
         self.P.current_gen = 0
         
-        self.P.init()
-        if self.classification:
-            self.P.set_classes(self.data.train.y)
-            self.P.set_scorer(self.scorer)
+        self.P.init(self.data.train)
+        # if self.classification:
+        #     self.P.set_classes(self.data.train.y)
+        #     self.P.set_scorer(self.scorer)
         # TODO: set data types
         # TODO: normralize data?
 
@@ -159,7 +159,7 @@ class BrushBase(BaseEstimator):
         # self.P.set_terminals(self.data.train)
         # fit initial model
 
-        self.P.set_terminals(self.data.train)
+        # self.P.set_terminals(self.data.train)
 
     def fit(self,features,target):
         """fit a model"""
@@ -178,7 +178,8 @@ class BrushBase(BaseEstimator):
         print('self.data y_test:',self.data.val.y[:10])
 
         self._fit_init()
-        
+       
+        logger.debug('pop init')
         self.pop.init(self._best_estimator, self.P, False)
         self.evaluation.fitness(self.pop, data, self.P, offspring=False)
 

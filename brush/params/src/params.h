@@ -9,6 +9,7 @@ license: GNU/GPL v3
 #include "../../program/src/nodevector.h"
 #include "../../util/src/logger.h"
 #include "../../util/src/utils.h"
+#include "../../data/src/data.h"
 
 namespace FT{
 
@@ -99,7 +100,7 @@ namespace FT{
          *  make sure scorer is set. 
          *  for classification, check clases and find number.
          */
-        void init();
+        void init(CData&);
       
         /// sets current generation
         void set_current_gen(int g);
