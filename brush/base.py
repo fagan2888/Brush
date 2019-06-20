@@ -147,16 +147,9 @@ class BrushBase(BaseEstimator):
         self.P.current_gen = 0
         
         self.P.init(self.data.train)
-        # if self.classification:
-        #     self.P.set_classes(self.data.train.y)
-        #     self.P.set_scorer(self.scorer)
-        # TODO: set data types
-        # TODO: normralize data?
 
         self.evaluation = Evaluation(self.P.scorer)
         self.pop = Population(self.P.pop_size)
-        # initialize any parameters that depend on the data
-        # self.P.set_terminals(self.data.train)
         # fit initial model
 
         # self.P.set_terminals(self.data.train)

@@ -24,10 +24,12 @@ cdef class Population:
     def __cinit__(self, int p):
         self.pop = CPopulation(p)
 
-    def init(self, Individual starting_model,
-              Parameters params,
-              bool random):
-        self.pop.init(starting_model.ind, params.c_params, random)
+    # def init(self, Individual starting_model,
+    #           Parameters params,
+    #           bool random):
+    #     self.pop.init(starting_model.ind, params.c_params, random)
+    def init(self, Parameters params, bool random):
+        self.pop.init( params.c_params, random)
 
     def resize(self, int pop_size,
                bool resize_locs):

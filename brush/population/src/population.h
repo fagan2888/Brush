@@ -40,7 +40,7 @@ namespace FT{
             ~CPopulation();
             
             /// initialize CPopulation of programs. 
-            void init(const CIndividual& starting_model, const CParameters& params, bool random = false);
+            void init(const CParameters& params, bool random = false);
             
             /// update individual vector size 
             void resize(int pop_size, bool resize_locs=false);

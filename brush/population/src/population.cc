@@ -47,8 +47,7 @@ namespace FT{
         const CIndividual & CPopulation::operator [](size_t i) {return individuals.at(i);}
 
 
-        void CPopulation::init(const CIndividual& starting_model, const CParameters& params,
-                              bool random)
+        void CPopulation::init(const CParameters& params, bool random)
         {
             /*!
              *create random programs in the CPopulation, seeded by initial model weights 

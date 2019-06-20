@@ -22,8 +22,11 @@ cdef extern from "src/population.h" namespace "FT::Pop":
 
         CPopulation(int) except +
 
-        void init(const CIndividual &,
-                  const CParameters &,
+        # void init(const CIndividual &,
+        #           const CParameters &,
+        #           bool random)
+
+        void init(const CParameters &,
                   bool random)
 
         void resize(int, bool)
