@@ -16,17 +16,18 @@ namespace FT{
         
         vector<size_t> Lexicase::select(CPopulation& pop, const CParameters& params)
         {
-            /*! Selection according to lexicase selection for classification and epsilon-lexicase
-             * selection for regression. 
+            /*! Selection according to lexicase selection for classification and 
+             * epsilon-lexicase selection for regression. 
              * @param pop: CPopulation
              * @param params: parameters.
              *
-             * @return selected: vector of indices corresponding to pop that are selected.
+             * @return selected: vector of indices corresponding to pop that are 
+             * selected.
              *
              */            
 
-            unsigned int N = pop.individuals.at(0).error.size(); //< number of samples
-            unsigned int P = pop.individuals.size(); //< number of individuals
+            unsigned int N = pop.individuals.at(0).error.size(); //< no. of samples
+            unsigned int P = pop.individuals.size(); //< no. of individuals
             
             // define epsilon
             ArrayXf epsilon = ArrayXf::Zero(N);
@@ -125,27 +126,11 @@ namespace FT{
                 selected[i] = r.random_choice(winner);   
             }               
 
-            /* // convert F_locs to pop.individuals indices */
-            /* vector<size_t> selected; */
-            /* bool match = false; */
-            /* for (const auto& f: F_locs) */
-            /* { */
-            /*     for (unsigned i=0; i < pop.size(); ++i) */
-            /*     { */
-            /*         if (pop.individuals[i].loc == f) */
-            /*         { */
-            /*             selected.push_back(i); */
-            /*             match = true; */
-            /*         } */
-            /*     } */
-            /*     if (!match) */
-            /*         HANDLE_ERROR_THROW("no loc matching " + std::to_string(f) + " in pop"); */
-            /*     match = false; */
-            /* } */
             if (selected.size() != pop.individuals.size()){
                 std::cout << "selected: " ;
                 for (auto s: selected) std::cout << s << " "; std::cout << "\n";
-                HANDLE_ERROR_THROW("Lexicase did not select correct number of parents");
+                HANDLE_ERROR_THROW("Lexicase did not select correct number of "+
+                        "parents");
             }
             return selected;
         }

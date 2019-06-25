@@ -104,19 +104,15 @@ namespace FT{
                     if (pass)
                     {
                         assert(child.size()>0);
-                        assert(pop.open_loc.size()>i-start);
                         logger.log("assigning " + child.program.program_str() + 
                                 " to pop.individuals[" + std::to_string(i) + 
                                 "] with pop.open_loc[" + std::to_string(i-start) + 
                                 "]=" + std::to_string(pop.open_loc[i-start]),3);
 
                         pop.individuals[i] = child;
-                        pop.individuals[i].loc = pop.open_loc[i-start]; 
                     }
                 }    
            }
-          
-           pop.update_open_loc();
         }
 
         bool CVariation::mutate(CIndividual& mom, CIndividual& child, 

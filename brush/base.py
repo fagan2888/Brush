@@ -213,13 +213,6 @@ class BrushBase(BaseEstimator):
         self.pop.update(survivors)
         self.P.current_gen+= 1
 
-    # def _get_train_batch():
-    #     """Returns data to train on, potentially a batch"""
-    #     if self.P.use_batch:
-    #         return data.get_batch(params.batch_size)
-    #     else:
-    #         return data
-
     def _select_final_model(self):
         """Evaluates population/archive on validation set and chooses best"""
 
@@ -240,6 +233,7 @@ class BrushBase(BaseEstimator):
     def update_best(self):
         """Keeps track of the best current estimator"""
         # do stuff
+
 
 class BrushRegressor(BrushBase, RegressorMixin):
     classification=False

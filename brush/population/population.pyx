@@ -29,7 +29,7 @@ cdef class Population:
     #           bool random):
     #     self.pop.init(starting_model.ind, params.c_params, random)
     def init(self, Parameters params, bool random):
-        self.pop.init( params.c_params, random)
+        self.pop.init(params.c_params, random)
 
     def resize(self, int pop_size,
                bool resize_locs):
@@ -40,12 +40,6 @@ cdef class Population:
 
     def size(self):
         return self.pop.size()
-
-    def get_open_loc(self):
-        return self.pop.get_open_loc()
-
-    def update_open_loc(self):
-        self.pop.update_open_loc()
 
     def add(self, Individual ind):
         self.pop.add(ind.ind)
