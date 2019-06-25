@@ -34,7 +34,8 @@ namespace FT{
            /*!
             * return a random node from a list of nodes.
             */          
-            assert(v.size()>0 && " attemping to return random choice from empty vector");
+            assert(v.size()>0 && 
+                    " attemping to return random choice from empty vector");
             std::vector<size_t> vi(v.size());
             std::iota(vi.begin(), vi.end(), 0);
             size_t idx = r.random_choice(vi);
@@ -51,25 +52,26 @@ namespace FT{
              * @param  	parents: indices of CPopulation to use for variation
              * @param  	params: feat parameters
              *
-             * @return  appends params.pop_size offspring derived from parent variation
+             * @return  appends params.pop_size offspring 
              */
             unsigned start= pop.size();
             pop.resize(2*params.pop_size);
             #pragma omp parallel for
             for (unsigned i = start; i<pop.size(); ++i)
             {
-                bool pass=false;                      // pass check for children undergoing variation     
+                bool pass=false;  // pass check for children undergoing variation     
        
                 while (!pass)
                 {
                     CIndividual child; // new individual
-                    child.set_id(params.current_gen*params.pop_size+i-start);           
-
+                    child.set_id(params.current_gen*params.pop_size+i-start);
                     if ( r() < cross_rate)      // crossover
                     {
                         // get random mom and dad 
-                        CIndividual& mom = pop.individuals.at(r.random_choice(parents));
-                        CIndividual& dad = pop.individuals.at(r.random_choice(parents));
+                        CIndividual& mom = pop.individuals.at(
+                                r.random_choice(parents));
+                        CIndividual& dad = pop.individuals.at(
+                                r.random_choice(parents));
                         /* int dad = r.random_choice(parents); */
                         // create child
                         logger.log("\n===\ncrossing " + mom.get_eqn() + "\nwith\n " + 
@@ -87,7 +89,8 @@ namespace FT{
                     else                        // mutation
                     {
                         // get random mom
-                        CIndividual& mom = pop.individuals.at(r.random_choice(parents));
+                        CIndividual& mom = pop.individuals.at(
+                                r.random_choice(parents));
                         /* int mom = r.random_choice(parents); */                
                         logger.log("mutating " + mom.get_eqn() + "(" + 
                                 mom.program.program_str() + ")", 3);
@@ -95,19 +98,20 @@ namespace FT{
                         pass = mutate(mom,child,params);
                         
                         logger.log("mutating " + mom.get_eqn() + " produced " + 
-                                child.get_eqn() + ", pass: " + std::to_string(pass),3);
+                            child.get_eqn() + ", pass: " + std::to_string(pass),3);
                         child.set_parents({mom});
                     }
                     if (pass)
                     {
                         assert(child.size()>0);
                         assert(pop.open_loc.size()>i-start);
-                        logger.log("assigning " + child.program.program_str() + " to pop.individuals[" + 
-                            std::to_string(i) + "] with pop.open_loc[" + std::to_string(i-start) + 
-                            "]=" + std::to_string(pop.open_loc[i-start]),3);
+                        logger.log("assigning " + child.program.program_str() + 
+                                " to pop.individuals[" + std::to_string(i) + 
+                                "] with pop.open_loc[" + std::to_string(i-start) + 
+                                "]=" + std::to_string(pop.open_loc[i-start]),3);
 
                         pop.individuals[i] = child;
-                        pop.individuals[i].loc = pop.open_loc[i-start];                   
+                        pop.individuals[i].loc = pop.open_loc[i-start]; 
                     }
                 }    
            }
@@ -115,10 +119,12 @@ namespace FT{
            pop.update_open_loc();
         }
 
-        bool CVariation::mutate(CIndividual& mom, CIndividual& child, const CParameters& params)
+        bool CVariation::mutate(CIndividual& mom, CIndividual& child, 
+                const CParameters& params)
         {
             /*!
-             * chooses uniformly between point mutation, insert mutation and delete mutation 
+             * chooses uniformly between point mutation, insert mutation and delete 
+             * mutation 
              * 
              * @param   mom: parent
              * @param   child: offspring produced by mutating mom 
@@ -133,17 +139,20 @@ namespace FT{
             float rf = r();
             if (rf < 1.0/3.0 && child.get_dim() > 1){
                 delete_mutate(child,params); 
-                assert(child.program.is_valid_program(params.num_features, params.longitudinalMap));
+                assert(child.program.is_valid_program(params.num_features, 
+                            params.longitudinalMap));
             }
             else if (rf < 2.0/3.0 && child.size() < params.max_size)
             {
                 insert_mutate(child,params);
-                assert(child.program.is_valid_program(params.num_features, params.longitudinalMap));
+                assert(child.program.is_valid_program(params.num_features, 
+                            params.longitudinalMap));
             }
             else
             {        
                 point_mutate(child,params);
-                assert(child.program.is_valid_program(params.num_features, params.longitudinalMap));
+                assert(child.program.is_valid_program(params.num_features, 
+                            params.longitudinalMap));
             }
      
             // check child depth and dimensionality
@@ -164,6 +173,7 @@ namespace FT{
             // loop thru child's program
             for (auto& p : child.program)
             {
+                cout << "i: " << i << "\n";
                 if (r() < child.get_p(i))  // mutate p. 
                 {
                     logger.log("\t\tmutating node " + p->name, 3);
@@ -217,24 +227,27 @@ namespace FT{
                 // loop thru child's program
                 for (unsigned i = 0; i< child.program.size(); ++i)
                 {
-                    
+                    cout << "i: " << i << "\n"; 
                     if (r() < child.get_p(i))  // mutate with weighted probability
                     {
-                        logger.log("\t\tinsert mutating node " + child.program[i]->name +
-                                   " with probability " + std::to_string(child.get_p(i)) + 
-                                   "/" + std::to_string(n), 3);
+                        logger.log("\t\tinsert mutating node " + 
+                                child.program[i]->name + " with probability " + 
+                                std::to_string(child.get_p(i)) + 
+                                "/" + std::to_string(n), 3);
                         CNodeVector insertion;  // inserted segment
                         CNodeVector fns;  // potential fns 
                         
-                        // find instructions with matching output types and a matching arity to i
+                        // find instructions with matching output types and a 
+                        // matching arity to i
                         for (const auto& f: params.functions)
                         { 
-                            // find fns with matching output types that take this node type as arg
+                            // find fns with matching output types that take this 
+                            // node type as arg
                             if (f->arity[child.program[i]->otype] > 0 && 
                                     f->otype==child.program[i]->otype )
                             { 
-                                // make sure there are satisfactory types in terminals to fill fns' 
-                                // args
+                                // make sure there are satisfactory types in terminals
+                                // to fill fns' args
                                 if (child.program[i]->otype=='b')
                                     if (in(params.dtypes,'b') || f->arity['b']==1)
                                         fns.push_back(f->rnd_clone());
@@ -325,13 +338,15 @@ namespace FT{
             if (logger.get_log_level() >=3)
             { 
                 std::string s="";
-                for (unsigned i = start; i<=end; ++i) s+= child.program[i]->name + " ";
-                logger.log("\t\tdeleting " + std::to_string(start) + " to " + std::to_string(end) 
-                           + ": " + s, 3);
+                for (unsigned i = start; i<=end; ++i) 
+                    s+= child.program[i]->name + " ";
+                logger.log("\t\tdeleting " + std::to_string(start) + " to " 
+                        + std::to_string(end) + ": " + s, 3);
             }    
-            child.program.erase(child.program.begin()+start,child.program.begin()+end+1);
-            // delete program from start to end by doing a crossover with an empty program at those
-            // locations
+            child.program.erase(child.program.begin()+start,
+                    child.program.begin()+end+1);
+            // delete program from start to end by doing a crossover with an empty 
+            // program at those locations
             /* vector<std::unique_ptr<Node>>blanks; */
             /* splice_programs(child.program, child.program, start, end, */ 
             /*                 blanks,size_t(0),size_t(-1)); */

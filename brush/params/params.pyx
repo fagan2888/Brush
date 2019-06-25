@@ -30,7 +30,7 @@ cdef class Parameters:
                     string objectives, bool shuffle, float split, float feedback, 
                     string scorer, string feature_names, bool backprop, int iters,
                     float learning_rate, int batch_size, bool hill_climb,
-                    int max_time, bool use_batch):
+                    int max_time, bool use_batch, unsigned int n_jobs):
                   
         # convert output_type to char
         cdef char ot_char
@@ -44,7 +44,7 @@ cdef class Parameters:
                                   max_depth, max_dim, objectives, 
                                   shuffle, split, feedback, scorer, feature_names, 
                                   backprop, iters, learning_rate, batch_size, 
-                                  hill_climb, max_time, use_batch)
+                                  hill_climb, max_time, use_batch, n_jobs)
 
     def init(self, Data d):
         self.c_params.init(d.cdata)
@@ -148,6 +148,13 @@ cdef class Parameters:
     def use_batch(self, use_batch):
         self.c_params.use_batch = use_batch
     
+    @property
+    def n_jobs(self):
+        return self.c_params.n_jobs
+    @n_jobs.setter
+    def n_jobs(self, n_jobs):
+        self.c_params.set_n_jobs(n_jobs)
+
     @property
     def scorer(self):
         return self.c_params.scorer

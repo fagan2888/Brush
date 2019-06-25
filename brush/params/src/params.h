@@ -62,6 +62,7 @@ namespace FT{
         bool stagewise_xo;                          ///< use stagewise crossover  
         float root_xo_rate;                         ///<  crossover  
         bool softmax_norm;             ///< use softmax norm on probabilities
+        unsigned n_jobs;            ///< used to set omp thread count
         
         struct BP 
         {
@@ -92,7 +93,7 @@ namespace FT{
                     string objectives, bool shuffle, float split, float feedback, 
                     string scorer, string feature_names, bool backprop, int iters,
                     float learning_rate, int batch_size, bool hill_climb,
-                    int max_time, bool use_batch);
+                    int max_time, bool use_batch, unsigned n_jobs);
         
         ~CParameters();
         
@@ -153,6 +154,8 @@ namespace FT{
         /// sets the weights of each sample (and class weights)
         void set_sample_weights(VectorXf& y);
 
+        ///set number of threads
+        void set_n_jobs(unsigned t){ if (t > 0) omp_set_num_threads(t); }
     };
 }
 #endif

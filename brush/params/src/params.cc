@@ -16,7 +16,7 @@ namespace FT{
                     string objectives, bool shuffle, float split, float feedback, 
                     string scorer, string feature_names, bool backprop, int iters,
                     float learning_rate, int batch_size, bool hill_climb,
-                    int max_time, bool use_batch):
+                    int max_time, bool use_batch, unsigned n_jobs):
             pop_size(pop_size),
             gens(gens),
             classification(classification),
@@ -33,7 +33,8 @@ namespace FT{
             hillclimb(hillclimb),
             hc(iters, learning_rate),
             max_time(max_time),
-            use_batch(use_batch)
+            use_batch(use_batch),
+            n_jobs(n_jobs)
         {
             set_verbosity(verbosity);
             if (functions.empty())
@@ -49,6 +50,7 @@ namespace FT{
             set_otypes();
             n_classes = 2;
             set_scorer(scorer);
+            set_n_jobs(n_jobs);
         }
     
     CParameters::~CParameters(){}
@@ -66,11 +68,14 @@ namespace FT{
            this->set_scorer(scorer);
            this->set_sample_weights(d.y); 
         } 
-        
+        cout << "types\n"; 
         if (this->dtypes.size()==0)    // set feature types if not set
             this->dtypes = find_dtypes(d.X);
-       
+        cout << "set terminals\n"; 
         this->set_terminals(d);
+        vector<float> w; 
+        cout << "set term weights\n"; 
+        this->set_term_weights(w);
         /* if (params.normalize) */
         /*     N.fit_normalize(X,params.dtypes);                   // normalize data */
 
@@ -109,46 +114,56 @@ namespace FT{
     /// sets weights for terminals. 
     void CParameters::set_term_weights(const vector<float>& w)
     {           
-        /* cout << "weights: "; for (auto tmp : w) cout << tmp << " " ; cout << "\n"; */ 
+        cout << "blah1\n";
         string weights;
-        float u = 1.0/float(w.size());
+        float u = 1.0/float(terminals.size());
         term_weights.clear();
-
-        // take abs value of weights
-        vector<float> aw = w;
-        float sum = 0;
-        for (unsigned i = 0; i < aw.size(); ++i)
-        { 
-            aw[i] = fabs(aw[i]); 
-            sum += aw[i];
+        cout << "blah2\n";
+        if (w.empty())  // set all weights uniformly
+        {
+            cout << "setting weights to << " << u << "\n";
+            for (unsigned i = 0; i < terminals.size(); ++i)
+                term_weights.push_back(u);
         }
-        // softmax transform values
-        /* vector<float> sw = softmax(aw); */
-        /* cout << "sw: "; for (auto tmp : sw) cout << tmp << " " ; cout << "\n"; */ 
-        // normalize weights to one
-        for (unsigned i = 0; i < aw.size(); ++i)
-        { 
-            aw[i] = aw[i]/sum;
+        else
+        {
+            // take abs value of weights
+            vector<float> aw = w;
+            float weighted_proportion = float(w.size())/float(terminals.size());
+            float sum = 0;
+            for (unsigned i = 0; i < aw.size(); ++i)
+            { 
+                aw[i] = fabs(aw[i]); 
+                sum += aw[i];
+            }
+            // normalize weights to one
+            for (unsigned i = 0; i < aw.size(); ++i)
+            { 
+                aw[i] = aw[i]/sum*weighted_proportion;  // awesome!
+            }
+            int x = 0;
+            // assign transformed weights as terminal weights
+            for (unsigned i = 0; i < terminals.size(); ++i)
+            {
+                if(terminals[i]->otype == 'z')
+                    term_weights.push_back(u);
+                else
+                {
+                    term_weights.push_back((1-feedback)*u + feedback*aw[x]);
+                    ++x;
+                }
+            }
+               
         }
-        int x = 0;
-        // assign transformed weights as terminal weights
+        weights = "term weights: ";
         for (unsigned i = 0; i < terminals.size(); ++i)
         {
-            if(terminals[i]->otype == 'z')
-                term_weights.push_back(u);
-            else
-            {
-                term_weights.push_back(u + feedback*(aw[x]-u));
-                x++;
-            }
+            weights += ("(" + terminals.at(i)->name + "(" + terminals.at(i)->otype 
+                        + ")," 
+                        + std::to_string(term_weights.at(i)) + "), ") ; 
         }
-           
-        weights = "term weights: ";
-        for (auto tw : term_weights)
-            weights += std::to_string(tw)+" ";
         weights += "\n";
-        
-        logger.log(weights, 3);
+        logger.log(weights, 2);
     }
     
     void CParameters::updateSize()

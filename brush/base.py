@@ -7,6 +7,7 @@ import numpy as np
 from brush.params import Parameters
 from brush.population import Population, Individual
 from brush.selection import Selection
+from brush.variation import Variation
 from brush.data import CVData 
 from brush.evaluation import Evaluation
 import pdb
@@ -132,10 +133,15 @@ class BrushBase(BaseEstimator):
                 shuffle, split, feedback, scorer.encode(), 
                 self.feature_names.encode(), backprop, 
                 iters, learning_rate, batch_size, hill_climb, max_time, 
-                self.use_batch)
+                self.use_batch, n_jobs)
 
         self.random_state = None
         self._best_estimator = Individual() 
+        self.variation = Variation()
+        if self.P.verbosity >= 2:
+            print(10*'=','\nParameters\n',10*'=')
+            for att in [a for a in dir(self.P) if '__' not in a]:
+                print(att,':',self.P.__getattribute__(att))
 
     def _fit_init(self):
         """Routines to run at the beginning of the fit method"""
@@ -159,8 +165,8 @@ class BrushBase(BaseEstimator):
         
         logger.debug('setting the CVData class')
         # initialize the data class
-        self.data = CVData(features, target, self.P.classification, self.P.shuffle,
-                           self.P.split, self.random_state)
+        self.data = CVData(features, target, self.P.classification, 
+                           self.P.shuffle, self.P.split, self.random_state)
         # pdb.set_trace()
         # logger.debug('train test split')
         # self.data.train_test_split(self.P.shuffle, self.P.split)
@@ -173,8 +179,8 @@ class BrushBase(BaseEstimator):
         self._fit_init()
        
         logger.debug('pop init')
-        self.pop.init(self._best_estimator, self.P, False)
-        self.evaluation.fitness(self.pop, data, self.P, offspring=False)
+        self.pop.init(self.P, False)
+        self.evaluation.fitness(self.pop, self.data.train, self.P, offspring=False)
 
         logger.debug('running generational loop')
 
@@ -189,20 +195,19 @@ class BrushBase(BaseEstimator):
     def _run_generation(self): 
         """Runs one generation of the population on data"""
         logger.debug('get batch')
-        data = self.data.train.get_batch() if self.P.use_batch else self.data.train
-        print('data:',data,dir(data))
-        print('data X_train:',data.train.X[:10])
-        print('data X_test:',data.val.X[:10])
-        print('data y_train:',data.train.y[:10])
-        print('data y_test:',data.val.y[:10])
+        train_data = (self.data.train.get_batch() 
+                      if self.P.use_batch else self.data.train)
+        print('train_data:',train_data,dir(train_data))
+        print('data X_train:',train_data.X[:10])
+        print('data y_train:',train_data.y[:10])
         logger.debug('selection')
         parents = self.selection.select(self.pop, self.P)
         logger.debug('variation')
-        self.variation.vary(self.pop, parents, self.P, data)
+        self.variation.vary(self.pop, parents, self.P, train_data)
         logger.debug('fitness')
-        self.evaluation.fitness(offspring, data, self.P, offspring=True)
+        self.evaluation.fitness(self.pop, train_data, self.P, offspring=True)
         logger.debug('survival')
-        survivors = self.survival.survive(self.pop)
+        survivors = self.survival.survive(self.pop, self.P)
         logger.debug('update best')
         self.update_best()
         self.pop.update(survivors)
@@ -215,13 +220,13 @@ class BrushBase(BaseEstimator):
     #     else:
     #         return data
 
-    def _select_final_model():
+    def _select_final_model(self):
         """Evaluates population/archive on validation set and chooses best"""
 
-        if (params.split < 1):
-            self.evaluation.fitness(self.pop, data.val, self.P, 
+        if (self.P.split < 1):
+            self.evaluation.fitness(self.pop, self.data.val, self.P, 
                     offspring=False, validation=True)
-            self.update_best(data, true)
+            self.update_best()
 
     def predict(self, X):
         """generate prediction"""

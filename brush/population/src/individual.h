@@ -27,12 +27,12 @@ namespace FT{
          */
         class CIndividual{
         public:        
-            CNodeVector program;            ///< executable data structure
-            MatrixXf Phi;                   ///< transformation output of program 
-            VectorXf yhat;                  ///< current output
-            VectorXf error;                 ///< current error
-            float fitness;             		///< aggregate fitness score
-            float fitness_v;             	///< aggregate validation fitness score
+            CNodeVector program;      ///< executable data structure
+            MatrixXf Phi;             ///< transformation output of program 
+            VectorXf yhat;            ///< current output
+            VectorXf error;           ///< current error
+            float fitness;            ///< aggregate fitness score
+            float fitness_v;          ///< aggregate validation fitness score
             float CN;
             size_t loc;               ///< index of individual in semantic matrix F
             string eqn;               ///< symbolic representation of program
@@ -42,18 +42,19 @@ namespace FT{
             vector<float> obj;        ///< objectives for use with Pareto selection
             unsigned int dcounter;    ///< number of individuals this dominates
             vector<unsigned int> dominated; ///< individual indices this dominates
-            unsigned int rank;              ///< pareto front rank
-            float crowd_dist;               ///< crowding distance on the Pareto front
-            unsigned int c;                 ///< the complexity of the program.    
-            vector<char> dtypes;            ///< the data types of each column of the 
+            unsigned int rank;        ///< pareto front rank
+            float crowd_dist;         ///< crowding distance on the Pareto front
+            unsigned int c;           ///< the complexity of the program.    
+            vector<char> dtypes;      ///< the data types of each column of the 
                                             // program output
-            unsigned id;                    ///< tracking id
-            vector<int> parent_id;          ///< ids of parents
+            unsigned id;              ///< tracking id
+            vector<int> parent_id;    ///< ids of parents
            
             CIndividual();
 
             /// calculate program output matrix Phi
-            MatrixXf out(const CData& d, const CParameters& params, bool predict=false);
+            MatrixXf out(const CData& d, const CParameters& params, 
+                    bool predict=false);
 
             /// calculate program output while maintaining stack trace
             MatrixXf out_trace(const CData& d,
@@ -133,7 +134,9 @@ namespace FT{
             /// set probabilities
             void set_p(const vector<float>& weights, const float& fb, 
                        const bool softmax_norm=false);
-            
+
+            /// placeholder probability setter
+            void set_p();
             /// get maximum stack size needed for evaluation.
             std::map<char,size_t> get_max_state_size();
             

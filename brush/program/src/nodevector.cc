@@ -259,13 +259,15 @@ namespace FT{
             /* std::cout << "otype: " << otype << "\n"; */
             /* std::cout << "max_d: " << max_d << "\n"; */
 
-            if (max_d == 0 || r.rnd_flt() < terminals.size()/(terminals.size()+functions.size())) 
+            if (max_d == 0 || 
+                r.rnd_flt() < terminals.size()/(terminals.size()+functions.size())) 
             {
                 // append terminal 
                 vector<size_t> ti;  // indices of valid terminals 
                 vector<float> tw;  // weights of valid terminals
                 /* cout << "terminals: " ; */
-                /* for (const auto& t : terminals) cout << t->name << "(" << t->otype << "),"; */ 
+                /* for (const auto& t : terminals) */ 
+                /*     cout << t->name << "(" << t->otype << "),"; */ 
                 /* cout << "\n"; */
                 
                 for (size_t i = 0; i<terminals.size(); ++i)
@@ -305,10 +307,10 @@ namespace FT{
                 vector<size_t> fi;
                 bool fterms = in(term_types, 'f');   // are there floating terminals?
                 bool bterms = in(term_types, 'b');   // are there boolean terminals?
-                bool cterms = in(term_types, 'c');   // are there categorical terminals?
+                bool cterms = in(term_types, 'c'); // are there categorical terminals?
                 bool zterms = in(term_types, 'z');   // are there boolean terminals?
-                /* std::cout << "bterms: " << bterms << ",cterms: " << cterms 
-                 * << ",zterms: " << zterms << "\n"; */
+                /* std::cout << "bterms: " << bterms << ",cterms: " << cterms */
+                /*  << ",zterms: " << zterms << "\n"; */ 
                 for (size_t i = 0; i<functions.size(); ++i)
                     if (functions[i]->otype==otype &&
                         (max_d>1 || functions[i]->arity['f']==0 || fterms) &&
@@ -323,12 +325,14 @@ namespace FT{
 
                     if(otype == 'z')
                     {
-                        make_tree(functions, terminals, 0, term_weights, 'z', term_types);
+                        make_tree(functions, terminals, 0, term_weights, 'z', 
+                                term_types);
                         return;
                     }
                     else if (otype == 'c')
                     {
-                        make_tree(functions, terminals, 0, term_weights, 'c', term_types);
+                        make_tree(functions, terminals, 0, term_weights, 'c', 
+                                term_types);
                         return;
                     }
                     else{            
@@ -361,13 +365,17 @@ namespace FT{
                 /* std::cout << "chosen: " << chosen->name << "\n"; */ 
                 // recurse to fulfill the arity of the chosen function
                 for (size_t i = 0; i < chosen->arity['f']; ++i)
-                    make_tree(functions, terminals, max_d-1, term_weights, 'f', term_types);
+                    make_tree(functions, terminals, max_d-1, term_weights, 'f', 
+                            term_types);
                 for (size_t i = 0; i < chosen->arity['b']; ++i)
-                    make_tree(functions, terminals, max_d-1, term_weights, 'b', term_types);
+                    make_tree(functions, terminals, max_d-1, term_weights, 'b', 
+                            term_types);
                 for (size_t i = 0; i < chosen->arity['c']; ++i)
-                    make_tree(functions, terminals, max_d-1, term_weights, 'c', term_types);
+                    make_tree(functions, terminals, max_d-1, term_weights, 'c', 
+                            term_types);
                 for (size_t i = 0; i < chosen->arity['z']; ++i)
-                    make_tree(functions, terminals, max_d-1, term_weights, 'z', term_types);
+                    make_tree(functions, terminals, max_d-1, term_weights, 'z',
+                            term_types);
             }
             
             /* std::cout << "finished program: ["; */
@@ -380,7 +388,8 @@ namespace FT{
                                       vector<string> longitudinalMap, const vector<char>& term_types)
         {
             for (unsigned i = 0; i<dim; ++i)    // build trees
-                make_tree(functions, terminals, max_d, term_weights, otype, term_types);
+                make_tree(functions, terminals, max_d, term_weights, otype, 
+                        term_types);
             
             // reverse program so that it is post-fix notation
             std::reverse(begin(), end());

@@ -54,7 +54,13 @@ namespace FT{
            
         /// get probabilities of variation
         vector<float> CIndividual::get_p() const { return p; }     
-        
+       
+        void CIndividual::set_p()
+        {
+            this->p.resize(0);
+            for (unsigned i = 0; i < program.roots().size(); ++i)
+                this->p.push_back(1.0);
+        }
         void CIndividual::set_p(const vector<float>& weights, const float& fb, 
                                bool softmax_norm)
         {   
@@ -110,10 +116,13 @@ namespace FT{
              *   Useful when the total probability over the program nodes should sum to 1.
              * @return weight associated with node */
                 
+            /* cout << "in get_p\n"; */
             vector<size_t> rts = program.roots();
             size_t j = 0;
             float size = rts[0];
             
+            /* cout << "p size: " << this->p.size() << "\n"; */ 
+            /* cout << "roots size: " << rts.size() << "\n"; */ 
             while ( j < rts.size())
             {
                 if (j > 1) 
@@ -131,6 +140,7 @@ namespace FT{
             }
             // normalize weight by size of subtree
             return normalize ? p.at(j)/size : p.at(j) ;    
+            /* cout << "exiting get_p\n"; */
         }
         
         vector<float> CIndividual::get_p(const vector<size_t>& locs, bool normalize) const
@@ -148,6 +158,7 @@ namespace FT{
         {
             // calculate program output matrix Phi
             logger.log("Generating output for " + get_eqn(), 3);
+            this->set_p();  // placeholder that sets node weights uniformly
             return out(d, params).row(0);      
         }
 

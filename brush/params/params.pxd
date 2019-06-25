@@ -24,7 +24,7 @@ cdef extern from "src/params.h" namespace "FT":
                     string objectives, bool shuffle, float split, float feedback, 
                     string scorer, string feature_names, bool backprop, int iters,
                     float learning_rate, int batch_size, bool hill_climb,
-                    int max_time, bool use_batch) except +
+                    int max_time, bool use_batch, unsigned int n_jobs) except +
         
         void init(CData&)
       
@@ -61,9 +61,12 @@ cdef extern from "src/params.h" namespace "FT":
         
         void set_sample_weights(VectorXf& y)
 
+        void set_n_jobs(unsigned int)
+
         bool classification, shuffle, use_batch
         char otype
-        int pop_size, current_gen, gens, max_depth, max_dim, max_stall, verbosity
+        int pop_size, current_gen, gens, max_depth, max_dim, max_stall, verbosity, \
+            n_jobs
         float split
         string scorer
         

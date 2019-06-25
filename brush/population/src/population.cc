@@ -42,39 +42,47 @@ namespace FT{
         /// returns CPopulation size
         int CPopulation::size(){ return individuals.size(); }
 
-        const CIndividual CPopulation::operator [](size_t i) const {return individuals.at(i);}
+        const CIndividual CPopulation::operator [](size_t i) const 
+        {
+            return individuals.at(i);
+        }
         
-        const CIndividual & CPopulation::operator [](size_t i) {return individuals.at(i);}
+        const CIndividual & CPopulation::operator [](size_t i) 
+        {
+            return individuals.at(i);
+        }
 
 
         void CPopulation::init(const CParameters& params, bool random)
         {
             /*!
-             *create random programs in the CPopulation, seeded by initial model weights 
+             *create random programs in the CPopulation, seeded by initial model 
+             weights 
              */
             /* individuals[0] = starting_model; */
             /* individuals[0].loc = 0; */
+            cout << "individuals.size(): " << individuals.size() << "\n";
+            cout << "terminals: ";
+            for (int i = 0; i < params.terminals.size(); ++i)
+                cout << params.terminals.at(i)->name << ",";
+            cout << "\n";
 
-            #pragma omp parallel for
+            /* #pragma omp parallel for */
             for (unsigned i = 0; i< individuals.size(); ++i)
             {          
                 // pick a dimensionality for this individual
                 int dim = r.rnd_int(1,params.max_dim);      
                 // pick depth from [params.min_depth, params.max_depth]
-                /* unsigned init_max = std::min(params.max_depth, unsigned int(3)); */
-                int depth;
-                if (random)
-                    depth = r.rnd_int(1, params.max_depth);
-                else
-                    /* depth =  r.rnd_int(1, std::min(params.max_depth,unsigned(3))); */
-                    depth =  r.rnd_int(1, params.max_depth);
+                int depth =  r.rnd_int(1, params.max_depth);
                 // make a program for each individual
+                cout << "make program\n";
                 char ot = r.random_choice(params.otypes);
-                individuals[i].program.make_program(params.functions, params.terminals, depth,
-                             params.term_weights,dim,ot, params.longitudinalMap, params.ttypes);
+                individuals[i].program.make_program(params.functions, 
+                        params.terminals, depth, params.term_weights,
+                        dim, ot, params.longitudinalMap, params.ttypes);
                 
                 /* std::cout << individuals[i].program_str() + " -> "; */
-                /* std::cout << individuals[i].get_eqn() + "\n"; */
+                std::cout << individuals[i].get_eqn() + "\n";
                
                 // set location of individual and increment counter             
                 individuals[i].loc = i;   
