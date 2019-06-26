@@ -108,10 +108,12 @@ namespace FT{
         
         // assign fitness to program
         void CEvaluation::assign_fit(CIndividual& ind, const VectorXf& yhat, 
-                                    const VectorXf& y, const CParameters& params, bool val)
+                                    const VectorXf& y, const CParameters& params, 
+                                    bool val)
         {
             /*!
-             * assign raw errors to individual, and aggregate fitnesses to individuals. 
+             * assign raw errors to individual, and aggregate fitnesses to 
+             * individuals. 
              *
              *  Input: 
              *

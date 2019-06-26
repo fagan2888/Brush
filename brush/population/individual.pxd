@@ -18,6 +18,7 @@ from brush.params.params cimport CParameters
 cdef extern from "src/individual.h" namespace "FT::Pop":
     cdef cppclass CIndividual:
         CIndividual() except +
+        # CIndividual(CIndividual *) except +
 
         MatrixXf out(const CData &, const CParameters &, bool)
                            
@@ -46,6 +47,6 @@ cdef extern from "src/individual.h" namespace "FT::Pop":
         void set_p(const vector[float] &, const float &,
                    const bool)
                    
-
 cdef class Individual:
-    cdef CIndividual ind
+    cdef CIndividual * ind
+    cdef wrap(self, CIndividual* )

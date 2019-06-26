@@ -33,7 +33,7 @@ cdef class Evaluation:
                  Parameters params, 
                  bool offspring,
                  bool validation=False):
-        self.c_eval.fitness(pop.pop, d.cdata, params.c_params, offspring, 
+        self.c_eval.fitness(pop.c_pop, d.cdata, params.c_params, offspring, 
                 validation)  
 
     # def assign_fit(self, Individual ind, const VectorXf &yhat, 

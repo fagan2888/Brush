@@ -30,4 +30,4 @@ cdef class Variation:
               const vector[size_t]& parents,
               Parameters params,
               Data d):
-        self.c_vary.vary(pop.pop, parents, params.c_params, d.cdata)
+        self.c_vary.vary(pop.c_pop, parents, params.c_params, d.cdata)

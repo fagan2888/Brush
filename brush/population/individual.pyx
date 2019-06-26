@@ -17,9 +17,17 @@ from brush.params.params cimport Parameters
 cdef class Individual:
     # cdef CIndividual ind
 
-    def __cinit__(self):
-        self.ind = CIndividual()
+    def __cinit__(self, new=True):
+        if new:
+            self.ind = new CIndividual()
         
+    cdef wrap(self, CIndividual* newind):
+        self.ind = newind
+        return self
+
+    def __dealloc__(self):
+        del self.ind
+
     def out(self, Data d, Parameters params, bool predict):
         res = ndarray(self.ind.out(d.cdata, params.c_params, predict))
         return res.flatten()

@@ -159,6 +159,7 @@ class BrushBase(BaseEstimator):
         # fit initial model
 
         # self.P.set_terminals(self.data.train)
+        self._best_score = np.inf
 
     def fit(self,features,target):
         """fit a model"""
@@ -230,10 +231,23 @@ class BrushBase(BaseEstimator):
         return (self.P.current_gen == self.P.gens or
                (self.exit_on_stall and self.stall_count > self.P.max_stall))
 
-    def update_best(self):
+    def update_best(self, validation=False):
         """Keeps track of the best current estimator"""
-        # do stuff
+        best_score = self._best_score if not validation else self._best_score_val
+        for ind in self.pop:
+            ind_fit = ind.fitness if not validation else ind.fitness_v
+            if ind_fit < best_score:
+                self._best_estimator = ind
+                if validation:
+                    self._best_score_val = ind_fit
+                else:
+                    self._best_score = ind_fit
+        if validation:
+            # get new validation score of the best model
+            self._best_score_val = self._best_estimator.predict(self.data.val, 
+                    self.P)
 
+         
 
 class BrushRegressor(BrushBase, RegressorMixin):
     classification=False

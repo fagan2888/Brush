@@ -19,7 +19,7 @@ namespace FT{
     
     	class CPopulation;
         
-        ////////////////////////////////////////////////////////////////////////////////// Declarations
+        /////////////////////////////////////////////////////////////// Declarations
 
         /*!
          * @class CIndividual
@@ -64,8 +64,9 @@ namespace FT{
             VectorXf fit(const CData& d, const CParameters& params, bool& pass);
             
             /*! generates prediction on data using transformation and ML predict. 
-             *  @param drop_idx if specified, the phi output at drop_idx is set to zero, effectively
-             *  removing its output from the transformation. used in semantic crossover.
+             *  @param drop_idx if specified, the phi output at drop_idx is set to 
+             *  zero, effectively removing its output from the transformation. 
+             *  used in semantic crossover.
              */
             VectorXf predict(const CData& d, const CParameters& params);
             

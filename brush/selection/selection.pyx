@@ -30,8 +30,8 @@ cdef class Selection:
 
     def select(self, Population pop,
                 Parameters params):
-        return self.sel.select(pop.pop, params.c_params)
+        return self.sel.select(pop.c_pop, params.c_params)
 
     def survive(self, Population pop,
                  Parameters params):
-        return self.sel.survive(pop.pop, params.c_params)
+        return self.sel.survive(pop.c_pop, params.c_params)

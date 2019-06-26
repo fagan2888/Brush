@@ -56,11 +56,12 @@ namespace FT{
              */
             unsigned start= pop.size();
             pop.resize(2*params.pop_size);
-            #pragma omp parallel for
+            /* #pragma omp parallel for */
             for (unsigned i = start; i<pop.size(); ++i)
             {
                 bool pass=false;  // pass check for children undergoing variation     
        
+                cout << "i: " << i << "; pop.size(): " << pop.size() << "\n";
                 while (!pass)
                 {
                     CIndividual child; // new individual
@@ -85,6 +86,7 @@ namespace FT{
                                ", pass: " + std::to_string(pass) + "\n===\n",3);    
 
                         child.set_parents({mom, dad});
+                        cout << "parents set\n";
                     }
                     else                        // mutation
                     {
@@ -100,16 +102,19 @@ namespace FT{
                         logger.log("mutating " + mom.get_eqn() + " produced " + 
                             child.get_eqn() + ", pass: " + std::to_string(pass),3);
                         child.set_parents({mom});
+                        cout << "parent set\n";
                     }
                     if (pass)
                     {
                         assert(child.size()>0);
+                        cout << "is it this logging message?\n";
                         logger.log("assigning " + child.program.program_str() + 
                                 " to pop.individuals[" + std::to_string(i) + 
-                                "] with pop.open_loc[" + std::to_string(i-start) + 
-                                "]=" + std::to_string(pop.open_loc[i-start]),3);
+                                "]",3);
 
+                        cout << "setting pop.individuals to child\n";
                         pop.individuals[i] = child;
+                        cout << "setting pop.individuals to child\n";
                     }
                 }    
            }

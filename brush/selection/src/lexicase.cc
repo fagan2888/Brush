@@ -129,8 +129,8 @@ namespace FT{
             if (selected.size() != pop.individuals.size()){
                 std::cout << "selected: " ;
                 for (auto s: selected) std::cout << s << " "; std::cout << "\n";
-                HANDLE_ERROR_THROW("Lexicase did not select correct number of "+
-                        "parents");
+                HANDLE_ERROR_THROW("Lexicase did not select correct number of \
+                        parents");
             }
             return selected;
         }
