@@ -28,14 +28,9 @@ cdef class Population:
 
     def __cinit__(self):
         self.c_pop = CPopulation()
-        self.individuals = []
 
     def __cinit__(self, int p):
         self.c_pop = CPopulation(p)
-        self.individuals = []
-        for ind in self.c_pop.individuals:
-            # print('adding', ind, 'wrapper')
-            self.individuals.append(Individual(new=False).wrap(&ind))
 
     # def init(self, Individual starting_model,
     #           Parameters params,
@@ -67,6 +62,12 @@ cdef class Population:
     def sorted_front(self, unsigned rank):
         return self.c_pop.sorted_front(rank)
         
+    @property
+    def individuals(self):
+        individuals = []
+        for ind in self.c_pop.individuals:
+            individuals.append(Individual(new=False).wrap(&ind))
+        return individuals
 
     # # define iterators to access individuals
     def __iter__(self):

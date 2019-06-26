@@ -123,6 +123,12 @@ namespace FT{
             /// set parent ids using id values 
             void set_parents(const vector<int>& parents){ parent_id = parents; }
 
+            /// set yhat
+            void set_yhat(const Map<VectorXf>& arr){this->yhat = arr;}
+
+            /// set error
+            void set_error(const Map<VectorXf>& arr){this->error = arr;}
+
             /// get probabilities of variation
             vector<float> get_p() const;
             

@@ -46,6 +46,16 @@ cdef extern from "src/individual.h" namespace "FT::Pop":
 
         void set_p(const vector[float] &, const float &,
                    const bool)
+
+        # set yhat
+        void set_yhat(const Map[VectorXf]& arr)
+        # set error
+        void set_error(const Map[VectorXf]& arr)
+
+        unsigned id
+        float fitness, fitness_v
+        VectorXf yhat, error
+
                    
 cdef class Individual:
     cdef CIndividual * ind

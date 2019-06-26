@@ -13,6 +13,7 @@ from eigency.core cimport *
 from brush.population.individual cimport CIndividual
 from brush.data.data cimport Data
 from brush.params.params cimport Parameters
+from sklearn.utils import check_X_y
 
 cdef class Individual:
     # cdef CIndividual ind
@@ -22,6 +23,8 @@ cdef class Individual:
             self.ind = new CIndividual()
         
     cdef wrap(self, CIndividual* newind):
+        if newind == NULL:
+            raise Exception('newind pointer is null')
         self.ind = newind
         return self
 
@@ -74,3 +77,43 @@ cdef class Individual:
                const bool softmax_norm):
         self.ind.set_p(weights, fb, softmax_norm)
 
+    @property
+    def fitness(self):
+        return self.ind.fitness
+    @fitness.setter
+    def fitness(self, fitness):
+        self.ind.fitness = fitness
+    
+    @property
+    def fitness_v(self):
+        return self.ind.fitness_v
+    @fitness_v.setter
+    def fitness_v(self, fitness_v):
+        self.ind.fitness_v = fitness_v
+    
+    @property
+    def yhat(self):
+        return ndarray(self.ind.yhat)
+    @yhat.setter
+    def yhat(self, np.ndarray yhat):
+        check_X_y(yhat,ensure_min_samples=1)
+        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr
+        arr = np.asfortranarray(yhat, dtype=np.float32)
+        self.ind.set_yhat(Map[VectorXf](arr))
+    
+    @property
+    def error(self):
+        return ndarray(self.ind.error)
+    @error.setter
+    def error(self, np.ndarray error):
+        check_X_y(error,ensure_min_samples=1)
+        cdef np.ndarray[np.float32_t, ndim=1, mode="fortran"] arr
+        arr = np.asfortranarray(error, dtype=np.float32)
+        self.ind.set_error(Map[VectorXf](arr))
+
+    @property
+    def id(self):
+        return self.ind.id
+    @id.setter
+    def id(self, id):
+        self.ind.id = id

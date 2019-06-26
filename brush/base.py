@@ -198,9 +198,9 @@ class BrushBase(BaseEstimator):
         logger.debug('get batch')
         train_data = (self.data.train.get_batch() 
                       if self.P.use_batch else self.data.train)
-        print('train_data:',train_data,dir(train_data))
-        print('data X_train:',train_data.X[:10])
-        print('data y_train:',train_data.y[:10])
+        # print('train_data:',train_data,dir(train_data))
+        # print('data X_train:',train_data.X[:10])
+        # print('data y_train:',train_data.y[:10])
         logger.debug('selection')
         parents = self.selection.select(self.pop, self.P)
         logger.debug('variation')
@@ -218,8 +218,10 @@ class BrushBase(BaseEstimator):
         """Evaluates population/archive on validation set and chooses best"""
 
         if (self.P.split < 1):
+            logger.debug('evaluation on validation data')
             self.evaluation.fitness(self.pop, self.data.val, self.P, 
                     offspring=False, validation=True)
+            logger.debug('update best')
             self.update_best()
 
     def predict(self, X):
@@ -233,8 +235,12 @@ class BrushBase(BaseEstimator):
 
     def update_best(self, validation=False):
         """Keeps track of the best current estimator"""
+        pdb.set_trace()
+        if validation: print('validation')
         best_score = self._best_score if not validation else self._best_score_val
+        print('best_score:',best_score)
         for ind in self.pop:
+            print('evaluating',ind.get_eqn())
             ind_fit = ind.fitness if not validation else ind.fitness_v
             if ind_fit < best_score:
                 self._best_estimator = ind

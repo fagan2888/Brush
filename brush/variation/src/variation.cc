@@ -61,7 +61,6 @@ namespace FT{
             {
                 bool pass=false;  // pass check for children undergoing variation     
        
-                cout << "i: " << i << "; pop.size(): " << pop.size() << "\n";
                 while (!pass)
                 {
                     CIndividual child; // new individual
@@ -102,19 +101,15 @@ namespace FT{
                         logger.log("mutating " + mom.get_eqn() + " produced " + 
                             child.get_eqn() + ", pass: " + std::to_string(pass),3);
                         child.set_parents({mom});
-                        cout << "parent set\n";
                     }
                     if (pass)
                     {
                         assert(child.size()>0);
-                        cout << "is it this logging message?\n";
                         logger.log("assigning " + child.program.program_str() + 
                                 " to pop.individuals[" + std::to_string(i) + 
                                 "]",3);
 
-                        cout << "setting pop.individuals to child\n";
                         pop.individuals[i] = child;
-                        cout << "setting pop.individuals to child\n";
                     }
                 }    
            }
@@ -174,7 +169,6 @@ namespace FT{
             // loop thru child's program
             for (auto& p : child.program)
             {
-                cout << "i: " << i << "\n";
                 if (r() < child.get_p(i))  // mutate p. 
                 {
                     logger.log("\t\tmutating node " + p->name, 3);
@@ -228,7 +222,6 @@ namespace FT{
                 // loop thru child's program
                 for (unsigned i = 0; i< child.program.size(); ++i)
                 {
-                    cout << "i: " << i << "\n"; 
                     if (r() < child.get_p(i))  // mutate with weighted probability
                     {
                         logger.log("\t\tinsert mutating node " + 
@@ -307,7 +300,6 @@ namespace FT{
                         /* /1*                      insertion.end()); *1/ */
                         i += insertion.size()-1;
                     }
-                    /* std::cout << "i: " << i << "\n"; */ 
                 }
             }
             else    // add a dimension
